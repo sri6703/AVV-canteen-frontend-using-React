@@ -1,0 +1,62 @@
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+.login-form-container  h1 {
+    color: white;
+    text-align: center;
+    font-size: 35px;
+  }
+  
+.login-form-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  }
+  
+.login-form-container label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  
+.login-form-container input {
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem
+  }
+  
+.login-form-container button {
+    background-color: #A4123F;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+ }
+  
+.login-form-container button:hover {
+    background-color: #de6d8f; /* Amrita Pantone light */
+  }
+  
+.login-form-container button:focus {
+    outline: none;
+  }
+  
+.login-form-container button + button {
+    margin-top: 1rem;
+  }
+  

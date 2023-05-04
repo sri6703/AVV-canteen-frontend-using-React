@@ -1,0 +1,55 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding-top: 70px;
+    background-color: #A4123F;
+    color: white;
+  }
+  
+  .home-container p {
+  text-align: center;
+  }
+  
+  .home-container button {
+    background-color: white;
+    color: #A4123F;
+    font-weight: bold;
+    margin-top: 40px;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    }
+
+
+.home-container  h2 {
+    color: white;
+    text-align: center;
+    font-size: 30px;
+  }
+    
+.home-container label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+    
+   
+.home-container button:hover {
+      background-color: #de6d8f; /* Amrita Pantone light */
+      color: #A4123F;
+}
+    
+.home-container button:focus {
+      outline: none;
+    }
+    
+.home-container button + button {
+      margin-top: 1rem;
+    }
+    

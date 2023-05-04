@@ -1,0 +1,67 @@
+.add-item-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
+  
+.add-item-container  h1 {
+    color: white;
+    text-align: center;
+    font-size: 35px;
+  }
+  
+.add-item-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+}
+
+.add-item-container input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+.add-item-container button[type="submit"] {
+  background-color: #A4123F;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  }
+  
+ .add-item-container button[type="submit"]:hover {
+  background-color: #de6d8f; /* Amrita Pantone light */
+}
+  
+.add-item-container label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+.add-item-container select option {
+    font-size: 1rem;
+  }
+  

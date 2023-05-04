@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./AddItem.css";
 
 const AddItem = () => {
   const [itemName, setItemName] = useState('');
@@ -13,7 +14,7 @@ const AddItem = () => {
   };
 
   return (
-    <div>
+    <div className="add-item-container" style={{height: '100vh'}}>
       <h1>Add Item to Canteen</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -34,7 +35,7 @@ const AddItem = () => {
           ></textarea>
         </div>
         <div>
-          <label htmlFor="price">Price:</label>
+          <label htmlFor="price">Price in INR:</label>
           <input
             type="number"
             id="price"
@@ -64,7 +65,11 @@ const AddItem = () => {
             onChange={(event) => setQuantity(Number(event.target.value))}
           />
         </div>
-        <button type="submit">Add Item</button>
+        <br />
+        <div>
+            <button type="submit">Add Item</button>
+        </div>
+        
       </form>
     </div>
   );

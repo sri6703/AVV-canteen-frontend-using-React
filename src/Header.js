@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import "./Header.css";
 
 function Header() {
   return (
@@ -7,15 +8,6 @@ function Header() {
       <nav>
         <div className="logo" >
           <h2>Amrita University Canteen Management</h2>
-        </div>
-        <div className="nav-links">
-          <ul>
-            <li><a href="/">See Menu</a></li>
-            <li><a href="/">Add Item</a></li>
-            <li><a href="/">CanteenStats</a></li>
-            <li><a href="/">Edit Profile</a></li>
-            <li><a href="/">Log Out</a></li>
-          </ul>
         </div>
       </nav>
     </header>

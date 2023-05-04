@@ -1,0 +1,34 @@
+.navigation-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: #A4123F;
+  background-color: #edea51;
+}
+
+ul {
+  position: fixed;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 15%;
+}
+
+li {
+  padding: 10px 0;
+  color: #A4123F;
+  font-size: 18px;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  border-bottom: 1px solid #666;
+}
+
+li:hover {
+  background-color: #fea9c3;
+}

@@ -1,5 +1,6 @@
 import React, { useState ,useEffect } from 'react';
 import axios from "axios";
+import "./LoginForm.css";
 
 function Loginform() {
   const [formType, setFormType] = useState('login');
@@ -10,6 +11,8 @@ function Loginform() {
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
+  const [userType, setUserType] = useState('user');
+
 
   useEffect(() => {
     setLoginStatus('');
@@ -60,83 +63,94 @@ function Loginform() {
   return (
     <div className="login-form-container">
       <h1>{formType === 'login' ? 'Login' : 'Sign Up'}</h1>
-      {formType === 'login' ? (
-        <form onSubmit={handleLoginSubmit}>
-          <label>
-            ID:
-            <input
-              type="text"
-              value={loginId}
-              onChange={(e) => setLoginId(e.target.value)}
-              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-              title="Please enter a valid email address"
-              required
-            />
-          </label>
-          <label>
-            Password:
-            <input
-              type="password"
-              value={loginPassword}
-              onChange={(e) => setLoginPassword(e.target.value)}
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-              title="Password must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters long"
-              required
-            />
-          </label>
-          <button type="submit">Log In</button>
-          <p style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
-        </form>
-  
-      ) : 
-      (
-        
-        <form onSubmit={handleSignupSubmit}>
-  <label>
-    Name:
-    <input
-      type="text"
-      value={signupName}
-      onChange={(e) => setSignupName(e.target.value)}
-      required
-    />
-  </label>
-  <label>
-    ID:
-    <input
-      type="text"
-      value={signupId}
-      onChange={(e) => setSignupId(e.target.value)}
-      required
-    />
-  </label>
-  <label>
-    Email:
-    <input
-      type="email"
-      value={signupEmail}
-      onChange={(e) => setSignupEmail(e.target.value)}
-      required
-    />
-  </label>
-  <label>
-    Password:
-    <input
-      type="password"
-      value={signupPassword}
-      onChange={(e) => setSignupPassword(e.target.value)}
-      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-      title="Must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 or more characters"
-      required
-    />
-  </label>
-  <button type="submit">Sign Up</button>
-  <p style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
-</form>
+      <form onSubmit={formType === 'login' ? handleLoginSubmit : handleSignupSubmit}>
+        {formType === 'signup' && (
+          <>
+            <label>
+              Name:
+              <input
+                type="text"
+                value={signupName}
+                onChange={(e) => setSignupName(e.target.value)}
+              />
+            </label>
+            <label>
+              ID:
+              <input
+                type="text"
+                value={signupId}
+                onChange={(e) => setSignupId(e.target.value)}
+              />
+            </label>
+            <label>
+              Email:
+              <input
+                type="email"
+                value={signupEmail}
+                onChange={(e) => setSignupEmail(e.target.value)}
+              />
+            </label>
+            <label>
+              Password:
+              <input
+                type="password"
+                value={signupPassword}
+                onChange={(e) => setSignupPassword(e.target.value)}
+              />
+            </label>
+            <button type="submit">Sign Up</button>
+            <p style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
 
-      )}
+          </>
+        )}
+        {formType === 'login' && (
+          <>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <label style={{ marginRight: '10px' }}>User Type:</label>
+              <label style={{ marginRight: '10px' }}>
+                <input
+                  type="radio"
+                  value="user"
+                  checked={userType === 'user'}
+                  onChange={() => setUserType('user')}
+                />
+                User
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="admin"
+                  checked={userType === 'admin'}
+                  onChange={() => setUserType('admin')}
+                />
+                Admin
+              </label>
+            </div>
+            <label>
+              ID:
+              <input
+                type="text"
+                value={loginId}
+                onChange={(e) => setLoginId(e.target.value)}
+              />
+            </label>
+            <label>
+              Password:
+              <input
+                type="password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+              />
+            </label>
+
+            <button type="submit">Log In</button>
+            <p style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
+
+          </>
+        )}
+      </form>
       <button onClick={toggleFormType}>
-        {formType === 'login' ? 'Don\'t have a Account? Sign up' : 'Already have a account? Log In'}
+        {formType === 'login' ? "Don't have an account? Sign up" : 'Already have an account? Log In'}
       </button>
     </div>
   );
