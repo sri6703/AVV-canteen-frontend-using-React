@@ -1,38 +1,145 @@
-.App {
+
+body {
+  background-color: #A4123F; /* Amrita Pantone */
+  margin: 1px;
+  padding: 1px;
+}
+
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+h1 {
+  color: white;
   text-align: center;
+  font-size: 35px;
+  margin-bottom: 10px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+input {
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem
+}
+
+button {
+  background-color: #A4123F;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #de6d8f; /* Amrita Pantone light */
+}
+
+button:focus {
+  outline: none;
+}
+
+button + button {
+  margin-top: 1rem;
+}
+
+header {
+  background-color: white;
+  height: 100px;
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  padding: 1 px;
+  color: #A4123F;
+}
+
+
+.logo h2 {
+  font-size: 1.5rem;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav-links ul {
+  display: flex;
+  list-style: none;
+}
+
+.nav-links ul li {
+  margin-left: 2rem;
+}
+
+.nav-links ul li a {
+  text-decoration: none;
+  color: #A4123F; /* Amrita Pantone */
+  font-size: 1.1rem;
+}
+
+.nav-links ul li a:hover {
+  color: #A4123F; /* Amrita Pantone */
+}
+
+footer {
+  background-color: #f2f2f2;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+footer p {
+  font-size: 0.8rem;
+  color: #A4123F; /* Amrita Pantone */
+  margin: 0;
+}
+
+/* Homepage CSS */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  background-color: #A4123F;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.home-container p {
+text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.home-container button {
+  background-color: white;
+  color: #A4123F;
+  font-weight: bold;
+  margin-top: 30px;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
