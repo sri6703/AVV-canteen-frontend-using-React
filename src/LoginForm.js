@@ -1,8 +1,20 @@
 import React, { useState ,useEffect } from 'react';
 import axios from "axios";
 import "./LoginForm.css";
+import { useNavigate } from 'react-router-dom';
 
-function Loginform() {
+const Item = () => {
+  const navigate = useNavigate();
+  return (
+    <>
+      <button className="back-button" onClick={() => navigate(-1)}>Back</button> 
+    </>
+  );
+};
+
+
+function Loginform(props) {
+  const { handleLoginSuccess } = props;
   const [formType, setFormType] = useState('login');
   const [loginId, setLoginId] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -12,8 +24,8 @@ function Loginform() {
   const [signupPassword, setSignupPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
   const [userType, setUserType] = useState('user');
-
-
+  
+  
   useEffect(() => {
     setLoginStatus('');
   }, [formType]);
@@ -28,7 +40,9 @@ function Loginform() {
     {
       const m2 = result.data.some(i =>  i.pwd==loginPassword )
       if (m2)
-      {setLoginStatus("Logged in Successfully!!");}
+      {setLoginStatus("Logged in Successfully!!");
+      setUserType(userType);
+      handleLoginSuccess(userType);}
       else 
       {setLoginStatus("Password incorrect!");}
     }
@@ -56,14 +70,36 @@ function Loginform() {
    
   };
 
+  const handleforgotpassword = async (e) => {
+        console.log("hello")
+
+
+  };
+
   const toggleFormType = () => {
     setFormType(formType === 'login' ? 'signup' : 'login');
   };
 
   return (
     <div className="login-form-container">
-      <h1>{formType === 'login' ? 'Login' : 'Sign Up'}</h1>
-      <form onSubmit={formType === 'login' ? handleLoginSubmit : handleSignupSubmit}>
+      <h1>
+  {formType === 'login'
+    ? 'Login'
+    : formType === 'signup'
+    ? 'Sign Up'
+    : formType === 'back'
+    ? 'Back'
+    : 'Forgot Password'}
+</h1>
+      <form onSubmit={
+          formType === 'login'
+            ? handleLoginSubmit
+            : formType === 'signup'
+            ? handleSignupSubmit
+            : formType === 'back'
+            ? Item
+            : handleforgotpassword
+        }>
         {formType === 'signup' && (
           <>
             <label>
@@ -127,7 +163,7 @@ function Loginform() {
               </label>
             </div>
             <label>
-              ID:
+              Email Id:
               <input
                 type="text"
                 value={loginId}
@@ -142,15 +178,33 @@ function Loginform() {
                 onChange={(e) => setLoginPassword(e.target.value)}
               />
             </label>
-
-            <button type="submit">Log In</button>
+            <a href="#" class="previous round" onClick={() => setFormType('back')}>&#8249;</a>
+            <a href="#" class="next round" onClick={() => setFormType('back')}>&#8250;</a>
+            <button type="submit">Submit</button>
+            <button type="button" onClick={() => setFormType('forgot')}>Forgot Password</button>
             <p style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
 
           </>
         )}
       </form>
+      {
+        formType==="forgot" && (
+          <>
+            <p>Forgot Password Form</p>
+            <button type="button" onClick={() => setFormType('login')}>
+              Go back to login
+            </button>
+          </>
+        )
+      }
       <button onClick={toggleFormType}>
-        {formType === 'login' ? "Don't have an account? Sign up" : 'Already have an account? Log In'}
+        {formType === 'login'
+          ? "Don't have an account? Sign up"
+          : formType === 'signup'
+          ? 'Already have an account? Log In'
+          : formType === 'back'
+          ?'Go back to login'
+        :'forgot password'}
       </button>
     </div>
   );

@@ -59,4 +59,50 @@
 .login-form-container button + button {
     margin-top: 1rem;
   }
+
+  .back-button {
+    padding: 10px 20px;
+    background-color: #f5f5f5;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .back-button:hover {
+    background-color: #e0e0e0;
+  }
+  
+
+  a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+  }
+  
+  a:hover {
+    background-color: #7e6c6c;
+    color: black;
+  }
+  
+  .previous {
+    background-color: #170404;
+    color: black;
+    position: absolute;
+    top: 0 ;
+    left: 0 ;
+  }
+  
+  .next {
+    background-color: #46544f;
+    color: rgb(19, 2, 2);
+    position: absolute;
+    top: 0;
+    left: 50px ;
+  }
+  
+  .round {
+    border-radius: 50%;
+  }
+  
   
