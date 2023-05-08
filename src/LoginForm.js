@@ -190,7 +190,15 @@ function Loginform(props) {
       {
         formType==="forgot" && (
           <>
-            <p>Forgot Password Form</p>
+            <label>
+              Email Id:
+              <input
+                type="text"
+                value={loginId}
+                onChange={(e) => setLoginId(e.target.value)}
+              />
+            </label>
+            <p>Dont worry password reset link is sent to your email</p>
             <button type="button" onClick={() => setFormType('login')}>
               Go back to login
             </button>
@@ -204,10 +212,15 @@ function Loginform(props) {
           ? 'Already have an account? Log In'
           : formType === 'back'
           ?'Go back to login'
-        :'forgot password'}
+        :formType === 'forgot'
+        ?''
+      :'forgot password'}
       </button>
     </div>
   );
 }
 
 export default Loginform;
+
+
+//hello !!
