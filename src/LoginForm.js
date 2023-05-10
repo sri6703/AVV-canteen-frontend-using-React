@@ -42,7 +42,7 @@ function Loginform(props) {
       if (m2)
       {setLoginStatus("Logged in Successfully!!");
       setUserType(userType);
-      handleLoginSuccess(userType);}
+      handleLoginSuccess(userType, loginId);}
       else 
       {setLoginStatus("Password incorrect!");}
     }
@@ -72,8 +72,6 @@ function Loginform(props) {
 
   const handleforgotpassword = async (e) => {
         console.log("hello")
-
-
   };
 
   const toggleFormType = () => {
@@ -90,7 +88,7 @@ function Loginform(props) {
     : formType === 'back'
     ? 'Back'
     : 'Forgot Password'}
-</h1>
+      </h1>
       <form onSubmit={
           formType === 'login'
             ? handleLoginSubmit
@@ -190,6 +188,9 @@ function Loginform(props) {
       {
         formType==="forgot" && (
           <>
+          <div className='forgot-password'>
+            <p>Dont worry! Password reset link is sent to your email</p>
+            <hr />
             <label>
               Email Id:
               <input
@@ -198,10 +199,15 @@ function Loginform(props) {
                 onChange={(e) => setLoginId(e.target.value)}
               />
             </label>
-            <p>Dont worry password reset link is sent to your email</p>
+              <button type="button">
+              Send Mail
+              </button>
+              <br />
+            </div>
             <button type="button" onClick={() => setFormType('login')}>
               Go back to login
             </button>
+            
           </>
         )
       }

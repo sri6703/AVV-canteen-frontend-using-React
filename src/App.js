@@ -6,6 +6,9 @@ import Navigation from "./Navigation";
 import SeeMenu from "./SeeMenu";
 import HomePage from "./HomePage";
 import AddItem from "./AddItem";
+import SeeCart from "./SeeCart";
+import AccountSettings from "./AccountSettings";
+import LoginHomepage from "./LoginNext";
 
 import "./App.css";
 
@@ -13,7 +16,8 @@ function App() {
   const [userType, setUserType] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginPage, setShowLoginPage] = useState(false);
-  const [activeComponent, setActiveComponent] = useState("seeMenu");
+  const [activeComponent, setActiveComponent] = useState("Home");
+  const [userid, setUserId] = useState("nil");
 
   const toggleLoginPage = () => {
     setShowLoginPage(!showLoginPage);
@@ -21,11 +25,11 @@ function App() {
     setUserType("");
   };
   
-
-  const handleLoginSuccess = (type) => {
+  const handleLoginSuccess = (type, id) => {
     setUserType(type);
     setIsLoggedIn(true);
     setShowLoginPage(false);
+    setUserId(id);
   };
 
   return (
@@ -34,7 +38,7 @@ function App() {
       <main>
         {!isLoggedIn ? (
           showLoginPage ? (
-            <Loginform handleLoginSuccess={handleLoginSuccess} />
+            <Loginform handleLoginSuccess={handleLoginSuccess}/>
           ) : (
             <HomePage toggleLoginPage={toggleLoginPage} />
           )
@@ -48,10 +52,16 @@ function App() {
             />
             </div>
             <div className="see-menu-container">
-            {activeComponent === "seeMenu" ? (
+            {   activeComponent === "Home" ? (
+            <LoginHomepage userid={userid} />
+            ) : activeComponent === "SeeMenu" ? (
               <SeeMenu />
             ) : activeComponent === "addItem" ? (
               <AddItem />
+            ) : activeComponent === "SeeCart" ? (
+              <SeeCart />
+            ) : activeComponent === "AccountSettings" ? (
+              <AccountSettings userid={userid} />
             ) : null}
           </div>
           </div>

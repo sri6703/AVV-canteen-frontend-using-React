@@ -1,22 +1,23 @@
 .navigation-container {
-  position: absolute;
+  position: fixed;
+  width: 15%;
   top: 0;
   left: 0;
   bottom: 0;
   width: 100%;
   color: #A4123F;
-  background-color: #edea51;
+  background-color: #bbb;
 }
 
 ul {
-  position: fixed;
+  position: absolute;
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 15%;
+  width: 100%;
 }
 
 li {

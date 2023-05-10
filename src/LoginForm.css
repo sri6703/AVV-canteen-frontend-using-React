@@ -3,9 +3,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 80vh;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    height: auto;
+
   }
   
 .login-form-container  h1 {
@@ -105,4 +104,12 @@
     border-radius: 50%;
   }
   
-  
+  .forgot-password {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  }

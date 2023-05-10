@@ -4,7 +4,10 @@
     flex-direction: column;
     align-items: center;
   }
-  
+
+.cart-container h1 {
+  color: #ddd;
+  }
   .cart-table {
     width: 90%;
     border-collapse: collapse;
