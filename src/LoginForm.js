@@ -48,6 +48,7 @@ function Loginform(props) {
     }
     else 
     {setLoginStatus("Email ID incorrect!");}
+    
   };
   
 
@@ -176,8 +177,8 @@ function Loginform(props) {
                 onChange={(e) => setLoginPassword(e.target.value)}
               />
             </label>
-            <a href="#" class="previous round" onClick={() => setFormType('back')}>&#8249;</a>
-            <a href="#" class="next round" onClick={() => setFormType('back')}>&#8250;</a>
+            {/*<a href="#" class="previous round" onClick={() => setFormType('back')}>&#8249;</a>
+            <a href="#" class="next round" onClick={() => setFormType('back')}>&#8250;</a>*/}
             <button type="submit">Submit</button>
             <button type="button" onClick={() => setFormType('forgot')}>Forgot Password</button>
             <p style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
