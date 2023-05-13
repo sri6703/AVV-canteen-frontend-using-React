@@ -55,11 +55,11 @@ function App() {
             {   activeComponent === "Home" ? (
             <LoginHomepage userid={userid} />
             ) : activeComponent === "SeeMenu" ? (
-              <SeeMenu />
+              <SeeMenu userid={userid} />
             ) : activeComponent === "addItem" ? (
               <AddItem />
             ) : activeComponent === "SeeCart" ? (
-              <SeeCart />
+              <SeeCart userid={userid} />
             ) : activeComponent === "AccountSettings" ? (
               <AccountSettings userid={userid} />
             ) : null}

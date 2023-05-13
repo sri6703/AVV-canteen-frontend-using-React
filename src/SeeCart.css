@@ -41,3 +41,26 @@
   .delete-btn:hover {
     background-color: #c82333;
   }
+
+  .cart-total{
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: medium;
+  }
+  .cart-total button{
+    background-color: #fff;
+    border: none;
+    margin: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #A4123F;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: medium;
+    margin: 20px;
+  }
+
+  .place-order button:hover {
+    background-color: #ddd;
+  }
