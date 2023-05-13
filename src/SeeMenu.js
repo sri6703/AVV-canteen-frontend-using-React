@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SeeMenu.css';
 
-const SeeMenu = () => {
+const SeeMenu = ({ userid }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [currentCanteen, setCurrentCanteen] = useState('Canteen 1');
   const [currentCategory, setCurrentCategory] = useState('All');
+
+  const [cartItems, setCartItems] = useState({});
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -25,6 +27,13 @@ const SeeMenu = () => {
 
     fetchMenuItems();
   }, []);
+
+  const handleAddToCart = (itemId) => {
+    setCartItems((prevCartItems) => ({
+      ...prevCartItems,
+      [itemId]: (prevCartItems[itemId] || 0) + 1,
+    }));
+  };  
 
   const handleCanteenSwitch = (event) => {
     setCurrentCanteen(event.target.value);
@@ -91,9 +100,7 @@ const SeeMenu = () => {
               <td>{item.quantity}</td>
               <td>
                 <div className="add-to-cart">
-                  <button>-</button>
-                  <span>0</span>
-                  <button>+</button>
+                <button onClick={() => handleAddToCart(item._id)}>Add to Cart</button>
                 </div>
               </td>
             </tr>
