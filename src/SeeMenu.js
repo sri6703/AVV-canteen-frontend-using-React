@@ -104,15 +104,8 @@ const SeeMenu = ({ userid }) => {
               <td>{item.quantity}</td>
               <td>
                 <div className="add-to-cart">
-<<<<<<< HEAD
-                  <button>-</button>
-                  <span>0</span>
-                  <button>+</button>
-                  </div>
-=======
                 <button onClick={() => handleAddToCart(item._id)}>Add to Cart</button>
                 </div>
->>>>>>> de7bb5760738e35b4cd85c3fcb1d9be993bc0fd1
               </td>
             </tr>
           ))}
