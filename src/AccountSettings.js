@@ -16,11 +16,7 @@ const AccountSettings = ({ userid }) => {
     event.preventDefault();
     try {
       // Call API to change user password using state values
-      const response = await axios.put(`/api/users/${userid}/password`, {
-        currentPassword,
-        newPassword,
-        confirmNewPassword,
-      });
+      const response = await axios.put(`login-page/${userid}/${currentPassword}/${newPassword}`);
       alert(response.data.message);
     } catch (error) {
       console.error('Error changing password:', error);
@@ -32,7 +28,7 @@ const AccountSettings = ({ userid }) => {
     event.preventDefault();
     try {
       // Call API to update user profile using state values
-      const response = await axios.put(`/api/users/${userid}/profile`, {
+      const response = await axios.put(`login-page/${userid}`, {
         name,
         email,
         mobile,

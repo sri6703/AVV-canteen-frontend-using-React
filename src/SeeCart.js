@@ -7,14 +7,14 @@ const SeeCart = () => {
 
   useEffect(() => {
     const fetchCartItems = async () => {
-      const response = await axios.get('/api/cart');
+      const response = await axios.get('/addtocart');
       setCartItems(response.data);
     };
     fetchCartItems();
   }, []);
 
   const handleDeleteItem = async (itemId) => {
-    await axios.delete(`/api/cart/${itemId}`);
+    await axios.delete(`/addtocart/${itemId}`);
     setCartItems(cartItems.filter((item) => item._id !== itemId));
   };
 
@@ -22,7 +22,7 @@ const SeeCart = () => {
     if (currentCount === 1) {
       await handleDeleteItem(itemId);
     } else {
-      await axios.put(`/api/cart/${itemId}`, { count: currentCount - 1 });
+      await axios.put(`/addtocart/${itemId}`, { count: currentCount - 1 });
       setCartItems(
         cartItems.map((item) =>
           item._id === itemId ? { ...item, count: currentCount - 1 } : item

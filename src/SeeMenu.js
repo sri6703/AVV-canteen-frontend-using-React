@@ -8,9 +8,14 @@ const SeeMenu = () => {
 
   useEffect(() => {
     const fetchMenuItems = async () => {
-      const response = await axios.get('/api/menu');
-      setMenuItems(response.data);
+      try {
+        const response = await axios.get('canteen/');
+        setMenuItems(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     };
+
     fetchMenuItems();
   }, []);
 
@@ -41,7 +46,7 @@ const SeeMenu = () => {
         </thead>
         <tbody>
           {menuItems.map((item) => (
-            item.canteen === currentCanteen && (
+            item.canteenname === currentCanteen && (
               <tr key={item._id}>
                 <td>{item.name}</td>
                 <td>{item.description}</td>
