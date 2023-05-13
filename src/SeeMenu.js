@@ -24,6 +24,7 @@ const SeeMenu = ({ userid }) => {
           quantity: 0 // Add the 'quantity' property here
         }));
         setMenuItems(formattedData);
+        
       } catch (error) {
         console.error(error);
       }
