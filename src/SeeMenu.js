@@ -9,19 +9,23 @@ const SeeMenu = () => {
 
   useEffect(() => {
     const fetchMenuItems = async () => {
-      const response = await axios.get('/api/menu');
-      const formattedData = response.data.map((item) => ({
-        _id: item._id,
-        foodid: item.foodid,
-        name: item.name,
-        price: item.price,
-        description: item.description,
-        category: item.category,
-        canteenname: item.canteenname
-      }));
-      setMenuItems(formattedData);
+      try {
+        const response = await axios.get('canteen/');
+        const formattedData = response.data.map((item) => ({
+          _id: item._id,
+          foodid: item.foodid,
+          name: item.name,
+          price: item.price,
+          description: item.description,
+          category: item.category,
+          canteenname: item.canteenname,
+          quantity: 0 // Add the 'quantity' property here
+        }));
+        setMenuItems(formattedData);
+      } catch (error) {
+        console.error(error);
+      }
     };
-    
 
     fetchMenuItems();
   }, []);
@@ -47,29 +51,29 @@ const SeeMenu = () => {
 
   return (
     <div className="menu-container">
-      <div className="filters" >
-      <div className="category-switch">
-        <label>
-          Category:
-          <select value={currentCategory} onChange={handleCategorySwitch}>
-            <option value="All">All</option>
-            <option value="Breakfast">Breakfast</option>
-            <option value="Lunch">Lunch</option>
-            <option value="Dinner">Dinner</option>
-          </select>
-        </label>
-      </div>
-      <div className="canteen-switch">
-        <label>
-          Canteen:
-          <select value={currentCanteen} onChange={handleCanteenSwitch}>
-            <option value="All">All</option>
-            <option value="Canteen 1">Canteen 1</option>
-            <option value="Canteen 2">Canteen 2</option>
-            <option value="Canteen 3">Canteen 3</option>
-          </select>
-        </label>     
-      </div>
+      <div className="filters">
+        <div className="category-switch">
+          <label>
+            Category:
+            <select value={currentCategory} onChange={handleCategorySwitch}>
+              <option value="All">All</option>
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+            </select>
+          </label>
+        </div>
+        <div className="canteen-switch">
+          <label>
+            Canteen:
+            <select value={currentCanteen} onChange={handleCanteenSwitch}>
+              <option value="All">All</option>
+              <option value="Canteen 1">Canteen 1</option>
+              <option value="Canteen 2">Canteen 2</option>
+              <option value="Canteen 3">Canteen 3</option>
+            </select>
+          </label>
+        </div>
       </div>
 
       <table className="menu-table">
@@ -84,7 +88,7 @@ const SeeMenu = () => {
         </thead>
         <tbody>
           {filterMenuItems().map((item) => (
-            <tr key={item._id}>
+            <tr key={item.foodid}>
               <td>{item.name}</td>
               <td>{item.description}</td>
               <td>{item.price}</td>
@@ -94,7 +98,7 @@ const SeeMenu = () => {
                   <button>-</button>
                   <span>0</span>
                   <button>+</button>
-                </div>
+                  </div>
               </td>
             </tr>
           ))}
@@ -105,3 +109,4 @@ const SeeMenu = () => {
 };
 
 export default SeeMenu;
+
