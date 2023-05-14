@@ -11,6 +11,7 @@ import AccountSettings from "./AccountSettings";
 import LoginHomepage from "./LoginNext";
 
 import "./App.css";
+import LoginForm from "./LoginForm";
 
 function App() {
   const [userType, setUserType] = useState("");
@@ -61,7 +62,9 @@ function App() {
             ) : activeComponent === "SeeCart" ? (
               <SeeCart userid={userid} />
             ) : activeComponent === "AccountSettings" ? (
-              <AccountSettings userid={userid} />
+              <AccountSettings userid={userid} SetIsLoggedIn={setIsLoggedIn} />
+            ) : !isLoggedIn ? (
+              <LoginForm toggleLoginPage={toggleLoginPage} />
             ) : null}
           </div>
           </div>
@@ -73,4 +76,3 @@ function App() {
 }
 
 export default App;
-//hello

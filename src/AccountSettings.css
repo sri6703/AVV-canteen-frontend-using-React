@@ -123,6 +123,13 @@ background-color: #4e88a7;
   margin-top: 1rem;
 }
 
+.error-msg {
+  color: #de0e0e;
+  font-size: smaller;
+  margin: 5px;
+  text-align: center;
+}
+
 /*Delete Account*/
 .delete-account-container {
   background-color: white;

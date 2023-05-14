@@ -104,7 +104,7 @@
     border-radius: 50%;
   }
   
-  .forgot-password {
+.forgot-password {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -112,4 +112,14 @@
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  }
+
+.status-msg {
+    color: #de0e0e;
+    font-size: smaller;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    width: 260px;
+    word-wrap: break-word;
   }

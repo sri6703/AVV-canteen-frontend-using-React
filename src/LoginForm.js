@@ -52,6 +52,14 @@ function LoginForm(props) {
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+~`-]).{8,}$/;
+    // Validate new password against regex
+    if (!passwordRegex.test(signupPassword)) {
+      setLoginStatus('Password must have minimum 8 characters, with atleast 1 uppercase, 1 lowercase, 1 number, & 1 symbol');
+      return;
+    }
+
     const name = signupName;
     const pwd = signupPassword;
     const mail = signupEmail;
@@ -112,7 +120,6 @@ function LoginForm(props) {
               Name:
               <input
                 type="text"
-               
                 value={signupName}
                 onChange={(e) => setSignupName(e.target.value)}
               />
@@ -141,8 +148,9 @@ function LoginForm(props) {
                 onChange={(e) => setSignupPassword(e.target.value)}
               />
             </label>
+            <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
+            <br />
             <button type="submit">Sign Up</button>
-            <p style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
           </>
         )}
         {formType === 'login' && (
@@ -188,7 +196,7 @@ function LoginForm(props) {
             <button type="button" onClick={() => setFormType('forgot')}>
               Forgot Password
             </button>
-            <p style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
+            <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
           </>
         )}
       </form>
@@ -216,13 +224,13 @@ function LoginForm(props) {
         </>
       )}
       <button onClick={toggleFormType}>
-        {formType === 'login'
+        { formType === 'login'
           ? "Don't have an account? Sign up"
           : formType === 'signup'
           ? 'Already have an account? Log In'
           : formType === 'back'
-          ? 'Go back to login'
-          : 'forgot password'}
+          ? "Go back to login"
+          : formType === 'login'}
       </button>
     </div>
   );

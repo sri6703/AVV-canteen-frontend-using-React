@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import "./AccountSettings.css";
 
-const AccountSettings = ({ userid }) => {
+const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [name, setName] = useState('John Doe');
   const [email, setEmail] = useState('johndoe@example.com');
   const [mobile, setMobile] = useState('1234567890');
@@ -12,8 +12,23 @@ const AccountSettings = ({ userid }) => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
+  const [errorMessage, setErrorMessage] = useState('');
   const handleChangePasswordSubmit = async (event) => {
     event.preventDefault();
+
+    if (newPassword !== confirmNewPassword) {
+      setErrorMessage('Passwords doesn\'t match');
+      return;
+    }
+
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+~`-]).{8,}$/;
+    // Validate new password against regex
+    if (!passwordRegex.test(newPassword)) {
+      setErrorMessage('Password must have minimum 8 characters, with atleast 1 uppercase, 1 lowercase, 1 number, and 1 symbol');
+      return;
+    }
+
+    setErrorMessage('');
     try {
       // Call API to change user password using state values
       const response = await axios.put(`login-page/${userid}/${currentPassword}/${newPassword}`);
@@ -22,7 +37,7 @@ const AccountSettings = ({ userid }) => {
       console.error('Error changing password:', error);
       alert('Failed to change password. Please try again.');
     }
-  };
+  };  
 
   const handleEditProfileSubmit = async (event) => {
     event.preventDefault();
@@ -51,6 +66,8 @@ const AccountSettings = ({ userid }) => {
         const response = await axios.delete(`login-page/${userid}`);
         alert(response.data.message);
         // TODO: Logout user
+        SetIsLoggedIn(false);
+        userid = "";
       } catch (error) {
         console.error('Error deleting account:', error);
         alert('Failed to delete account. Please try again.');
@@ -67,6 +84,15 @@ const AccountSettings = ({ userid }) => {
       <div className='edit-profile-container'>
         <h2>Edit Profile</h2>
         <form onSubmit={handleEditProfileSubmit}>
+        <div>
+            <label htmlFor="userid">User ID: </label>
+            <input
+              type="text"
+              id="userid"
+              value={userid}
+              readonly disabled
+            />
+          </div>
           <div>
             <label htmlFor="name">Name: </label>
             <input
@@ -131,7 +157,7 @@ const AccountSettings = ({ userid }) => {
               onChange={(event) => setConfirmNewPassword(event.target.value)}
             />
           </div>
-          <br />
+          {errorMessage && <p className='error-msg'>{errorMessage}</p>}
           <div>
             <button type="submit">Change Password</button>
           </div>
