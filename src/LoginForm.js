@@ -1,19 +1,20 @@
-import React, { useState ,useEffect } from 'react';
-import axios from "axios";
-import "./LoginForm.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './LoginForm.css';
 import { useNavigate } from 'react-router-dom';
 
 const Item = () => {
   const navigate = useNavigate();
   return (
     <>
-      <button className="back-button" onClick={() => navigate(-1)}>Back</button> 
+      <button className="back-button" onClick={() => navigate(-1)}>
+        Back
+      </button>
     </>
   );
 };
 
-
-function Loginform(props) {
+function LoginForm(props) {
   const { handleLoginSuccess } = props;
   const [formType, setFormType] = useState('login');
   const [loginId, setLoginId] = useState('');
@@ -24,37 +25,34 @@ function Loginform(props) {
   const [signupPassword, setSignupPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
   const [userType, setUserType] = useState('user');
-  
-  
+
   useEffect(() => {
     setLoginStatus('');
   }, [formType]);
 
   const handleLoginSubmit = async (e) => {
-    const URL = "login-page/"
     e.preventDefault();
-    const result = await axios.get(URL)
-    console.log(result.data)
-    const m1 = result.data.some(i => i.email == loginId)
-    if (m1)
-    {
-      const m2 = result.data.some(i =>  i.pwd==loginPassword )
-      if (m2)
-      {setLoginStatus("Logged in Successfully!!");
-      setUserType(userType);
-      handleLoginSuccess(userType, loginId);}
-      else 
-      {setLoginStatus("Password incorrect!");}
+    const URL = 'login-page/';
+    const result = await axios.get(URL);
+    console.log(result.data);
+    const m1 = result.data.some((i) => i.email === loginId);
+    if (m1) {
+      const m2 = result.data.some((i) => i.pwd === loginPassword);
+      if (m2) {
+        setLoginStatus('Logged in Successfully!!');
+        setUserType(userType);
+        handleLoginSuccess(userType, loginId);
+      } else {
+        setLoginStatus('Password incorrect!');
+      }
+    } else {
+      setLoginStatus('Email ID incorrect!');
     }
-    else 
-    {setLoginStatus("Email ID incorrect!");}
-    
   };
-  
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    const name = signupName; 
+    const name = signupName;
     const pwd = signupPassword;
     const mail = signupEmail;
     const regno = signupId;
@@ -63,48 +61,58 @@ function Loginform(props) {
       name: name,
       regno: regno,
       email: mail,
-      pwd: pwd
+      pwd: pwd,
     };
-    const URL = "login-page/";
-  const response = await axios.post(URL, data);
-  setLoginStatus(response.data.message);
-   
+    const URL = 'login-page/';
+    const response = await axios.post(URL, data);
+    setLoginStatus(response.data.message);
   };
 
-  const handleforgotpassword = async (e) => {
-        console.log("hello")
+  const handleForgotPassword = async (email) => {
+    try {
+      const response = await axios.post(`login-page/${email}`);
+      const link = response.data;
+      console.log(link); // Log the link received from the server
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const toggleFormType = () => {
-    setFormType(formType === 'login' ? 'signup' : 'login');
+    setFormType((prevFormType) =>
+      prevFormType === 'login' ? 'signup' : 'login'
+    );
   };
 
   return (
     <div className="login-form-container">
       <h1>
-  {formType === 'login'
-    ? 'Login'
-    : formType === 'signup'
-    ? 'Sign Up'
-    : formType === 'back'
-    ? 'Back'
-    : 'Forgot Password'}
+        {formType === 'login'
+          ? 'Login'
+          : formType === 'signup'
+          ? 'Sign Up'
+          : formType === 'back'
+          ? 'Back'
+          : 'Forgot Password'}
       </h1>
-      <form onSubmit={
+      <form
+        onSubmit={
           formType === 'login'
             ? handleLoginSubmit
             : formType === 'signup'
             ? handleSignupSubmit
             : formType === 'back'
             ? Item
-            : handleforgotpassword
-        }>
+            : () => handleForgotPassword(loginId)
+        }
+      >
         {formType === 'signup' && (
           <>
             <label>
               Name:
               <input
                 type="text"
+               
                 value={signupName}
                 onChange={(e) => setSignupName(e.target.value)}
               />
@@ -135,7 +143,6 @@ function Loginform(props) {
             </label>
             <button type="submit">Sign Up</button>
             <p style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
-
           </>
         )}
         {formType === 'login' && (
@@ -177,19 +184,17 @@ function Loginform(props) {
                 onChange={(e) => setLoginPassword(e.target.value)}
               />
             </label>
-            {/*<a href="#" class="previous round" onClick={() => setFormType('back')}>&#8249;</a>
-            <a href="#" class="next round" onClick={() => setFormType('back')}>&#8250;</a>*/}
             <button type="submit">Submit</button>
-            <button type="button" onClick={() => setFormType('forgot')}>Forgot Password</button>
+            <button type="button" onClick={() => setFormType('forgot')}>
+              Forgot Password
+            </button>
             <p style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
-
           </>
         )}
       </form>
-      {
-        formType==="forgot" && (
-          <>
-          <div className='forgot-password'>
+      {formType === 'forgot' && (
+        <>
+          <div className="forgot-password">
             <p>Dont worry! Password reset link is sent to your email</p>
             <hr />
             <label>
@@ -200,34 +205,27 @@ function Loginform(props) {
                 onChange={(e) => setLoginId(e.target.value)}
               />
             </label>
-              <button type="button">
+            <button type="button" onClick={() => handleForgotPassword(loginId)}>
               Send Mail
-              </button>
-              <br />
-            </div>
-            <button type="button" onClick={() => setFormType('login')}>
-              Go back to login
             </button>
-            
-          </>
-        )
-      }
+            <br />
+          </div>
+          <button type="button" onClick={() => setFormType('login')}>
+            Go back to login
+          </button>
+        </>
+      )}
       <button onClick={toggleFormType}>
         {formType === 'login'
           ? "Don't have an account? Sign up"
           : formType === 'signup'
           ? 'Already have an account? Log In'
           : formType === 'back'
-          ?'Go back to login'
-        :formType === 'forgot'
-        ?''
-      :'forgot password'}
+          ? 'Go back to login'
+          : 'forgot password'}
       </button>
     </div>
   );
 }
 
-export default Loginform;
-
-
-//hello !!
+export default LoginForm;
