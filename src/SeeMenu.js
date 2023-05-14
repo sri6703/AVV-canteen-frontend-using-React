@@ -16,10 +16,10 @@ const SeeMenu = ({ userid }) => {
         url += `${currentCategory}`;
       }
       if (currentCanteen !== 'All') {
-        url +=  `/${currentCanteen}`;
+        url +=  `/${currentCanteen}/`;
       }
-      const response = await axios.get(url);
       console.log(url)
+      const response = await axios.get(url);
       const formattedData = response.data.map((item) => ({
         _id: item._id,
         foodid: item.foodid,
@@ -31,6 +31,8 @@ const SeeMenu = ({ userid }) => {
         quantity: 0 // Add the 'quantity' property here
       }));
       setMenuItems(formattedData);
+      console.log(formattedData);
+      
     } catch (error) {
       console.error(error);
     }
@@ -55,9 +57,7 @@ const SeeMenu = ({ userid }) => {
     setCurrentCategory(event.target.value);
   };
 
-  const handleFilter = () => {
-    fetchMenuItems();
-  }
+
 
   return (
     <div className="menu-container">
@@ -84,7 +84,6 @@ const SeeMenu = ({ userid }) => {
             </select>
           </label>
         </div>
-        <button onClick={handleFilter}>Filter</button>
       </div>
 
       <table className="menu-table">
