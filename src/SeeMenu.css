@@ -52,8 +52,10 @@
 }
 
 .menu-table td {
-  border: 1px solid #ddd;
+  border: 0px;
   padding: 10px;
+  background-color: #bbb;
+  color: #000;
 }
 
 .add-to-cart {
@@ -61,14 +63,38 @@
   align-items: center;
 }
 
+.filters button,
 .add-to-cart button {
   background-color: #f2f2f2;
+  color: #A4123F;
   border: none;
   padding: 5px;
   font-weight: bold;
   cursor: pointer;
+  border-radius: 5px;
+  height: 30px;
+  width: 100px;
+  margin-top: 12px;
+  font-size: medium;
+  font-weight: bold;
+}
+.add-to-cart button {
+  background-color: #A4123F;
+  color: #fff;
+}
+.filters button {
+  background-color: #f2f2f2;
+  color: #A4123F;
+}
+
+.filters button:hover {
+background-color: #ddd;
+}
+
+.add-to-cart button:hover {
+  background-color: #b55471;
 }
 
 .add-to-cart span {
-  margin: 0 10px;
+  margin: 0 10px;
 }

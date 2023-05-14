@@ -9,33 +9,34 @@ const SeeMenu = ({ userid }) => {
 
   const [cartItems, setCartItems] = useState({});
 
-  useEffect(() => {
-    const fetchMenuItems = async () => {
-      try {
-        let url = 'canteen/';
-        if (currentCategory !== 'All') {
-          url += `?category=${currentCategory}`;
-        }
-        if (currentCanteen !== 'All') {
-          url += `${url.includes('?') ? '&' : '?'}canteen=${currentCanteen}`;
-        }
-        const response = await axios.get(url);
-        const formattedData = response.data.map((item) => ({
-          _id: item._id,
-          foodid: item.foodid,
-          name: item.name,
-          price: item.price,
-          description: item.description,
-          category: item.category,
-          canteenname: item.canteenname,
-          quantity: 0 // Add the 'quantity' property here
-        }));
-        setMenuItems(formattedData);
-      } catch (error) {
-        console.error(error);
+  const fetchMenuItems = async () => {
+    try {
+      let url = 'canteen/';
+      if (currentCategory !== 'All') {
+        url += `${currentCategory}`;
       }
-    };
+      if (currentCanteen !== 'All') {
+        url +=  `/${currentCanteen}`;
+      }
+      const response = await axios.get(url);
+      console.log(url)
+      const formattedData = response.data.map((item) => ({
+        _id: item._id,
+        foodid: item.foodid,
+        name: item.name,
+        price: item.price,
+        description: item.description,
+        category: item.category,
+        canteenname: item.canteenname,
+        quantity: 0 // Add the 'quantity' property here
+      }));
+      setMenuItems(formattedData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
     fetchMenuItems();
   }, [currentCanteen, currentCategory]);
 
@@ -54,6 +55,10 @@ const SeeMenu = ({ userid }) => {
     setCurrentCategory(event.target.value);
   };
 
+  const handleFilter = () => {
+    fetchMenuItems();
+  }
+
   return (
     <div className="menu-container">
       <div className="filters">
@@ -62,9 +67,9 @@ const SeeMenu = ({ userid }) => {
             Category:
             <select value={currentCategory} onChange={handleCategorySwitch}>
               <option value="All">All</option>
-              <option value="Breakfast">Breakfast</option>
-              <option value="Lunch">Lunch</option>
-              <option value="Dinner">Dinner</option>
+              <option value="breakfast">breakfast</option>
+              <option value="lunch">lunch</option>
+              <option value="dinner">dinner</option>
             </select>
           </label>
         </div>
@@ -73,33 +78,38 @@ const SeeMenu = ({ userid }) => {
             Canteen:
             <select value={currentCanteen} onChange={handleCanteenSwitch}>
               <option value="All">All</option>
-              <option value="Canteen 1">Canteen 1</option>
-              <option value="Canteen 2">Canteen 2</option>
-              <option value="Canteen 3">Canteen 3</option>
+              <option value="business">business</option>
+              <option value="it">it</option>
+              <option value="main">main</option>
             </select>
           </label>
         </div>
+        <button onClick={handleFilter}>Filter</button>
       </div>
 
       <table className="menu-table">
         <thead>
           <tr>
-            <th>Item Name</th>
-            <th>Description</th>
+            <th>Name</th>
             <th>Price</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Canteen</th>
             <th>Quantity</th>
-            <th>Add to Cart</th>
-          </tr>
+          <th>Add to Cart</th>
+        </tr>
         </thead>
         <tbody>
           {menuItems.map((item) => (
             <tr key={item._id}>
               <td>{item.name}</td>
+              <td>{item.price}</td>
               <td>{item.description}</td>
-              <td>${item.price.toFixed(2)}</td>
+              <td>{item.category}</td>
+              <td>{item.canteenname}</td>
               <td>{item.quantity}</td>
               <td>
-                <button onClick={() => handleAddToCart(item._id)}>Add to Cart</button>
+              <button onClick={() => handleAddToCart(item._id)}>Add to Cart</button>
               </td>
             </tr>
           ))}
@@ -108,5 +118,4 @@ const SeeMenu = ({ userid }) => {
     </div>
   );
 };
-
 export default SeeMenu;
