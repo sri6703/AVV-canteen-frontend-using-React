@@ -5,6 +5,7 @@ import "./AccountSettings.css";
 const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [name, setName] = useState('John Doe');
   const [password, setPassword] = useState('');
+  const [Email, setEmail] = useState('sample@gmail.com');
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -80,7 +81,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
         <form onSubmit={handleEditProfileSubmit}>
           
         <div>
-            <label htmlFor="userid">email: </label>
+            <label htmlFor="userid">userid: </label>
             <input
               type="text"
               id="userid"
@@ -95,6 +96,15 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
               id="name"
               value={name}
               onChange={(event) => setName(event.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="email">Email: </label>
+            <input
+              type="mail"
+              id="email"
+              value={Email}
+              onChange={(event) => setEmail(event.target.value)}
             />
           </div>
           <br />

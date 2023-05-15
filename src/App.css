@@ -9,7 +9,6 @@ body {
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 90vh;
 }
 
 main {
@@ -29,9 +28,6 @@ main {
 }
 
 .app-container .see-menu-container {
-  margin-top: 10px;
-  margin-bottom: 10px;
   margin-left: 15%;
   width: 85%;
 }
-

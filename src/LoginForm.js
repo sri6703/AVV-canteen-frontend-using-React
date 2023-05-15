@@ -48,6 +48,13 @@ function LoginForm(props) {
       return;
     }
 
+    //valididate mail
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(signupEmail)) {
+      setLoginStatus('Please enter a valid email address');
+      return;
+    }
+
     const name = signupName;
     const pwd = signupPassword;
     const mail = signupEmail;
@@ -145,7 +152,6 @@ function LoginForm(props) {
         {formType === 'login' && (
           <>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <label style={{ marginRight: '10px' }}>User Type:</label>
               <label style={{ marginRight: '10px' }}>
                 <input
                   type="radio"

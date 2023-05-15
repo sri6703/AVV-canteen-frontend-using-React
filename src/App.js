@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import Loginform from "./LoginForm";
 import Navigation from "./Navigation";
 import SeeMenu from "./SeeMenu";
+import SeeMenuAdmin from "./SeeMenuAdmin";
 import HomePage from "./HomePage";
 import AddItem from "./AddItem";
 import SeeCart from "./SeeCart";
@@ -54,13 +55,15 @@ function App() {
             </div>
             <div className="see-menu-container">
             {   activeComponent === "Home" ? (
-            <LoginHomepage userid={userid} />
+            <LoginHomepage username={userid} />
             ) : activeComponent === "SeeMenu" ? (
               <SeeMenu userid={userid} />
             ) : activeComponent === "addItem" ? (
               <AddItem />
             ) : activeComponent === "SeeCart" ? (
               <SeeCart userid={userid} />
+            ) : activeComponent === "SeeMenuAdmin" ? (
+                <SeeMenuAdmin/>
             ) : activeComponent === "AccountSettings" ? (
               <AccountSettings userid={userid} SetIsLoggedIn={setIsLoggedIn} />
             ) : !isLoggedIn ? (
