@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './LoginForm.css';
-import { useNavigate } from 'react-router-dom';
-
-const Item = () => {
-  const navigate = useNavigate();
-  return (
-    <>
-      <button className="back-button" onClick={() => navigate(-1)}>
-        Back
-      </button>
-    </>
-  );
-};
 
 function LoginForm(props) {
   const { handleLoginSuccess } = props;
@@ -99,9 +87,10 @@ function LoginForm(props) {
           ? 'Login'
           : formType === 'signup'
           ? 'Sign Up'
-          : formType === 'back'
-          ? 'Back'
-          : 'Forgot Password'}
+          : formType === 'forgot'
+          ? 'Forgot Password'
+          : 'Forgot Password' // dummy else
+        }
       </h1>
       <form
         onSubmit={
@@ -109,9 +98,9 @@ function LoginForm(props) {
             ? handleLoginSubmit
             : formType === 'signup'
             ? handleSignupSubmit
-            : formType === 'back'
-            ? Item
-            : () => handleForgotPassword(loginId)
+            : formType === 'forgot'
+            ? handleForgotPassword(loginId)
+            : () => handleForgotPassword // dummy else block
         }
       >
         {formType === 'signup' && (
@@ -199,10 +188,8 @@ function LoginForm(props) {
             <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
           </>
         )}
-      </form>
       {formType === 'forgot' && (
         <>
-          <div className="forgot-password">
             <p>Dont worry! Password reset link is sent to your email</p>
             <hr />
             <label>
@@ -217,18 +204,15 @@ function LoginForm(props) {
               Send Mail
             </button>
             <br />
-          </div>
-          <button type="button" onClick={() => setFormType('login')}>
-            Go back to login
-          </button>
         </>
       )}
+      </form>
       <button onClick={toggleFormType}>
         { formType === 'login'
           ? "Don't have an account? Sign up"
           : formType === 'signup'
           ? 'Already have an account? Log In'
-          : formType === 'back'
+          : formType === 'forgot'
           ? "Go back to login"
           : formType === 'login'}
       </button>
