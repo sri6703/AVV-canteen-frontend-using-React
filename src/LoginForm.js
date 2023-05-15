@@ -17,7 +17,7 @@ function LoginForm(props) {
   useEffect(() => {
     setLoginStatus('');
   }, [formType]);
-
+ 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const URL = 'login-page/';
