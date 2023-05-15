@@ -17,13 +17,13 @@ function LoginForm(props) {
   useEffect(() => {
     setLoginStatus('');
   }, [formType]);
-
+ 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const URL = 'login-page/';
     const result = await axios.get(URL);
     console.log(result.data);
-    const m1 = result.data.some((i) => i.email === loginId);
+    const m1 = result.data.some((i) => i.regno === loginId);
     if (m1) {
       const m2 = result.data.some((i) => i.pwd === loginPassword);
       if (m2) {
@@ -31,10 +31,10 @@ function LoginForm(props) {
         setUserType(userType);
         handleLoginSuccess(userType, loginId);
       } else {
-        setLoginStatus('Password incorrect!');
+        setLoginStatus('Password incorrect!'); 
       }
-    } else {
-      setLoginStatus('Email ID incorrect!');
+    } else { 
+      setLoginStatus('User ID incorrect!');
     }
   };
 
@@ -166,7 +166,7 @@ function LoginForm(props) {
               </label>
             </div>
             <label>
-              Email Id:
+              User Id:
               <input
                 type="text"
                 value={loginId}

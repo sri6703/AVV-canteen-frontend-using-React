@@ -4,8 +4,6 @@ import "./AccountSettings.css";
 
 const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [name, setName] = useState('John Doe');
-  const [email, setEmail] = useState('johndoe@example.com');
-  const [mobile, setMobile] = useState('1234567890');
   const [password, setPassword] = useState('');
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
@@ -43,11 +41,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
     event.preventDefault();
     try {
       // Call API to update user profile using state values
-      const response = await axios.put(`login-page/${userid}`, {
-        name,
-        email,
-        mobile,
-      });
+      const response = await axios.patch(`login-page/${userid}`, {name});
       alert(response.data.message);
     } catch (error) {
       console.error('Error updating profile:', error);
@@ -84,13 +78,14 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
       <div className='edit-profile-container'>
         <h2>Edit Profile</h2>
         <form onSubmit={handleEditProfileSubmit}>
+          
         <div>
-            <label htmlFor="userid">User ID: </label>
+            <label htmlFor="userid">email: </label>
             <input
               type="text"
               id="userid"
               value={userid}
-              readonly disabled
+              readOnly disabled
             />
           </div>
           <div>
@@ -100,24 +95,6 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
               id="name"
               value={name}
               onChange={(event) => setName(event.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Email: </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="mobile">Mobile: </label>
-            <input
-              type="tel"
-              id="mobile"
-              value={mobile}
-              onChange={(event) => setMobile(event.target.value)}
             />
           </div>
           <br />

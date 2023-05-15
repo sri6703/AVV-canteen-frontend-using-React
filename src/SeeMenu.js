@@ -28,6 +28,7 @@ const SeeMenu = ({ userid }) => {
         description: item.description,
         category: item.category,
         canteenname: item.canteenname,
+        exist_quantity:item.exist_quantity,
         quantity: 0 // Add the 'quantity' property here
       }));
       setMenuItems(formattedData);
@@ -106,7 +107,7 @@ const SeeMenu = ({ userid }) => {
               <td>{item.description}</td>
               <td>{item.category}</td>
               <td>{item.canteenname}</td>
-              <td>{item.quantity}</td>
+              <td>{item.exist_quantity}</td>
               <td>
               <button onClick={() => handleAddToCart(item._id)}>Add to Cart</button>
               </td>
