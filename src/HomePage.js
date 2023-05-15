@@ -15,7 +15,7 @@ function HomePage({ toggleLoginPage }) {
           - Mata Amritanandamayi
         </div>
 
-      <img src="https://i0.wp.com/amritavidyalayam.org/wp-content/uploads/amma.png" />
+      <img src="https://i0.wp.com/amritavidyalayam.org/wp-content/uploads/amma.png" alt="amritanandamayi"/>
       </div>
       <button onClick={toggleLoginPage}>Login to continue</button>
     </div></>

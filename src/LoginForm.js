@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaUser, FaLock, FaEnvelope, FaIdCard, FaUserShield, FaVoicemail } from 'react-icons/fa';
 import axios from 'axios';
 import './LoginForm.css';
 
@@ -113,34 +114,38 @@ function LoginForm(props) {
         {formType === 'signup' && (
           <>
             <label>
-              Name:
+            <FaUser />
               <input
                 type="text"
+                placeholder="Name"
                 value={signupName}
                 onChange={(e) => setSignupName(e.target.value)}
               />
             </label>
             <label>
-              ID:
+            <FaIdCard />
               <input
                 type="text"
+                placeholder="ID"
                 value={signupId}
                 onChange={(e) => setSignupId(e.target.value)}
               />
             </label>
             <label>
-              Email:
+            <FaEnvelope />
               <input
                 type="email"
+                placeholder="Email"
                 value={signupEmail}
                 onChange={(e) => setSignupEmail(e.target.value)}
               />
             </label>
             <label>
-              Password:
+            <FaLock />
               <input
                 type="password"
                 value={signupPassword}
+                placeholder="Password"
                 onChange={(e) => setSignupPassword(e.target.value)}
               />
             </label>
@@ -151,39 +156,53 @@ function LoginForm(props) {
         )}
         {formType === 'login' && (
           <>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <label style={{ marginRight: '10px' }}>
-                <input
-                  type="radio"
-                  value="user"
-                  checked={userType === 'user'}
-                  onChange={() => setUserType('user')}
-                />
-                User
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="admin"
-                  checked={userType === 'admin'}
-                  onChange={() => setUserType('admin')}
-                />
-                Admin
-              </label>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <label style={{ marginRight: '10px' }}>
+            <input
+              type="radio"
+              value="user"
+              checked={userType === 'user'}
+              onChange={() => setUserType('user')}
+              style={{ display: 'none' }}
+            />
+            <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+              <FaUser style={{ marginRight: '5px' }} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <span>User</span>
+              </div>
             </div>
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="admin"
+              checked={userType === 'admin'}
+              onChange={() => setUserType('admin')}
+              style={{ display: 'none' }}
+            />
+            <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+              <FaUserShield style={{ marginRight: '5px' }} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <span>Admin</span>
+              </div>
+            </div>
+          </label>
+        </div>
             <label>
-              User Id:
+            <FaUser/>
               <input
                 type="text"
+                placeholder="User ID"
                 value={loginId}
                 onChange={(e) => setLoginId(e.target.value)}
               />
             </label>
             <label>
-              Password:
+            <FaLock />
               <input
                 type="password"
                 value={loginPassword}
+                placeholder="Password"
                 onChange={(e) => setLoginPassword(e.target.value)}
               />
             </label>
@@ -196,13 +215,14 @@ function LoginForm(props) {
         )}
       {formType === 'forgot' && (
         <>
-            <p>Dont worry! Password reset link is sent to your email</p>
+            <p>Enter your registered mailID to get password reset link.</p>
             <hr />
             <label>
-              Email Id:
+              <FaEnvelope />
               <input
                 type="text"
                 value={loginId}
+                placeholder='Email'
                 onChange={(e) => setLoginId(e.target.value)}
               />
             </label>
