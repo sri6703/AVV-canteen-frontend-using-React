@@ -31,9 +31,9 @@ function LoginForm(props) {
         setUserType(userType);
         handleLoginSuccess(userType, loginId);
       } else {
-        setLoginStatus('Password incorrect!');
+        setLoginStatus('Password incorrect!'); 
       }
-    } else {
+    } else { 
       setLoginStatus('User ID incorrect!');
     }
   };
