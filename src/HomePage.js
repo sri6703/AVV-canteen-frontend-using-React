@@ -9,7 +9,7 @@ function HomePage({ toggleLoginPage }) {
     </div>
 
     <div className="home-container">
-      <h2>Welcome to Amrita Vishwa Vidyapeetham Canteen System ello</h2>
+      <h2>Welcome to Amrita Vishwa Vidyapeetham Canteen System Hello</h2>
       <div className="container-inner">
         <div className="quote">
           
