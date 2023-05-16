@@ -7,7 +7,7 @@ const SeeMenu = ({ userid }) => {
   const [currentCanteen, setCurrentCanteen] = useState('All');
   const [currentCategory, setCurrentCategory] = useState('All');
 
-  const [cartItems, setCartItems] = useState({});
+  const [cartItems, setCartItems] = useState([]);
 
   const fetchMenuItems = async () => {
     try {
@@ -18,8 +18,7 @@ const SeeMenu = ({ userid }) => {
       if (currentCanteen !== 'All') {
         url +=  `/${currentCanteen}/`;
       }
-      console.log(url)
-      const response = await axios.get(url);
+      const response = await axios.get(url);                
       const formattedData = response.data.map((item) => ({
         _id: item._id,
         foodid: item.foodid,
@@ -28,12 +27,10 @@ const SeeMenu = ({ userid }) => {
         description: item.description,
         category: item.category,
         canteenname: item.canteenname,
-        exist_quantity:item.exist_quantity,
-        quantity: 0 // Add the 'quantity' property here
+        exist_quantity: item.exist_quantity,
+        quantity: 0
       }));
       setMenuItems(formattedData);
-      console.log(formattedData);
-      
     } catch (error) {
       console.error(error);
     }
@@ -43,12 +40,47 @@ const SeeMenu = ({ userid }) => {
     fetchMenuItems();
   }, [currentCanteen, currentCategory]);
 
-  const handleAddToCart = (itemId) => {
-    setCartItems((prevCartItems) => ({
-      ...prevCartItems,
-      [itemId]: (prevCartItems[itemId] || 0) + 1,
-    }));
-  };  
+  const handleAddToCart = async (itemId) => {
+    const updatedMenuItems = menuItems.map((item) => {
+      if (item._id === itemId && item.exist_quantity > 0) {
+        return {
+          ...item,
+          exist_quantity: item.exist_quantity - 1,
+          quantity: item.quantity + 1,
+        };
+      }
+      return item;
+    });
+    setMenuItems(updatedMenuItems);
+  
+    const selectedItem = menuItems.find((item) => item._id === itemId);
+    setCartItems((prevCartItems) => [...prevCartItems, selectedItem]);
+  
+    try {
+      const ex = selectedItem.exist_quantity - 1;
+      if (currentCategory === 'All' && currentCanteen === 'All') {
+        // Make API call to update the existing quantity
+        await axios.patch(`canteen/${itemId}/${ex}`);
+      } else {
+        await axios.patch(
+          `canteen/${currentCanteen}/${currentCategory}/${itemId}/${ex}`
+        );
+      }
+      console.log(userid,selectedItem._id,selectedItem.quantity)
+      // Make API call to store the selected item in the database
+      await axios.post('addtocart/', {
+        userid: userid,
+        itemId: selectedItem._id,
+        quantity: selectedItem.quantity,
+      });
+  
+      // Handle the API call responses as needed
+    } catch (error) {
+      console.error(error);
+      // Handle any errors that occur during the API calls
+    }
+  };
+  
 
   const handleCanteenSwitch = (event) => {
     setCurrentCanteen(event.target.value);
@@ -57,8 +89,6 @@ const SeeMenu = ({ userid }) => {
   const handleCategorySwitch = (event) => {
     setCurrentCategory(event.target.value);
   };
-
-
 
   return (
     <div className="menu-container">
@@ -90,18 +120,20 @@ const SeeMenu = ({ userid }) => {
       <table className="menu-table">
         <thead>
           <tr>
+          <th>Food-Id</th>
             <th>Name</th>
             <th>Price</th>
             <th>Description</th>
             <th>Category</th>
             <th>Canteen</th>
-            <th>Quantity</th>
-          <th>Add to Cart</th>
-        </tr>
+            <th>Exist Quantity</th>
+            <th>Add to Cart</th>
+          </tr>
         </thead>
         <tbody>
-          {menuItems.map((item) => (
+        {menuItems.map((item) => (
             <tr key={item._id}>
+              <td>{item.foodid}</td>
               <td>{item.name}</td>
               <td>{item.price}</td>
               <td>{item.description}</td>
@@ -109,7 +141,12 @@ const SeeMenu = ({ userid }) => {
               <td>{item.canteenname}</td>
               <td>{item.exist_quantity}</td>
               <td>
-              <button onClick={() => handleAddToCart(item._id)}>Add to Cart</button>
+                <button
+                  onClick={() => handleAddToCart(item._id)}
+                  disabled={item.exist_quantity === 0} // Disable button when exist_quantity is 0
+                >
+                  Add to Cart
+                </button>
               </td>
             </tr>
           ))}
@@ -118,4 +155,5 @@ const SeeMenu = ({ userid }) => {
     </div>
   );
 };
-export default SeeMenu;
+
+export default SeeMenu;
