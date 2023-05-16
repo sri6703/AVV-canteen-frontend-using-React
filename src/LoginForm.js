@@ -171,27 +171,6 @@ function LoginForm(props) {
         )}
         {formType === 'login' && (
           <>
-<<<<<<< HEAD
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <label style={{ marginRight: '10px' }}>
-                <input
-                  type="radio"
-                  value="user"
-                  checked={userType === 'user'}
-                  onChange={(handleLoginTypeChange) => setUserType('user')}
-                />
-                User
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="admin"
-                  checked={userType === 'admin'}
-                  onChange={(handleLoginTypeChange) => setUserType('admin')}
-                />
-                Admin
-              </label>
-=======
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <label style={{ marginRight: '10px' }}>
             <input
@@ -206,7 +185,6 @@ function LoginForm(props) {
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <span>User</span>
               </div>
->>>>>>> c4cfc507d8601f3e9d40f509ebc5583dea006085
             </div>
           </label>
           <label>
