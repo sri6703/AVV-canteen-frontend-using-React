@@ -7,70 +7,57 @@ const SeeCart = ({ userid }) => {
 
   useEffect(() => {
     const fetchCartItems = async () => {
-      const response = await axios.get('/api/cart');
-      const data = response.data.map(item => ({
-        _id: item.foodid._id,
-        name: item.foodid.name,
-        description: item.foodid.description,
-        price: item.foodid.price,
-        count: item.count,
-        quantity: item.foodid.quantity
-      }));
-      setCartItems(data);
+      try {
+        const response = await axios.get(`/addtocart/${userid}`);
+        console.log(response.data)
+        const data = response.data.map(item => ({
+          _id: item._id,
+          name: item.name,
+          description: item.description,
+          price: item.price,
+          quantity: item.quantity
+        }));
+        console.log(data)
+        setCartItems(data);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchCartItems();
-  }, []);
+  }, [userid]);
 
   const handleDeleteItem = async (itemId) => {
-    await axios.delete(`/api/cart/${itemId}`);
-    setCartItems(cartItems.filter((item) => item._id !== itemId));
-  };
-
-  const handleDecreaseItemCount = async (itemId, currentCount) => {
-    const currentItem = cartItems.find((item) => item._id === itemId);
-    if (currentCount === 1) {
-      await handleDeleteItem(itemId);
-    } else {
-      await axios.put(`/api/cart/${itemId}`, { count: currentCount - 1 });
-      setCartItems(
-        cartItems.map((item) =>
-          item._id === itemId ? { ...item, count: currentCount - 1 } : item
-        )
-      );
+    try {
+      await axios.delete(`/api/cart/${itemId}`);
+      setCartItems(cartItems.filter((item) => item._id !== itemId));
+    } catch (error) {
+      console.error(error);
     }
-  };
-
-  const handleIncreaseItemCount = async (itemId, currentCount, currentQuantity) => {
-    if (currentCount >= currentQuantity) {
-      return;
-    }
-    await axios.put(`/api/cart/${itemId}`, { count: currentCount + 1 });
-    setCartItems(
-      cartItems.map((item) =>
-        item._id === itemId ? { ...item, count: currentCount + 1 } : item
-      )
-    );
   };
 
   const handleDeleteAllItems = async () => {
-    await axios.delete('/api/cart');
-    setCartItems([]);
+    try {
+      await axios.delete('/api/cart');
+      setCartItems([]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const placeOrder = () => {
-    const userId = userid; //uid received as parameter
-    const cart = Object.entries(cartItems).map(([itemId, quantity]) => ({
-      itemId,
+    const userId = userid;
+    const cart = cartItems.map(({ _id, quantity }) => ({
+      itemId: _id,
       quantity,
     }));
-    axios.post("/api/orders", { userId, cart }).then(() => {
-      // success callback
-      console.log("Order placed successfully");
-    }).catch((error) => {
-      // error callback
-      console.error("Error placing order:", error);
-    });
-  };  
+    axios.post("/api/orders", { userId, cart })
+      .then(() => {
+        console.log("Order placed successfully");
+      })
+      .catch((error) => {
+        console.error("Error placing order:", error);
+      });
+  };
 
   return (
     <div className="cart-container">
@@ -91,14 +78,7 @@ const SeeCart = ({ userid }) => {
               <td>{item.name}</td>
               <td>{item.description}</td>
               <td>{item.price}</td>
-              <td>
-                <div className="cart-item-count">
-                  <button onClick={() => handleDecreaseItemCount(item._id, item.count)}>-</button>
-                  <span>{item.count}</span>
-                 
-                  <button onClick={() => handleIncreaseItemCount(item._id, item.count, item.quantity)}>+</button>
-                </div>
-              </td>
+              <td>{item.quantity}</td>
               <td>
                 <button onClick={() => handleDeleteItem(item._id)}>X</button>
               </td>
@@ -106,14 +86,13 @@ const SeeCart = ({ userid }) => {
           ))}
         </tbody>
       </table>
-          <div className="cart-total">
-              <button onClick={() => handleDeleteAllItems()}>Delete All Items</button>
-              <p>Total: {cartItems.reduce((acc, item) => acc + item.price * item.count, 0)}</p>
-              <button onClick={() => placeOrder()}>Place Order</button>
-          </div>
-        </div>
-    );
-  };
+      <div className="cart-total">
+        <button onClick={() => handleDeleteAllItems()}>Delete All Items</button>
+        <p>Total: {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)}</p>
+        <button onClick={() => placeOrder()}>Place Order</button>
+      </div>
+    </div>
+  );
+};
 
 export default SeeCart;
-
