@@ -18,26 +18,41 @@ function LoginForm(props) {
   useEffect(() => {
     setLoginStatus('');
   }, [formType]);
+
+  const handleLoginTypeChange = (e) => {
+    setUserType(e.target.value);
+  };
+  
  
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    const URL = 'login-page/';
-    const result = await axios.get(URL);
-    console.log(result.data);
-    const m1 = result.data.some((i) => i.regno === loginId);
-    if (m1) {
-      const m2 = result.data.some((i) => i.pwd === loginPassword);
-      if (m2) {
-        setLoginStatus('Logged in Successfully!!');
-        setUserType(userType);
-        handleLoginSuccess(userType, loginId);
-      } else {
-        setLoginStatus('Password incorrect!'); 
+    const URL = userType === 'user' ? 'login-page/' : 'admin-login-page/';
+    try {
+      const response = await axios.get(URL);
+      const data = response.data;
+      console.log(data);
+      const isLoginValid = userType === 'user'
+        ? data.some((i) => i.regno === loginId)
+        : data.some((i) => i.email === loginId);
+      if (isLoginValid) {
+        const isPasswordCorrect = data.some((i) => i.pwd === loginPassword);
+        if (isPasswordCorrect) {
+          setLoginStatus('Logged in Successfully!!');
+          setUserType(userType);
+          handleLoginSuccess(userType, loginId);
+        } else {
+          setLoginStatus('Password incorrect!'); 
+        }
+      } else { 
+        setLoginStatus('User ID incorrect!');
       }
-    } else { 
-      setLoginStatus('User ID incorrect!');
+    } catch (error) {
+      console.error(error);
+      // Handle error
     }
   };
+  
+  
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
