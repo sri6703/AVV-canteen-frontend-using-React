@@ -9,7 +9,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-blend-mode:lighten;
-    min-height: 90vh;
+    min-height: 85vh;
     padding-bottom: 10px;
   }
   
@@ -52,6 +52,7 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: '10px';
  }
   
 .login-form-container button:hover {
@@ -114,5 +115,47 @@
   input[type="radio"]:checked + div {
     color: #fff;
     background-color: #b82450;
+  }
+
+
+  .input-container {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    background-color: #f8f8f8;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    height: 30px;
+  }
+  
+  .input-container label {
+    margin-right: 10px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+  }
+  
+  .input-container label svg {
+    margin-right: 5px;
+    display: block;
+    height: 100%;
+  }
+  
+  .input-container input {
+    border: none;
+    background-color: transparent;
+    padding: 5px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    flex: 1;
+    height: 100%;
+    margin-bottom: 8px;
+  }
+  
+  .input-container input:focus {
+    outline: none;
   }
   
