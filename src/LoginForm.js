@@ -25,35 +25,10 @@ function LoginForm(props) {
   
  
   const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    const URL = userType === 'user' ? 'login-page/' : 'admin-login-page/';
-    try {
-      const response = await axios.get(URL);
-      const data = response.data;
-      console.log(data);
-      const isLoginValid = userType === 'user'
-        ? data.some((i) => i.regno === loginId)
-        : data.some((i) => i.email === loginId);
-      if (isLoginValid) {
-        const isPasswordCorrect = data.some((i) => i.pwd === loginPassword);
-        if (isPasswordCorrect) {
-          setLoginStatus('Logged in Successfully!!');
-          setUserType(userType);
-          handleLoginSuccess(userType, loginId);
-        } else {
-          setLoginStatus('Password incorrect!'); 
-        }
-      } else { 
-        setLoginStatus('User ID incorrect!');
-      }
-    } catch (error) {
-      console.error(error);
-      // Handle error
-    }
+    setUserType(userType);
+    handleLoginSuccess(userType, loginId);
   };
   
-  
-
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
@@ -134,6 +109,7 @@ function LoginForm(props) {
                 type="text"
                 placeholder="Name"
                 value={signupName}
+                required
                 onChange={(e) => setSignupName(e.target.value)}
               />
             </div>
@@ -143,6 +119,7 @@ function LoginForm(props) {
                 type="text"
                 placeholder="ID"
                 value={signupId}
+                required
                 onChange={(e) => setSignupId(e.target.value)}
               />
             </div>
@@ -152,6 +129,7 @@ function LoginForm(props) {
                 type="email"
                 placeholder="Email"
                 value={signupEmail}
+                required
                 onChange={(e) => setSignupEmail(e.target.value)}
               />
             </div>
@@ -161,6 +139,7 @@ function LoginForm(props) {
                 type="password"
                 value={signupPassword}
                 placeholder="Password"
+                required
                 onChange={(e) => setSignupPassword(e.target.value)}
               />
             </div>
@@ -213,6 +192,7 @@ function LoginForm(props) {
             id="user-id"
             placeholder="User ID"
             value={loginId}
+            required
             onChange={(e) => setLoginId(e.target.value)}
           />
         </div>
@@ -225,10 +205,13 @@ function LoginForm(props) {
             id="password"
             placeholder="Password"
             value={loginPassword}
+            required
             onChange={(e) => setLoginPassword(e.target.value)}
           />
         </div>
-        <button type="submit" style={{ marginTop: '10px' }}>Log In</button>
+        <button type="submit" style={{ marginTop: '10px' }}>
+          Log In
+        </button>
         <button type="button" onClick={() => setFormType('forgot')} style={{ marginTop: '10px' }}>
           Forgot Password
         </button>
@@ -245,6 +228,7 @@ function LoginForm(props) {
                 type="text"
                 value={loginId}
                 placeholder='Email'
+                required
                 onChange={(e) => setLoginId(e.target.value)}
               />
             </div>

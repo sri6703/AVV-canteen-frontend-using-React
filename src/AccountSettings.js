@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import "./AccountSettings.css";
+import './AccountSettings.css';
 
 const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [name, setName] = useState('John Doe');
@@ -12,38 +12,48 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
   const [errorMessage, setErrorMessage] = useState('');
+  const [isEditProfile, setIsEditProfile] = useState(false);
+  const [isChangePassword, setIsChangePassword] = useState(false);
+  const [isDeleteAccount, setIsDeleteAccount] = useState(false);
+
   const handleChangePasswordSubmit = async (event) => {
     event.preventDefault();
 
     if (newPassword !== confirmNewPassword) {
-      setErrorMessage('Passwords doesn\'t match');
+      setErrorMessage("Passwords don't match");
       return;
     }
 
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+~`-]).{8,}$/;
     // Validate new password against regex
     if (!passwordRegex.test(newPassword)) {
-      setErrorMessage('Password must have minimum 8 characters, with atleast 1 uppercase, 1 lowercase, 1 number, and 1 symbol');
+      setErrorMessage(
+        'Password must have a minimum of 8 characters, with at least 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
+      );
       return;
     }
 
     setErrorMessage('');
     try {
       // Call API to change user password using state values
-      const response = await axios.put(`login-page/${userid}/${currentPassword}/${newPassword}`);
+      const response = await axios.put(
+        `login-page/${userid}/${currentPassword}/${newPassword}`
+      );
       alert(response.data.message);
+      setIsChangePassword(false); // Reset the state after successful password change
     } catch (error) {
       console.error('Error changing password:', error);
       alert('Failed to change password. Please try again.');
     }
-  };  
+  };
 
   const handleEditProfileSubmit = async (event) => {
     event.preventDefault();
     try {
       // Call API to update user profile using state values
-      const response = await axios.patch(`login-page/${userid}`, {name});
+      const response = await axios.patch(`login-page/${userid}`, { name });
       alert(response.data.message);
+      setIsEditProfile(false); // Hide the edit form after successful update
     } catch (error) {
       console.error('Error updating profile:', error);
       alert('Failed to update profile. Please try again.');
@@ -55,14 +65,14 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
     if (deleteConfirmation === 'DELETE') {
       try {
         // Get the rollno value from your application logic or user input
-         // Replace getRollno() with your logic
-  
+        // Replace getRollno() with your logic
+
         // Call API to delete user account using the rollno value
         const response = await axios.delete(`login-page/${userid}`);
         alert(response.data.message);
         // TODO: Logout user
         SetIsLoggedIn(false);
-        userid = "";
+        userid = '';
       } catch (error) {
         console.error('Error deleting account:', error);
         alert('Failed to delete account. Please try again.');
@@ -71,52 +81,61 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
       alert('Please confirm delete by typing DELETE in the confirmation box.');
     }
   };
-  
 
   return (
-    <div className="account-settings-container" style={{ height: 'auto' }}>
+    <div className="account-settings-container">
       <h1>Account Settings</h1>
-      <div className='edit-profile-container'>
-        <h2>Edit Profile</h2>
-        <form onSubmit={handleEditProfileSubmit}>
-          
-        <div>
-            <label htmlFor="userid">userid: </label>
-            <input
-              type="text"
-              id="userid"
-              value={userid}
-              readOnly disabled
-            />
+      <div className="container-in">
+        <h2>My Profile</h2>
+        {!isEditProfile ? (
+          <div className="display-profile">
+            <div>User ID: {userid}</div>
+            <div>Name: {name}</div>
+            <div>Email: {Email}</div>
+            <br />
+            {!isChangePassword && !isDeleteAccount && (
+              <div>
+                <button onClick={() => setIsEditProfile(true)}>Edit</button>
+                <button onClick={() => setIsChangePassword(true)}>Change Password</button>
+                <button onClick={() => setIsDeleteAccount(true)}>Delete Account</button>
+              </div>
+            )}
           </div>
-          <div>
-            <label htmlFor="name">Name: </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Email: </label>
-            <input
-              type="mail"
-              id="email"
-              value={Email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </div>
-          <br />
-          <div>
-            <button type="submit">Update Profile</button>
-          </div>
-        </form>
+        ) : (
+          <form onSubmit={handleEditProfileSubmit}>
+            <div>
+              <label htmlFor="userid">User ID: </label>
+              <input type="text" id="userid" value={userid} readOnly disabled />
+            </div>
+            <div>
+              <label htmlFor="name">Name: </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="email">Email: </label>
+              <input
+                type="mail"
+                id="email"
+                value={Email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </div>
+            <br />
+            <div className="button-container">
+              <button type="submit">Save</button>
+              <button className="Cancel" onClick={() => setIsEditProfile(false)}>Cancel</button>
+            </div>
+          </form>
+        )}
       </div>
 
-      <div className='change-password-container'>
-        <h2>Change Password</h2>
-        <form onSubmit={handleChangePasswordSubmit}>
+      {isChangePassword && (
+        <form className="container-in" onSubmit={handleChangePasswordSubmit}>
           <div>
             <label htmlFor="current-password">Current Password: </label>
             <input
@@ -144,16 +163,16 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
               onChange={(event) => setConfirmNewPassword(event.target.value)}
             />
           </div>
-          {errorMessage && <p className='error-msg'>{errorMessage}</p>}
-          <div>
+          {errorMessage && <p className="error-msg">{errorMessage}</p>}
+          <div className="button-container">
             <button type="submit">Change Password</button>
+            <button className="Cancel"  onClick={() => setIsChangePassword(false)}>Cancel</button>
           </div>
         </form>
-      </div>
+      )}
 
-      <div className='delete-account-container'>
-        <h2>Delete Account</h2>
-        <form onSubmit={handleDeleteAccountSubmit}>
+      {isDeleteAccount && (
+        <form className="container-in" onSubmit={handleDeleteAccountSubmit}>
           <div>
             <label htmlFor="password">Password: </label>
             <input
@@ -173,14 +192,14 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
             />
           </div>
           <br />
-          <div>
+          <div className="button-container">
             <button type="submit">Delete Account</button>
+            <button className="Cancel"  onClick={() => setIsDeleteAccount(false)}>Cancel</button>
           </div>
         </form>
-      </div>
+      )}
     </div>
   );
 };
 
 export default AccountSettings;
-

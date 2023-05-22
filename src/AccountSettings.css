@@ -1,29 +1,28 @@
 .account-settings-container {
   width: 60%;
   margin: 0 auto;
+  min-height: 80vh;
+  border-bottom: 20px;
 }
 
 .account-settings-container h1 {
   color: #fff;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
-/* Edit Profile*/
 
-.edit-profile-container {
+/* Edit Profile*/
+.container-in
+{
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  align-items: center
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.edit-profile-container h2 {
-  color: white;
-  background-color: #0077b6;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.edit-profile-container form {
+.display-profile {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -35,155 +34,94 @@
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
 }
 
-.edit-profile-container input {
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  font-size: 1rem;
-  border-radius: 0.5rem
+.container-in h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: white;
+  background-color: #0077b6;
+  padding: 10px;
+  border-radius: 5px;
 }
 
-.edit-profile-container button[type="submit"] {
+.account-settings-container form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  align-items: center;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+}
+
+.container-in label {
+  font-weight: bold;
+}
+
+
+.container-in .button-container {
+  margin-top: 10px;
+}
+
+.container-in input {
+  padding: 5px;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  border-radius: 0;
+  height: 20px;
+}
+
+.container-in button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: none;
+  background-color: #A4123F;
+  color: #fff;
+  cursor: pointer;
+  align-items: center;
+}
+
+.container-in button:hover{
+  background-color: #d35c80;
+}
+
+.container-in button[type="submit"] {
+  border: 2px solid #0077b6;
   background-color: #0077b6;
   color: white;
   padding: 10px;
-  border: none;
-  border-radius: 5px;
+  border-radius: 0;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
 }
 
-.edit-profile-container button:hover {
+.container-in .Cancel {
+  border: 2px solid #0077b6;
+  background-color: white;
+  color: #0077b6;
+  padding: 10px;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.container-in button[type="submit"]:hover {
 background-color: #4e88a7;
 }
 
-.edit-profile-container button:focus {
+.container-in .Cancel:hover {
+  background-color: #b4d3f7;
+  }
+
+.container-in   button:focus {
   outline: none;
 }
 
-.edit-profile-container button + button {
-  margin-top: 1rem;
-}
-
-/*Change Password*/
-.change-password-container {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  margin-top: 20px;
-  align-items: center;
-}
-
-.change-password-container h2 {
-  color: white;
-  background-color: #78e41b;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.change-password-container form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
-  align-items: center;
-  background-color: white;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-}
-
-.change-password-container input[type="password"] {
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-}
-
-.change-password-container button[type="submit"] {
-  background-color: #78e41b;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.change-password-container button:hover {
-  background-color: #b0f476;
-}
-
-.change-password-container button:focus {
-  outline: none;
-}
-
-.change-password-container button + button {
-  margin-top: 1rem;
-}
-
-.error-msg {
-  color: #de0e0e;
-  font-size: smaller;
-  margin: 5px;
-  text-align: center;
-}
-
-/*Delete Account*/
-.delete-account-container {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  margin-top: 20px;
-  align-items: center
-}
-
-.delete-account-container h2 {
-  color: white;
-  background-color: #de0e0e;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.delete-account-container form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
-  align-items: center;
-  background-color: white;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-}
-
-.delete-account-container input {
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  font-size: 1rem;
-  border-radius: 0.5rem
-}
-
-.delete-account-container button[type="submit"] {
-  background-color: #de0e0e;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.delete-account-container button:hover {
-background-color: #de4646;
-}
-
-.delete-account-container button:focus {
-  outline: none;
-}
-
-.delete-account-container button + button {
+.container-in button + button {
   margin-top: 1rem;
 }
