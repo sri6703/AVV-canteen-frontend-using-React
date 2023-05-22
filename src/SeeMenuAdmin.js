@@ -26,7 +26,7 @@ const SeeMenuAdmin = () => {
         description: item.description,
         category: item.category,
         canteenname: item.canteenname,
-        quantity: 0 // Add the 'quantity' property here
+        quantity: item.exist_quantity 
       }));
       setMenuItems(formattedData);
       console.log(formattedData);
@@ -72,13 +72,17 @@ const SeeMenuAdmin = () => {
     }
   };
 
-  const handleDelete = async (itemId) => {
+  const handleDelete = async (canteenname, category, foodid) => {
     try {
-      await axios.delete(`canteen/${itemId}`);
-      const newMenuItems = menuItems.filter((item) => item._id !== itemId);
-      setMenuItems(newMenuItems);
+      const response = await axios.delete(`canteen/${canteenname}/${category}/${foodid}`);
+      if (response.status === 200) {
+        const newMenuItems = menuItems.filter((item) => item.foodid !== foodid);
+        setMenuItems(newMenuItems);
+      } else {
+        console.log('Menu deletion failed:', response.data.message);
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Error deleting menu:', error);
     }
   };
 
@@ -135,7 +139,7 @@ const SeeMenuAdmin = () => {
               <button className='edit-button' onClick={() => handleEdit(item._id)}>Edit</button>
               </td>
               <td>
-              <button className='delete-button' onClick={() => handleDelete(item._id)}>Delete</button>
+              <button className='delete-button' onClick={() => handleDelete(item.canteenname, item.category, item.foodid)}>Delete</button>
               </td>
             </tr>
           ))}
