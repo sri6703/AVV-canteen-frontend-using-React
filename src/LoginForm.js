@@ -128,7 +128,7 @@ function LoginForm(props) {
       >
         {formType === 'signup' && (
           <>
-            <label>
+            <div className="input-container">
             <FaUser />
               <input
                 type="text"
@@ -136,8 +136,8 @@ function LoginForm(props) {
                 value={signupName}
                 onChange={(e) => setSignupName(e.target.value)}
               />
-            </label>
-            <label>
+            </div>
+            <div className="input-container">
             <FaIdCard />
               <input
                 type="text"
@@ -145,8 +145,8 @@ function LoginForm(props) {
                 value={signupId}
                 onChange={(e) => setSignupId(e.target.value)}
               />
-            </label>
-            <label>
+            </div>
+            <div className="input-container">
             <FaEnvelope />
               <input
                 type="email"
@@ -154,8 +154,8 @@ function LoginForm(props) {
                 value={signupEmail}
                 onChange={(e) => setSignupEmail(e.target.value)}
               />
-            </label>
-            <label>
+            </div>
+            <div className="input-container">
             <FaLock />
               <input
                 type="password"
@@ -163,10 +163,11 @@ function LoginForm(props) {
                 placeholder="Password"
                 onChange={(e) => setSignupPassword(e.target.value)}
               />
-            </label>
+            </div>
+
             <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
             <br />
-            <button type="submit">Sign Up</button>
+            <button type="submit">Create Account</button>
           </>
         )}
         {formType === 'login' && (
@@ -203,36 +204,42 @@ function LoginForm(props) {
             </div>
           </label>
         </div>
-            <label>
-            <FaUser/>
-              <input
-                type="text"
-                placeholder="User ID"
-                value={loginId}
-                onChange={(e) => setLoginId(e.target.value)}
-              />
-            </label>
-            <label>
+        <div className="input-container">
+          <label htmlFor="user-id">
+            <FaUser />
+          </label>
+          <input
+            type="text"
+            id="user-id"
+            placeholder="User ID"
+            value={loginId}
+            onChange={(e) => setLoginId(e.target.value)}
+          />
+        </div>
+        <div className="input-container">
+          <label htmlFor="password">
             <FaLock />
-              <input
-                type="password"
-                value={loginPassword}
-                placeholder="Password"
-                onChange={(e) => setLoginPassword(e.target.value)}
-              />
-            </label>
-            <button type="submit">Submit</button>
-            <button type="button" onClick={() => setFormType('forgot')}>
-              Forgot Password
-            </button>
-            <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
+          </label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            value={loginPassword}
+            onChange={(e) => setLoginPassword(e.target.value)}
+          />
+        </div>
+        <button type="submit" style={{ marginTop: '10px' }}>Log In</button>
+        <button type="button" onClick={() => setFormType('forgot')} style={{ marginTop: '10px' }}>
+          Forgot Password
+        </button>
+        <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden', marginTop: '10px' }}>{loginStatus}</p>
+
           </>
         )}
       {formType === 'forgot' && (
         <>
-            <p>Enter your registered mailID to get password reset link.</p>
-            <hr />
-            <label>
+            <p>Enter your registered Email address to get password reset link.</p>
+            <div className="input-container">
               <FaEnvelope />
               <input
                 type="text"
@@ -240,10 +247,11 @@ function LoginForm(props) {
                 placeholder='Email'
                 onChange={(e) => setLoginId(e.target.value)}
               />
-            </label>
-            <button type="button" onClick={() => handleForgotPassword(loginId)}>
+            </div>
+            <button type="button" style={{ marginTop: '10px' }} onClick={() => handleForgotPassword(loginId)}>
               Send Mail
             </button>
+            <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden', marginTop: '10px' }}>{loginStatus}</p>
             <br />
         </>
       )}

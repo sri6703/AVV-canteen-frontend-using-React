@@ -12,9 +12,9 @@ const SeeCart = ({ userid }) => {
         console.log(response.data)
         const data = response.data.map(item => ({
           _id: item._id,
-          name: item.name,
-          description: item.description,
-          price: item.price,
+          name: item.item.name,
+          description: item.item.description,
+          price: item.item.price,
           quantity: item.quantity
         }));
         console.log(data)
