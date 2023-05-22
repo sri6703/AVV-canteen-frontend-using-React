@@ -3,15 +3,18 @@ import chefImage from './img/chefclipart.jpg';
 import './LoginNext.css';
 import axios from 'axios';
 
-const LoginHomepage = ({ username }) => {
+const LoginHomepage = ({ username, userType }) => {
   const [user, setUser] = useState(null);
+  const [type, setType] = useState("");
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`/login-page/${username}`);
+        let endpoint = userType === "admin" ? `/admin-login-page/${username}` : `/login-page/${username}`;
+        const response = await axios.get(endpoint);
         setUser(response.data.name);
-        console.log(response)
+        setType(userType);
+        console.log(response);
       } catch (error) {
         console.error(error);
       }

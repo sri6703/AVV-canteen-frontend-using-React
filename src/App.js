@@ -55,7 +55,7 @@ function App() {
             </div>
             <div className="see-menu-container">
             {   activeComponent === "Home" ? (
-            <LoginHomepage username={userid} />
+              <LoginHomepage username={userid} userType={userType} />
             ) : activeComponent === "SeeMenu" ? (
               <SeeMenu userid={userid} />
             ) : activeComponent === "addItem" ? (
