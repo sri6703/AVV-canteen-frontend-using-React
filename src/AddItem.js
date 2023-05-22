@@ -1,18 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import "./AddItem.css";
 
 const AddItem = () => {
+  const [itemid, setFoodId] = useState('');
   const [itemName, setItemName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
   const [canteen, setCanteen] = useState('');
   const [category, setCategory] = useState('');
   const [quantity, setQuantity] = useState(0);
+  const [itemstatus, setItemStatus] = useState('');
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    setItemStatus('');
+  }, []);
+  
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission here, e.g. send data to server
+    
+    const newitem = {
+      foodid : itemid,
+      name: itemName,
+      price:price,
+      description:description,
+      category:category,
+      canteenname:canteen,
+      exist_quantity:quantity
+    }
+    console.log(newitem)
+    const URL = 'canteen/';
+    const response = await axios.post(URL, newitem);
+    setItemStatus(response.data.message);
+
+    // Reset the form inputs
+    setItemName('');
+    setDescription('');
+    setPrice(0);
+    setCanteen('');
+    setCategory('');
+    setQuantity(0);
   };
+  
 
   return (
     <div className="add-item-container" style={{height: '100vh'}}>
@@ -21,15 +51,17 @@ const AddItem = () => {
       <div style={{ display: 'flex' }}>
       <div style={{ margin: '10px 10px 10px 10px'}}>
           <label htmlFor="canteen">Canteen:</label>
-          <select
-            id="canteen"
-            value={canteen}
-            onChange={(event) => setCanteen(event.target.value)}
+         <select
+          id="canteen"
+          value={canteen}
+          onChange={(event) => setCanteen(event.target.value)}
           >
-            <option value="main">main</option>
-            <option value="it">IT</option>
-            <option value="business">business</option>
-          </select>
+          <option value="">Select Canteen</option>
+          <option value="main">main</option>
+          <option value="it">IT</option>
+          <option value="business">business</option>
+        </select>
+
         </div>
         <div style={{ margin: '10px 10px 10px 10px'}}>
           <label htmlFor="category">Category:</label>
@@ -38,11 +70,21 @@ const AddItem = () => {
             value={category}
             onChange={(event) => setCategory(event.target.value)}
           >
+            <option value="">Select Category</option>
             <option value="breakfast">breakfast</option>
             <option value="lunch">lunch</option>
             <option value="dinner">dinner</option>
           </select>
         </div>
+        </div>
+        <div>
+          <label htmlFor="foodid">Food ID:</label>
+          <input
+            type="text"
+            id="foodid"
+            value={itemid}
+            onChange={(event) => setFoodId(Number(event.target.value))}
+          />
         </div>
         <div>
           <label htmlFor="item-name">Item Name:</label>
@@ -82,8 +124,10 @@ const AddItem = () => {
         </div>
         <br />
         <div>
-            <button type="submit">Add Item</button>
+        <button type="submit">Add Item</button>
         </div>
+        {itemstatus && <p>{itemstatus}</p>}
+
         
       </form>
     </div>
