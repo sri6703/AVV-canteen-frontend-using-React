@@ -43,7 +43,7 @@
     border-radius: 0.5rem
   }
   
-.login-form-container button {
+  .login-form-container button {
     background-color: #A4123F;
     color: white;
     padding: 0.5rem 1rem;
@@ -52,12 +52,13 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: '10px';
- }
-  
-.login-form-container button:hover {
-    background-color: #de6d8f; /* Amrita Pantone light */
+    margin-top: 10px; /* Remove the quotes around 10px */
   }
+  
+  
+/*.login-form-container button:hover {
+    background-color: #de6d8f; /* Amrita Pantone light */
+/*  }*/
   
 .login-form-container button:focus {
     outline: none;
@@ -120,7 +121,7 @@
 
   .input-container {
     margin-top: 10px;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     border-radius: 0;
     background-color: #f8f8f8;
     padding: 5px;
@@ -158,4 +159,67 @@
   .input-container input:focus {
     outline: none;
   }
+
+
+  body {
+    background: #e0e5ec;
+  }
+  h1 {
+    position: relative;
+    text-align: center;
+    color: #353535;
+    font-size: 50px;
+    font-family: "Cormorant Garamond", serif;
+  }
+  
+  p {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    text-align: center;
+    font-size: 18px;
+    color: #676767;
+  }
+  .frame {
+    width: 90%;
+    margin: 40px auto;
+    text-align: center;
+  }
+  button {
+    margin: '10px';
+  }
+  .custom-btn {
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+  }
+
+  .reactive-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid transparent;
+    background-color: #f0094a;
+    color: #ffffff;
+    font-size: 16px;
+    
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .reactive-button:hover {
+    background-color: #fff;
+    color: #f0094a;
+    border: 2px solid #f0094a !important; /* Add the border property with red color */
+  }
+  
+  
+  
+  
   
