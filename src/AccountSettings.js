@@ -4,9 +4,9 @@ import './AccountSettings.css';
 
 const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [name, setName] = useState('John Doe');
-  const [phoneno, setphoneno] = useState('John Doe');
-  const [gender, setgender] = useState('John Doe');
-  const [address, setaddress] = useState('John Doe');
+  const [phoneno, setphoneno] = useState('123456789');
+  const [gender, setgender] = useState('Male');
+  const [address, setaddress] = useState('123, Ettimadai, Coimbatore');
   const [password, setPassword] = useState('');
   const [Email, setEmail] = useState('sample@gmail.com');
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
@@ -127,6 +127,8 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 value={Email}
                 onChange={(event) => setEmail(event.target.value)}
               />
+            </div>
+            <div>
               <label htmlFor="phoneno">Phoneno: </label>
               <input
                 type="text"
@@ -134,6 +136,8 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 value={phoneno}
                 onChange={(event) => setphoneno(event.target.value)}
               />
+            </div>
+            <div>
               <label htmlFor="gender">Gender: </label>
               <input
                 type="text"
@@ -141,6 +145,8 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 value={gender}
                 onChange={(event) => setgender(event.target.value)}
               />
+              </div>
+              <div>
               <label htmlFor="address">address: </label>
               <input
                 type="text"

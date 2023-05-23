@@ -6,6 +6,10 @@ const SeeMenuAdmin = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [currentCanteen, setCurrentCanteen] = useState('All');
   const [currentCategory, setCurrentCategory] = useState('All');
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingItemId, setEditingItemId] = useState(null);
+  const [editedPrice, setEditedPrice] = useState('');
+  const [editedDescription, setEditedDescription] = useState('');
 
   const fetchMenuItems = async () => {
     try {
@@ -14,9 +18,9 @@ const SeeMenuAdmin = () => {
         url += `${currentCategory}`;
       }
       if (currentCanteen !== 'All') {
-        url +=  `/${currentCanteen}/`;
+        url += `/${currentCanteen}/`;
       }
-      console.log(url)
+      console.log(url);
       const response = await axios.get(url);
       const formattedData = response.data.map((item) => ({
         _id: item._id,
@@ -26,11 +30,10 @@ const SeeMenuAdmin = () => {
         description: item.description,
         category: item.category,
         canteenname: item.canteenname,
-        quantity: item.exist_quantity 
+        quantity: item.exist_quantity,
       }));
       setMenuItems(formattedData);
       console.log(formattedData);
-      
     } catch (error) {
       console.error(error);
     }
@@ -38,7 +41,7 @@ const SeeMenuAdmin = () => {
 
   useEffect(() => {
     fetchMenuItems();
-  }, [currentCanteen, currentCategory]); 
+  }, [currentCanteen, currentCategory]);
 
   const handleCanteenSwitch = (event) => {
     setCurrentCanteen(event.target.value);
@@ -48,33 +51,46 @@ const SeeMenuAdmin = () => {
     setCurrentCategory(event.target.value);
   };
 
-  const handleEdit = async (itemId) => {
+  const handleEdit = (itemId) => {
     const itemToEdit = menuItems.find((item) => item._id === itemId);
-    const newPrice = prompt('Enter the new price:', itemToEdit.price);
-    const newDescription = prompt('Enter the new description:', itemToEdit.description);
+    setEditingItemId(itemId);
+    setEditedPrice(itemToEdit.price);
+    setEditedDescription(itemToEdit.description);
+    setIsEditing(true);
+  };
 
+  const handleSaveEdit = async () => {
     try {
-      const response = await axios.patch(`canteen/${itemId}`, {
-        price: newPrice,
-        description: newDescription
+      const response = await axios.patch(`canteen/${editingItemId}`, {
+        price: editedPrice,
+        description: editedDescription,
       });
       const updatedItem = response.data;
-      const newMenuItems = menuItems.map((item) => {
-        if (item._id === updatedItem._id) {
-          return updatedItem;
-        } else {
-          return item;
-        }
-      });
+      const newMenuItems = menuItems.map((item) =>
+        item._id === updatedItem._id ? updatedItem : item
+      );
       setMenuItems(newMenuItems);
+      setEditingItemId(null);
+      setEditedPrice('');
+      setEditedDescription('');
+      setIsEditing(false);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleCancelEdit = () => {
+    setEditingItemId(null);
+    setEditedPrice('');
+    setEditedDescription('');
+    setIsEditing(false);
+  };
+
   const handleDelete = async (canteenname, category, foodid) => {
     try {
-      const response = await axios.delete(`canteen/${canteenname}/${category}/${foodid}`);
+      const response = await axios.delete(
+        `canteen/${canteenname}/${category}/${foodid}`
+      );
       if (response.status === 200) {
         const newMenuItems = menuItems.filter((item) => item.foodid !== foodid);
         setMenuItems(newMenuItems);
@@ -88,64 +104,103 @@ const SeeMenuAdmin = () => {
 
   return (
     <div className="menu-container">
-      <div className="filters">
-        <div className="category-switch">
-          <label>
-            Category:
-            <select value={currentCategory} onChange={handleCategorySwitch}>
-              <option value="All">All</option>
-              <option value="breakfast">breakfast</option>
-              <option value="lunch">lunch</option>
-              <option value="dinner">dinner</option>
-            </select>
-          </label>
+      {!isEditing ? (
+        <div className="filters">
+          <div className="category-switch">
+            <label>
+              Category:
+              <select value={currentCategory} onChange={handleCategorySwitch}>
+                <option value="All">All</option>
+                <option value="breakfast">breakfast</option>
+                <option value="lunch">lunch</option>
+                <option value="dinner">dinner</option>
+              </select>
+            </label>
+          </div>
+          <div className="canteen-switch">
+            <label>
+              Canteen:
+              <select value={currentCanteen} onChange={handleCanteenSwitch}>
+                <option value="All">All</option>
+                <option value="business">business</option>
+                <option value="it">it</option>
+                <option value="main">main</option>
+              </select>
+            </label>
+          </div>
         </div>
-        <div className="canteen-switch">
-          <label>
-            Canteen:
-            <select value={currentCanteen} onChange={handleCanteenSwitch}>
-              <option value="All">All</option>
-              <option value="business">business</option>
-              <option value="it">it</option>
-              <option value="main">main</option>
-            </select>
-          </label>
-        </div>
-      </div>
+      ) : null}
 
-      <table className="menu-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Canteen</th>
-            <th>Quantity</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-          {menuItems.map((item) => (
-            <tr key={item._id}>
-              <td>{item.name}</td>
-              <td>{item.price}</td>
-              <td>{item.description}</td>
-              <td>{item.category}</td>
-              <td>{item.canteenname}</td>
-              <td>{item.quantity}</td>
-              <td>
-              <button className='edit-button' onClick={() => handleEdit(item._id)}>Edit</button>
-              </td>
-              <td>
-              <button className='delete-button' onClick={() => handleDelete(item.canteenname, item.category, item.foodid)}>Delete</button>
-              </td>
+      {!isEditing ? (
+        <table className="menu-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Canteen</th>
+              <th>Quantity</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {menuItems.map((item) => (
+              <tr key={item._id}>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td>{item.description}</td>
+                <td>{item.category}</td>
+                <td>{item.canteenname}</td>
+                <td>{item.quantity}</td>
+                <td>
+                  <button className="edit-button" onClick={() => handleEdit(item._id)}>
+                    Edit
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDelete(item.canteenname, item.category, item.foodid)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <form className="edit-form">
+          <label>
+            Price:
+            <input
+              type="text"
+              value={editedPrice}
+              onChange={(e) => setEditedPrice(e.target.value)}
+            />
+          </label>
+          <label>
+            Description:
+            <input
+              type="text"
+              value={editedDescription}
+              onChange={(e) => setEditedDescription(e.target.value)}
+            />
+          </label>
+          <div>
+            <button className="save-button" onClick={handleSaveEdit}>
+              Save
+            </button>
+            <button className="cancel-button" onClick={handleCancelEdit}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 };
+
 export default SeeMenuAdmin;
