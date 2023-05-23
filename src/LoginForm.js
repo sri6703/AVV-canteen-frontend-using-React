@@ -25,8 +25,31 @@ function LoginForm(props) {
   
  
   const handleLoginSubmit = async (e) => {
-    setUserType(userType);
-    handleLoginSuccess(userType, loginId);
+    e.preventDefault();
+    const URL = userType === 'user' ? 'login-page/' : 'admin-login-page/';
+    try {
+      const response = await axios.get(URL);
+      const data = response.data;
+      console.log(data);
+      const isLoginValid = userType === 'user'
+        ? data.some((i) => i.regno === loginId)
+        : data.some((i) => i.email === loginId);
+      if (isLoginValid) {
+        const isPasswordCorrect = data.some((i) => i.pwd === loginPassword);
+        if (isPasswordCorrect) {
+          setLoginStatus('Logged in Successfully!!');
+          setUserType(userType);
+          handleLoginSuccess(userType, loginId);
+        } else {
+          setLoginStatus('Password incorrect!'); 
+        }
+      } else { 
+        setLoginStatus('User ID incorrect!');
+      }
+    } catch (error) {
+      console.error(error);
+      // Handle error
+    }
   };
   
   const handleSignupSubmit = async (e) => {

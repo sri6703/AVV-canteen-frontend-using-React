@@ -4,6 +4,9 @@ import './AccountSettings.css';
 
 const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [name, setName] = useState('John Doe');
+  const [phoneno, setphoneno] = useState('John Doe');
+  const [gender, setgender] = useState('John Doe');
+  const [address, setaddress] = useState('John Doe');
   const [password, setPassword] = useState('');
   const [Email, setEmail] = useState('sample@gmail.com');
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
@@ -51,7 +54,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
     event.preventDefault();
     try {
       // Call API to update user profile using state values
-      const response = await axios.patch(`login-page/${userid}`, { name });
+      const response = await axios.patch(`login-page/${userid}`, { name,phoneno,address,gender });
       alert(response.data.message);
       setIsEditProfile(false); // Hide the edit form after successful update
     } catch (error) {
@@ -123,6 +126,27 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 id="email"
                 value={Email}
                 onChange={(event) => setEmail(event.target.value)}
+              />
+              <label htmlFor="phoneno">Phoneno: </label>
+              <input
+                type="text"
+                id="phoneno"
+                value={phoneno}
+                onChange={(event) => setphoneno(event.target.value)}
+              />
+              <label htmlFor="gender">Gender: </label>
+              <input
+                type="text"
+                id="gender"
+                value={gender}
+                onChange={(event) => setgender(event.target.value)}
+              />
+              <label htmlFor="address">address: </label>
+              <input
+                type="text"
+                id="address"
+                value={address}
+                onChange={(event) => setaddress(event.target.value)}
               />
             </div>
             <br />
