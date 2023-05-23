@@ -50,6 +50,7 @@ function LoginForm(props) {
       console.error(error);
       // Handle error
     }
+
   };
   
   const handleSignupSubmit = async (e) => {
@@ -232,10 +233,10 @@ function LoginForm(props) {
             onChange={(e) => setLoginPassword(e.target.value)}
           />
         </div>
-        <button type="submit" style={{ marginTop: '10px' }}>
+        <button class="reactive-button" type="submit" style={{ marginTop: '10px'}}>
           Log In
         </button>
-        <button type="button" onClick={() => setFormType('forgot')} style={{ marginTop: '10px' }}>
+        <button class="reactive-button" type="button" onClick={() => setFormType('forgot')} style={{ marginTop: '10px' }}>
           Forgot Password
         </button>
         <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden', marginTop: '10px' }}>{loginStatus}</p>
@@ -263,7 +264,7 @@ function LoginForm(props) {
         </>
       )}
       </form>
-      <button onClick={toggleFormType}>
+      <button class="reactive-button" onClick={toggleFormType}>
         { formType === 'login'
           ? "Don't have an account? Sign up"
           : formType === 'signup'

@@ -36,7 +36,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header />
+      <Header isLoggedIn={isLoggedIn} />
       <main>
         {!isLoggedIn ? (
           showLoginPage ? (
@@ -73,7 +73,7 @@ function App() {
           </div>
         )}
       </main>
-      <Footer />
+      <Footer isLoggedIn={isLoggedIn} />
     </div>
   );
 }
