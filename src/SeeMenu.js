@@ -6,6 +6,7 @@ const SeeMenu = ({ userid }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [currentCanteen, setCurrentCanteen] = useState('All');
   const [currentCategory, setCurrentCategory] = useState('All');
+  const [currentRating, setCurrentRating] = useState(0);
 
   const [cartItems, setCartItems] = useState([]);
 
@@ -88,6 +89,10 @@ const SeeMenu = ({ userid }) => {
     setCurrentCategory(event.target.value);
   };
 
+  const handleRating = (rating) => {
+    setCurrentRating(rating);
+  };
+
   return (
     <div className="menu-container">
       <div className="filters">
@@ -115,9 +120,9 @@ const SeeMenu = ({ userid }) => {
         </div>
       </div>
 
-      <div className="menu-cards">
-        {menuItems.map((item) => (
-          <div className="menu-card" key={item._id}>
+      {menuItems.map((item) => (
+        <div className="menu-cards" key={item._id}>
+          <div className="menu-card">
             <div className="menu-card-image">
               <img src={item.imageUrl} alt={item.name} />
             </div>
@@ -131,14 +136,32 @@ const SeeMenu = ({ userid }) => {
                 <p>Exist Quantity: {item.exist_quantity}</p>
               </div>
               <div className="menu-card-actions">
+                <div className="menu-card-rating">
+                  <label>Ratings:</label>
+                  <span className="rating-star" onClick={() => handleRating(1)}>
+                    {currentRating >= 1 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(2)}>
+                    {currentRating >= 2 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(3)}>
+                    {currentRating >= 3 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(4)}>
+                    {currentRating >= 4 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(5)}>
+                    {currentRating >= 5 ? '★' : '☆'}
+                  </span>
+                </div>
                 <button onClick={() => handleAddToCart(item._id)} disabled={item.exist_quantity === 0}>
                   Add to Cart
                 </button>
               </div>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };
