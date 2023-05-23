@@ -6,40 +6,55 @@ const SeeCart = ({ userid }) => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await axios.get(`/addtocart/${userid}`);
-        console.log(response.data);
-        
-        const data = response.data.map(item => ({
-          _id: item._id,
-          name: item.item && item.item.name,
-          description: item.item && item.item.description,
-          price: item.item && item.item.price,
-          quantity: item.quantity
-        })).filter(item => item.name !== null); // Filter out items with null names
-        
-        console.log(data);
-        setCartItems(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };    
     fetchCartItems();
-  }, [userid]);
+  }, []);
 
-  const handleDeleteItem = async (itemId) => {
+  const fetchCartItems = async () => {
     try {
-      await axios.delete(`/api/cart/${itemId}`);
-      setCartItems(cartItems.filter((item) => item._id !== itemId));
+      const response = await axios.get(`/addtocart/${userid}`);
+      const data = response.data.map(item => ({
+        _id: item._id,
+        name: item.item?.name,
+        description: item.item?.description,
+        price: item.item?.price,
+        quantity: item.quantity,
+        existingQuantity: item.item?.exist_quantity
+      })).filter(item => item.name !== null);
+      setCartItems(data);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleDeleteItem = async (itemId) => {
+    try {
+      const response = await axios.get(`/addtocart/${userid}`);
+      const data = response.data.map(item => ({
+        _id: item._id,
+        id: item.item?._id,
+        quantity: item.quantity,
+        existingQuantity: item.item?.exist_quantity,
+      }));
+      const item = data.find(item => item._id === itemId);
+      console.log(item)
+      const { _id,id, existingQuantity, quantity } = item;
+  
+      // Make a PATCH request to update the existing quantity
+      await axios.patch(`canteen/${id}/${existingQuantity + quantity}`);
+      // Delete the item from the cart
+      await axios.delete(`/addtocart/${_id}`);
+  
+      // Update the cartItems state by filtering out the deleted item
+      setCartItems(cartItems.filter(item => item._id !== itemId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+
   const handleDeleteAllItems = async () => {
     try {
-      await axios.delete('/api/cart');
+      await axios.delete('/addtocart');
       setCartItems([]);
     } catch (error) {
       console.error(error);
@@ -89,9 +104,9 @@ const SeeCart = ({ userid }) => {
         </tbody>
       </table>
       <div className="cart-total">
-        <button onClick={() => handleDeleteAllItems()}>Delete All Items</button>
+        <button onClick={handleDeleteAllItems}>Delete All Items</button>
         <p>Total: {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)}</p>
-        <button onClick={() => placeOrder()}>Place Order</button>
+        <button onClick={placeOrder}>Place Order</button>
       </div>
     </div>
   );
