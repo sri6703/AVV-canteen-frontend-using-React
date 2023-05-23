@@ -54,12 +54,33 @@ const SeeCart = ({ userid }) => {
 
   const handleDeleteAllItems = async () => {
     try {
+      // Retrieve the current items in the cart
+      const response = await axios.get(`/addtocart/${userid}`);
+      const data = response.data.map(item => ({
+        _id: item._id,
+        id: item.item?._id,
+        quantity: item.quantity,
+        existingQuantity: item.item?.exist_quantity,
+      }));
+  
+      // Update the existing quantities of all items
+      for (const item of data) {
+        const { id, existingQuantity, quantity } = item;
+  
+        // Make a PATCH request to update the existing quantity
+        await axios.patch(`canteen/${id}/${existingQuantity + quantity}`);
+      }
+  
+      // Delete all items from the cart
       await axios.delete('/addtocart');
+  
+      // Update the cartItems state
       setCartItems([]);
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   const placeOrder = () => {
     const userId = userid;
