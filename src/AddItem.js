@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./AddItem.css";
+import './AddItem.css';
 
 const AddItem = () => {
   const [itemid, setFoodId] = useState('');
@@ -11,30 +11,37 @@ const AddItem = () => {
   const [category, setCategory] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [itemstatus, setItemStatus] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     setItemStatus('');
   }, []);
-  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    const newitem = {
-      foodid : itemid,
+
+    const newItem = {
+      foodid: itemid,
       name: itemName,
-      price:price,
-      description:description,
-      category:category,
-      canteenname:canteen,
-      exist_quantity:quantity
+      price: price,
+      description: description,
+      category: category,
+      canteenname: canteen,
+      exist_quantity: quantity
+    };
+
+    try {
+      const response = await axios.post('/canteen', newItem);
+      setItemStatus(response.data.message);
+      setErrorMessage('');
+    } catch (error) {
+      console.error('Error adding item:', error);
+      setErrorMessage('Error adding item. Please try again.');
+      setItemStatus('');
     }
-    console.log(newitem)
-    const URL = 'canteen/';
-    const response = await axios.post(URL, newitem);
-    setItemStatus(response.data.message);
 
     // Reset the form inputs
+    setFoodId('');
     setItemName('');
     setDescription('');
     setPrice(0);
@@ -42,40 +49,38 @@ const AddItem = () => {
     setCategory('');
     setQuantity(0);
   };
-  
 
   return (
-    <div className="add-item-container" style={{height: '100vh'}}>
+    <div className="add-item-container" style={{ height: '100vh' }}>
       <h1>Add Item to Canteen</h1>
       <form onSubmit={handleSubmit}>
-      <div style={{ display: 'flex' }}>
-      <div style={{ margin: '10px 10px 10px 10px'}}>
-          <label htmlFor="canteen">Canteen:</label>
-         <select
-          id="canteen"
-          value={canteen}
-          onChange={(event) => setCanteen(event.target.value)}
-          >
-          <option value="">Select Canteen</option>
-          <option value="main">main</option>
-          <option value="it">IT</option>
-          <option value="business">business</option>
-        </select>
-
-        </div>
-        <div style={{ margin: '10px 10px 10px 10px'}}>
-          <label htmlFor="category">Category:</label>
-          <select
-            id="category"
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-          >
-            <option value="">Select Category</option>
-            <option value="breakfast">breakfast</option>
-            <option value="lunch">lunch</option>
-            <option value="dinner">dinner</option>
-          </select>
-        </div>
+        <div style={{ display: 'flex' }}>
+          <div style={{ margin: '10px 10px 10px 10px' }}>
+            <label htmlFor="canteen">Canteen:</label>
+            <select
+              id="canteen"
+              value={canteen}
+              onChange={(event) => setCanteen(event.target.value)}
+            >
+              <option value="">Select Canteen</option>
+              <option value="main">main</option>
+              <option value="it">IT</option>
+              <option value="business">business</option>
+            </select>
+          </div>
+          <div style={{ margin: '10px 10px 10px 10px' }}>
+            <label htmlFor="category">Category:</label>
+            <select
+              id="category"
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
+            >
+              <option value="">Select Category</option>
+              <option value="breakfast">breakfast</option>
+              <option value="lunch">lunch</option>
+              <option value="dinner">dinner</option>
+            </select>
+          </div>
         </div>
         <div>
           <label htmlFor="foodid">Food ID:</label>
@@ -112,7 +117,6 @@ const AddItem = () => {
             onChange={(event) => setPrice(Number(event.target.value))}
           />
         </div>
-
         <div>
           <label htmlFor="quantity">Quantity (Stock):</label>
           <input
@@ -124,11 +128,10 @@ const AddItem = () => {
         </div>
         <br />
         <div>
-        <button type="submit">Add Item</button>
+          <button type="submit">Add Item</button>
         </div>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         {itemstatus && <p>{itemstatus}</p>}
-
-        
       </form>
     </div>
   );
