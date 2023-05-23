@@ -9,20 +9,22 @@ const SeeCart = ({ userid }) => {
     const fetchCartItems = async () => {
       try {
         const response = await axios.get(`/addtocart/${userid}`);
-        console.log(response.data)
+        console.log(response.data);
+        
         const data = response.data.map(item => ({
           _id: item._id,
-          name: item.item.name,
-          description: item.item.description,
-          price: item.item.price,
+          name: item.item && item.item.name,
+          description: item.item && item.item.description,
+          price: item.item && item.item.price,
           quantity: item.quantity
-        }));
-        console.log(data)
+        })).filter(item => item.name !== null); // Filter out items with null names
+        
+        console.log(data);
         setCartItems(data);
       } catch (error) {
         console.error(error);
       }
-    };
+    };    
     fetchCartItems();
   }, [userid]);
 
