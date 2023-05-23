@@ -1,5 +1,4 @@
 footer {
-    background-color: #A4123F;
     height: 30px;
     display: flex;
     justify-content: center;
@@ -13,7 +12,6 @@ footer {
   
   footer p {
     font-size: 0.8rem;
-    color: white; /* Amrita Pantone */
     margin: 0;
   }
  

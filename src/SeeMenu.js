@@ -22,7 +22,7 @@ const SeeMenu = ({ userid }) => {
       const response = await axios.get(url);
       const formattedData = response.data.map((item) => ({
         _id: item._id,
-        foodid: item.foodid,
+        foodid: item.foodid, 
         name: item.name,
         price: item.price,
         description: item.description,
@@ -60,6 +60,7 @@ const SeeMenu = ({ userid }) => {
 
     try {
       const ex = selectedItem.exist_quantity - 1;
+      const qn = selectedItem.quantity + 1;
       if (currentCategory === 'All' && currentCanteen === 'All') {
         // Make API call to update the existing quantity
         await axios.patch(`canteen/${itemId}/${ex}`);
@@ -71,7 +72,7 @@ const SeeMenu = ({ userid }) => {
       await axios.post('addtocart/', {
         userid: userid,
         itemId: selectedItem._id,
-        quantity: selectedItem.quantity,
+        quantity: qn,
       });
 
       // Handle the API call responses as needed
