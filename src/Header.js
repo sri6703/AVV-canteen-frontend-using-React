@@ -2,11 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import "./Header.css";
 
-function Header() {
+function Header({ isLoggedIn }) { 
+  const backgroundColor = isLoggedIn ? '#A4123F' : 'white';
+  const color = isLoggedIn ? 'white' : '#A4123F';
+  
   return (
-    <header>
+    <header style={{ backgroundColor, color }}>
       <nav>
-        <div className="logo" >
+        <div className="logo">
           <h2>Amrita University Canteen Management</h2>
         </div>
       </nav>
@@ -15,11 +18,3 @@ function Header() {
 }
 
 export default Header;
-
-/*
-            <li><Link to="/">See Menu</Link></li>
-            <li><Link to="/">Add Item</Link></li>
-            <li><Link to="/">CanteenStats</Link></li>
-            <li><Link to="/">Edit Profile</Link></li>
-            <li><Link to="/">Log Out</Link></li>
-*/

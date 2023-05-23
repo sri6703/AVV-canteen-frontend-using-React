@@ -50,6 +50,7 @@ function LoginForm(props) {
       console.error(error);
       // Handle error
     }
+
   };
   
   const handleSignupSubmit = async (e) => {
