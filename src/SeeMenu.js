@@ -6,6 +6,7 @@ const SeeMenu = ({ userid }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [currentCanteen, setCurrentCanteen] = useState('All');
   const [currentCategory, setCurrentCategory] = useState('All');
+  const [currentRating, setCurrentRating] = useState(0);
 
   const [cartItems, setCartItems] = useState([]);
 
@@ -16,9 +17,9 @@ const SeeMenu = ({ userid }) => {
         url += `${currentCategory}`;
       }
       if (currentCanteen !== 'All') {
-        url +=  `/${currentCanteen}/`;
+        url += `/${currentCanteen}/`;
       }
-      const response = await axios.get(url);                
+      const response = await axios.get(url);
       const formattedData = response.data.map((item) => ({
         _id: item._id,
         foodid: item.foodid,
@@ -28,7 +29,8 @@ const SeeMenu = ({ userid }) => {
         category: item.category,
         canteenname: item.canteenname,
         exist_quantity: item.exist_quantity,
-        quantity: 0
+        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2-aDfNoRp2H9pztkTOo_h5rwxCe6guDO4i9_iBi1Pmw&s',
+        quantity: 0,
       }));
       setMenuItems(formattedData);
     } catch (error) {
@@ -52,35 +54,32 @@ const SeeMenu = ({ userid }) => {
       return item;
     });
     setMenuItems(updatedMenuItems);
-  
+
     const selectedItem = menuItems.find((item) => item._id === itemId);
     setCartItems((prevCartItems) => [...prevCartItems, selectedItem]);
-  
+
     try {
       const ex = selectedItem.exist_quantity - 1;
       if (currentCategory === 'All' && currentCanteen === 'All') {
         // Make API call to update the existing quantity
         await axios.patch(`canteen/${itemId}/${ex}`);
       } else {
-        await axios.patch(
-          `canteen/${currentCanteen}/${currentCategory}/${itemId}/${ex}`
-        );
+        await axios.patch(`canteen/${currentCanteen}/${currentCategory}/${itemId}/${ex}`);
       }
-      console.log(userid,selectedItem._id,selectedItem.quantity)
+
       // Make API call to store the selected item in the database
       await axios.post('addtocart/', {
         userid: userid,
         itemId: selectedItem._id,
         quantity: selectedItem.quantity,
       });
-  
+
       // Handle the API call responses as needed
     } catch (error) {
       console.error(error);
       // Handle any errors that occur during the API calls
     }
   };
-  
 
   const handleCanteenSwitch = (event) => {
     setCurrentCanteen(event.target.value);
@@ -88,6 +87,10 @@ const SeeMenu = ({ userid }) => {
 
   const handleCategorySwitch = (event) => {
     setCurrentCategory(event.target.value);
+  };
+
+  const handleRating = (rating) => {
+    setCurrentRating(rating);
   };
 
   return (
@@ -117,41 +120,48 @@ const SeeMenu = ({ userid }) => {
         </div>
       </div>
 
-      <table className="menu-table">
-        <thead>
-          <tr>
-          <th>Food-Id</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Canteen</th>
-            <th>Exist Quantity</th>
-            <th>Add to Cart</th>
-          </tr>
-        </thead>
-        <tbody>
-        {menuItems.map((item) => (
-            <tr key={item._id}>
-              <td>{item.foodid}</td>
-              <td>{item.name}</td>
-              <td>{item.price}</td>
-              <td>{item.description}</td>
-              <td>{item.category}</td>
-              <td>{item.canteenname}</td>
-              <td>{item.exist_quantity}</td>
-              <td>
-                <button
-                  onClick={() => handleAddToCart(item._id)}
-                  disabled={item.exist_quantity === 0} // Disable button when exist_quantity is 0
-                >
+      {menuItems.map((item) => (
+        <div className="menu-cards" key={item._id}>
+          <div className="menu-card">
+            <div className="menu-card-image">
+              <img src={item.imageUrl} alt={item.name} />
+            </div>
+            <div className="menu-card-content">
+              <div className="menu-card-info">
+                <h3>{item.name}</h3>
+                <p>Price: {item.price}</p>
+                <p>Category: {item.category}</p>
+                <p>Canteen: {item.canteenname}</p>
+                <p>Description: {item.description}</p>
+                <p>Exist Quantity: {item.exist_quantity}</p>
+              </div>
+              <div className="menu-card-actions">
+                <div className="menu-card-rating">
+                  <label>Ratings:</label>
+                  <span className="rating-star" onClick={() => handleRating(1)}>
+                    {currentRating >= 1 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(2)}>
+                    {currentRating >= 2 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(3)}>
+                    {currentRating >= 3 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(4)}>
+                    {currentRating >= 4 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(5)}>
+                    {currentRating >= 5 ? '★' : '☆'}
+                  </span>
+                </div>
+                <button onClick={() => handleAddToCart(item._id)} disabled={item.exist_quantity === 0}>
                   Add to Cart
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

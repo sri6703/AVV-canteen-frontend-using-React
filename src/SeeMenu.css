@@ -1,25 +1,21 @@
 .menu-container {
   align-items: center;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin-bottom: 1rem;
 }
 
 .filters {
   display: flex;
   margin-bottom: 1rem;
-  width: 80%;
-  margin-top: 10px;
-  margin-left: 25%;
 }
- 
-.canteen-switch,
-.category-switch {
+
+.category-switch,
+.canteen-switch {
   display: flex;
   align-items: center;
   color: #fff;
   margin-right: 1rem;
-}  
+}
 
 .category-switch select,
 .canteen-switch select {
@@ -36,35 +32,60 @@
   margin-right: 10px;
 }
 
-.menu-table {
-  width: 80%;
-  border-collapse: collapse;
+.menu-cards {
+  width: 50%;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-top: 20px;
-  margin-left: 10%;
-  margin-right: 10%;
 }
 
-.menu-table th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  text-align: left;
-  padding: 10px;
-}
-
-.menu-table td {
-  border: 0px;
-  padding: 10px;
+.menu-card {
   background-color: #bbb;
   color: #000;
-}
-
-.add-to-cart {
+  margin: 10px;
+  padding: 10px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
-.filters button,
-.add-to-cart button {
+.menu-card-image {
+  width: 100%;
+  max-width: 200px;
+  margin-right: 20px;
+}
+
+.menu-card-content {
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-grow: 1;
+
+}
+
+.menu-card-info h3 {
+  margin-top: 0;
+}
+
+.menu-card-info p {
+  margin-bottom: 5px;
+}
+.menu-card-right-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  flex-grow: 1;
+}
+
+.menu-card-ratings {
+  margin-bottom: 10px;
+}
+.menu-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.menu-card-actions button {
   background-color: #f2f2f2;
   color: #A4123F;
   border: none;
@@ -78,23 +99,8 @@
   font-size: medium;
   font-weight: bold;
 }
-.add-to-cart button {
-  background-color: #A4123F;
-  color: #fff;
-}
-.filters button {
-  background-color: #f2f2f2;
-  color: #A4123F;
-}
 
-.filters button:hover {
-background-color: #ddd;
-}
-
-.add-to-cart button:hover {
-  background-color: #b55471;
-}
-
-.add-to-cart span {
-  margin: 0 10px;
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
