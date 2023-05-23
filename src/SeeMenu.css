@@ -12,9 +12,9 @@
   margin-top: 10px;
   margin-left: 25%;
 }
- 
-.canteen-switch,
-.category-switch {
+
+.category-switch,
+.canteen-switch {
   display: flex;
   align-items: center;
   color: #fff;
@@ -36,35 +36,43 @@
   margin-right: 10px;
 }
 
-.menu-table {
-  width: 80%;
-  border-collapse: collapse;
+.menu-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   margin-top: 20px;
-  margin-left: 10%;
-  margin-right: 10%;
 }
 
-.menu-table th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  text-align: left;
-  padding: 10px;
-}
-
-.menu-table td {
-  border: 0px;
-  padding: 10px;
+.menu-card {
+  width: 400px;
   background-color: #bbb;
   color: #000;
-}
-
-.add-to-cart {
+  margin: 10px;
+  padding: 10px;
   display: flex;
   align-items: center;
+  float: left;
 }
 
-.filters button,
-.add-to-cart button {
+.menu-image {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.menu-details {
+  flex-grow: 1;
+}
+
+.menu-details h2 {
+  margin-top: 0;
+}
+
+.menu-details p {
+  margin-bottom: 5px;
+}
+
+button {
   background-color: #f2f2f2;
   color: #A4123F;
   border: none;
@@ -78,23 +86,8 @@
   font-size: medium;
   font-weight: bold;
 }
-.add-to-cart button {
-  background-color: #A4123F;
-  color: #fff;
-}
-.filters button {
-  background-color: #f2f2f2;
-  color: #A4123F;
-}
 
-.filters button:hover {
-background-color: #ddd;
-}
-
-.add-to-cart button:hover {
-  background-color: #b55471;
-}
-
-.add-to-cart span {
-  margin: 0 10px;
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
