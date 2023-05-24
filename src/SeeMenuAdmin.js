@@ -23,7 +23,6 @@ const SeeMenuAdmin = () => {
       console.log(url);
       const response = await axios.get(url);
       const formattedData = response.data.map((item) => ({
-        _id: item._id,
         foodid: item.foodid,
         name: item.name,
         price: item.price,
@@ -52,32 +51,52 @@ const SeeMenuAdmin = () => {
   };
 
   const handleEdit = (itemId) => {
-    const itemToEdit = menuItems.find((item) => item._id === itemId);
-    setEditingItemId(itemId);
+    const itemToEdit = menuItems.find((item) => item.foodid === itemId);
+    setEditingItemId(itemToEdit.foodid);
     setEditedPrice(itemToEdit.price);
     setEditedDescription(itemToEdit.description);
     setIsEditing(true);
   };
 
-  const handleSaveEdit = async () => {
+
+  const handleSaveEdit = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+  
     try {
-      const response = await axios.patch(`canteen/${editingItemId}`, {
+      const url = `canteen/${editingItemId}`;
+      const response = await axios.patch(url, {
         price: editedPrice,
         description: editedDescription,
       });
+      console.log('Updated Item:', response.data);
       const updatedItem = response.data;
-      const newMenuItems = menuItems.map((item) =>
-        item._id === updatedItem._id ? updatedItem : item
+  
+      setMenuItems((prevMenuItems) =>
+        prevMenuItems.map((item) =>
+          item.foodid === updatedItem.foodid ? updatedItem : item
+        )
       );
-      setMenuItems(newMenuItems);
+  
       setEditingItemId(null);
       setEditedPrice('');
       setEditedDescription('');
       setIsEditing(false);
+
+      await fetchMenuItems();
     } catch (error) {
-      console.error(error);
+      console.error('Error updating item:', error);
+      console.log('Updated Item:', {
+        foodid: editingItemId,
+        price: editedPrice,
+        description: editedDescription,
+      });
     }
   };
+  
+  
+
+
+
 
   const handleCancelEdit = () => {
     setEditingItemId(null);
@@ -147,7 +166,7 @@ const SeeMenuAdmin = () => {
           </thead>
           <tbody>
             {menuItems.map((item) => (
-              <tr key={item._id}>
+              <tr key={item.foodid}>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td>{item.description}</td>
@@ -155,7 +174,7 @@ const SeeMenuAdmin = () => {
                 <td>{item.canteenname}</td>
                 <td>{item.quantity}</td>
                 <td>
-                  <button className="edit-button" onClick={() => handleEdit(item._id)}>
+                  <button className="edit-button" onClick={() => handleEdit(item.foodid)}>
                     Edit
                   </button>
                 </td>

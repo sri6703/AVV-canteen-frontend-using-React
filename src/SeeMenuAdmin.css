@@ -46,7 +46,7 @@
 }
 
 .menu-table th {
-  background-color: #f2f2f2;
+  background-color: rgb(236, 211, 188);
   font-weight: bold;
   text-align: left;
   padding: 10px;
@@ -55,7 +55,7 @@
 .menu-table td {
   border: 0px;
   padding: 10px;
-  background-color: #bbb;
+  background-color: #f7dddd;
   color: #000;
 }
 
@@ -90,10 +90,17 @@
   width: 100px;
   font-size: medium;
   font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: transparent;
+  color: green;
+  border: 2px solid green !important; /* Add the border property with red color */
 }
 
 .delete-button {
-  background-color: red;
+  background-color: #f0094a;
   color: white;
   border: none;
   padding: 5px;
@@ -103,6 +110,13 @@
   width: 100px;
   font-size: medium;
   font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: transparent;
+  color: #f0094a;
+  border: 2px solid #f0094a !important; /* Add the border property with red color */
 }
 
 
@@ -115,13 +129,9 @@
 background-color: #ddd;
 }
 
-.edit-button:hover {
-  background-color: rgb(62, 172, 62);
-}
 
-.delete-button:hover {
-  background-color: rgb(245, 92, 92);
-}
+
+
 
 .edit-form {
   display: flex;
