@@ -99,7 +99,6 @@ const SeeMenu = ({ userid }) => {
       <div className="filters">
         <div className="category-switch">
           <label>
-          {"\n"}{"\n"}
             Category:
             <select value={currentCategory} onChange={handleCategorySwitch}>
               <option value="All">All</option>
@@ -129,45 +128,39 @@ const SeeMenu = ({ userid }) => {
               <img src={item.imageUrl} alt={item.name} />
             </div>
             <div className="menu-card-content">
+                <h3>{item.name}</h3>
+                Rs.{item.price}.00/-<br />
+                {item.category}             
+             </div> 
               <div className="menu-card-info">
-                <div className="menu-card-column">
-                  <h3>{item.name}</h3>
-                  <p className="price">Price: {item.price}</p>
-                  <p className="category">Category: {item.category}</p>
-                </div>
-                <div className="menu-card-column">
-                <div className="menu-card-column1">
-                  <p className="canteen">Canteen: {item.canteenname}</p>
-                  <p className="description">Description: {item.description}</p>
-                  <p className="quantity">Exist Quantity: {item.exist_quantity}</p>
-                </div></div>
-                <div className="menu-card-column">
-                  <div className="menu-card-ratings">
-                    <label>Ratings:</label>
-                    <span className="rating-star" onClick={() => handleRating(1)}>
-                      {currentRating >= 1 ? '★' : '☆'}
-                    </span>
-                    <span className="rating-star" onClick={() => handleRating(2)}>
-                      {currentRating >= 2 ? '★' : '☆'}
-                    </span>
-                    <span className="rating-star" onClick={() => handleRating(3)}>
-                      {currentRating >= 3 ? '★' : '☆'}
-                    </span>
-                    <span className="rating-star" onClick={() => handleRating(4)}>
-                      {currentRating >= 4 ? '★' : '☆'}
-                    </span>
-                    <span className="rating-star" onClick={() => handleRating(5)}>
-                      {currentRating >= 5 ? '★' : '☆'}
-                    </span>
-                  </div>
-                  <div className="menu-card-actions">
-                    <button onClick={() => handleAddToCart(item._id)} disabled={item.exist_quantity === 0}>
-                      Add to Cart
-                    </button>
-                  </div>
-                </div>
+                <p>Canteen: {item.canteenname}</p>
+                <p>Description: {item.description}</p>
+                <p>In stock: {item.exist_quantity}</p>
               </div>
-            </div>
+              <div className="menu-card-actions">
+                <div className="menu-card-rating">
+                  <label>Ratings:</label>
+                  <span className="rating-star" onClick={() => handleRating(1)}>
+                    {currentRating >= 1 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(2)}>
+                    {currentRating >= 2 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(3)}>
+                    {currentRating >= 3 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(4)}>
+                    {currentRating >= 4 ? '★' : '☆'}
+                  </span>
+                  <span className="rating-star" onClick={() => handleRating(5)}>
+                    {currentRating >= 5 ? '★' : '☆'}
+                  </span>
+                </div>
+                <hr />
+                <button onClick={() => handleAddToCart(item._id)} disabled={item.exist_quantity === 0}>
+                  Add to Cart
+                </button>
+              </div>
           </div>
         </div>
       ))}
