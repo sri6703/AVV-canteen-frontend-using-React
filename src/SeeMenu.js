@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './SeeMenu.css';
 
@@ -7,10 +7,9 @@ const SeeMenu = ({ userid }) => {
   const [currentCanteen, setCurrentCanteen] = useState('All');
   const [currentCategory, setCurrentCategory] = useState('All');
   const [currentRating, setCurrentRating] = useState(0);
-
   const [cartItems, setCartItems] = useState([]);
 
-  const fetchMenuItems = async () => {
+  const fetchMenuItems = useCallback(async () => {
     try {
       let url = 'canteen/';
       if (currentCategory !== 'All') {
@@ -22,65 +21,98 @@ const SeeMenu = ({ userid }) => {
       const response = await axios.get(url);
       const formattedData = response.data.map((item) => ({
         _id: item._id,
-        foodid: item.foodid, 
+        foodid: item.foodid,
         name: item.name,
         price: item.price,
         description: item.description,
         category: item.category,
         canteenname: item.canteenname,
         exist_quantity: item.exist_quantity,
-        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2-aDfNoRp2H9pztkTOo_h5rwxCe6guDO4i9_iBi1Pmw&s',
-        quantity: 0,
+        imageUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2-aDfNoRp2H9pztkTOo_h5rwxCe6guDO4i9_iBi1Pmw&s',
       }));
       setMenuItems(formattedData);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [currentCanteen, currentCategory]);
 
   useEffect(() => {
     fetchMenuItems();
-  }, [currentCanteen, currentCategory]);
+  }, [fetchMenuItems]);
 
-  const handleAddToCart = async (itemId) => {
-    const updatedMenuItems = menuItems.map((item) => {
-      if (item._id === itemId && item.exist_quantity > 0) {
-        return {
-          ...item,
-          exist_quantity: item.exist_quantity - 1,
-          quantity: item.quantity + 1,
-        };
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await axios.get(`addtocart/${userid}`);
+        const fetchedCartItems = response.data;
+        setCartItems(fetchedCartItems);
+      } catch (error) {
+        console.error(error);
       }
-      return item;
-    });
-    setMenuItems(updatedMenuItems);
+    };
 
-    const selectedItem = menuItems.find((item) => item._id === itemId);
-    setCartItems((prevCartItems) => [...prevCartItems, selectedItem]);
+    fetchCartItems();
+  }, [userid]);
 
-    try {
-      const ex = selectedItem.exist_quantity - 1;
-      const qn = selectedItem.quantity + 1;
-      if (currentCategory === 'All' && currentCanteen === 'All') {
-        // Make API call to update the existing quantity
-        await axios.patch(`canteen/${itemId}/${ex}`);
-      } else {
-        await axios.patch(`canteen/${currentCanteen}/${currentCategory}/${itemId}/${ex}`);
-      }
-
-      // Make API call to store the selected item in the database
-      await axios.post('addtocart/', {
-        userid: userid,
-        itemId: selectedItem._id,
-        quantity: qn,
+  const handleAddToCart = useCallback(
+    async (itemId) => {
+      const updatedMenuItems = menuItems.map((item) => {
+        if (item._id === itemId && item.exist_quantity > 0) {
+          return {
+            ...item,
+            exist_quantity: item.exist_quantity - 1,
+          };
+        }
+        return item;
       });
 
-      // Handle the API call responses as needed
-    } catch (error) {
-      console.error(error);
-      // Handle any errors that occur during the API calls
-    }
-  };
+      setMenuItems(updatedMenuItems);
+
+      const selectedItem = updatedMenuItems.find((item) => item._id === itemId);
+      setCartItems((prevCartItems) => [...prevCartItems, selectedItem]);
+
+      try {
+        let qn = 0;
+        const response = await axios.get(`addtocart/${userid}/${itemId}`);
+if (response.data.quantity === null) {
+  qn = 0;
+} else {
+  const existingQuantity = response.data.quantity;
+  qn = existingQuantity + 1;
+}
+
+        console.log(qn)
+        const ex = selectedItem.exist_quantity - 1;
+        if (currentCategory === 'All' && currentCanteen === 'All') {
+          await axios.patch(`canteen/${itemId}/${ex}`);
+        } else {
+          await axios.patch(`canteen/${currentCanteen}/${currentCategory}/${itemId}/${ex}`);
+        }
+
+        const existingCartItem = cartItems.find((item) => item.itemId === itemId);
+
+        if (existingCartItem) {
+          // If the item already exists in the cart, update the quantity using PATCH
+          await axios.patch(`addtocart/${existingCartItem._id}`, {
+            existing_quantity: qn,
+          });
+        } else {
+          // If the item doesn't exist in the cart, create a new cart item using POST
+          await axios.post('addtocart/', {
+            userid: userid,
+            itemId: selectedItem._id,
+            quantity: qn,
+          });
+        }
+        // Handle the API call responses as needed
+      } catch (error) {
+        console.error(error);
+        // Handle any errors that occur during the API calls
+      }
+    },
+    [currentCategory, currentCanteen, menuItems, cartItems, userid]
+  );
 
   const handleCanteenSwitch = (event) => {
     setCurrentCanteen(event.target.value);
