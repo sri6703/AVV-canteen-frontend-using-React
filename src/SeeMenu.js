@@ -86,25 +86,20 @@ const SeeMenu = ({ userid }) => {
         let qn = 0;
         setIsLoading(true);
         const response = await axios.get(`addtocart/${userid}/${itemId}`);
-        setIsLoading(false);
-if (response.data.quantity === null) {
-  qn = 0;
-} else {
-  const existingQuantity = response.data.quantity;
-  qn = existingQuantity + 1;
-}
-
+          if (response.data.quantity === null) {
+            qn = 0;
+          } else {
+            const existingQuantity = response.data.quantity;
+            qn = existingQuantity + 1;
+          }
         const ex = selectedItem.exist_quantity ;
-        setIsLoading(true);
         if (currentCategory === 'All' && currentCanteen === 'All') {
           await axios.patch(`canteen/${itemId}/${ex}`);
         } else {
           await axios.patch(`canteen/${currentCanteen}/${currentCategory}/${itemId}/${ex}`);
         }
-        setIsLoading(false);
 
         const existingCartItem = cartItems.find((item) => item.itemId === itemId);
-        setIsLoading(true);
         if (existingCartItem) {
           // If the item already exists in the cart, update the quantity using PATCH
           await axios.patch(`addtocart/${existingCartItem._id}`, {
@@ -123,6 +118,7 @@ if (response.data.quantity === null) {
       } catch (error) {
         console.error(error);
         // Handle any errors that occur during the API calls
+        setIsLoading(false);
       }
     },
     [currentCategory, currentCanteen, menuItems, cartItems, userid]
