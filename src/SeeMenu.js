@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './SeeMenu.css';
 import Loading from "./loading.js";
-
 const SeeMenu = ({ userid }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [currentCanteen, setCurrentCanteen] = useState('All');
@@ -83,21 +82,16 @@ const SeeMenu = ({ userid }) => {
         setIsLoading(true);
         let qn = 0;
         const response = await axios.get(`addtocart/${userid}/${itemId}`);
-        if (response.data.quantity === null) {
-          qn = 0;
-        } else {
-          const existingQuantity = response.data.quantity;
-          qn = existingQuantity + 1;
-        }
+if (response.data.quantity === null) {
+  qn = 0;
+} else {
+  const existingQuantity = response.data.quantity;
+  qn = existingQuantity + 1;
+}
         setIsLoading(false);
 
-<<<<<<< HEAD
-        const ex = selectedItem.exist_quantity ;
-=======
-        console.log(qn)
         const ex = selectedItem.exist_quantity - 1;
         setIsLoading(true);
->>>>>>> 2188311845c92a525f145e434d1e614c53b3c0d5
         if (currentCategory === 'All' && currentCanteen === 'All') {
           await axios.patch(`canteen/${itemId}/${ex}`);
         } else {
