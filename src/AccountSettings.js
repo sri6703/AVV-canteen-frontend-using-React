@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AccountSettings.css';
+import Loading from "./loading.js";
 
 const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [name, setName] = useState('John Doe');
@@ -18,6 +19,8 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [isChangePassword, setIsChangePassword] = useState(false);
   const [isDeleteAccount, setIsDeleteAccount] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChangePasswordSubmit = async (event) => {
     event.preventDefault();
@@ -39,27 +42,33 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
     setErrorMessage('');
     try {
       // Call API to change user password using state values
+      setIsLoading(true);
       const response = await axios.put(
         `login-page/${userid}/${currentPassword}/${newPassword}`
       );
+      setIsLoading(false);
       alert(response.data.message);
       setIsChangePassword(false); // Reset the state after successful password change
     } catch (error) {
       console.error('Error changing password:', error);
       alert('Failed to change password. Please try again.');
+      setIsLoading(false);
     }
   };
 
   const handleEditProfileSubmit = async (event) => {
     event.preventDefault();
     try {
+      setIsLoading(true);
       // Call API to update user profile using state values
       const response = await axios.patch(`login-page/${userid}`, { name,phoneno,address,gender });
       alert(response.data.message);
       setIsEditProfile(false); // Hide the edit form after successful update
+      setIsLoading(false);
     } catch (error) {
       console.error('Error updating profile:', error);
       alert('Failed to update profile. Please try again.');
+      setIsLoading(false);
     }
   };
 
@@ -69,21 +78,27 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
       try {
         // Get the rollno value from your application logic or user input
         // Replace getRollno() with your logic
-
+        setIsLoading(true);
         // Call API to delete user account using the rollno value
         const response = await axios.delete(`login-page/${userid}`);
         alert(response.data.message);
         // TODO: Logout user
         SetIsLoggedIn(false);
         userid = '';
+        setIsLoading(false);
       } catch (error) {
         console.error('Error deleting account:', error);
         alert('Failed to delete account. Please try again.');
+        setIsLoading(false);
       }
     } else {
       alert('Please confirm delete by typing DELETE in the confirmation box.');
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="account-settings-container">

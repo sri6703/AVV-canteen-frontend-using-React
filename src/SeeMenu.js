@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SeeMenu.css';
+import Loading from "./loading.js";
 
 const SeeMenu = ({ userid }) => {
   const [menuItems, setMenuItems] = useState([]);
@@ -9,6 +10,7 @@ const SeeMenu = ({ userid }) => {
   const [currentRating, setCurrentRating] = useState(0);
 
   const [cartItems, setCartItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchMenuItems = async () => {
     try {
@@ -19,6 +21,8 @@ const SeeMenu = ({ userid }) => {
       if (currentCanteen !== 'All') {
         url += `/${currentCanteen}/`;
       }
+      setIsLoading(true);
+
       const response = await axios.get(url);
       const formattedData = response.data.map((item) => ({
         _id: item._id,
@@ -33,8 +37,10 @@ const SeeMenu = ({ userid }) => {
         quantity: 0,
       }));
       setMenuItems(formattedData);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -63,22 +69,29 @@ const SeeMenu = ({ userid }) => {
       const qn = selectedItem.quantity + 1;
       if (currentCategory === 'All' && currentCanteen === 'All') {
         // Make API call to update the existing quantity
+        setIsLoading(true);
         await axios.patch(`canteen/${itemId}/${ex}`);
+        setIsLoading(false);
       } else {
+        setIsLoading(true);
         await axios.patch(`canteen/${currentCanteen}/${currentCategory}/${itemId}/${ex}`);
+        setIsLoading(false);
       }
 
       // Make API call to store the selected item in the database
+      setIsLoading(true);
       await axios.post('addtocart/', {
         userid: userid,
         itemId: selectedItem._id,
         quantity: qn,
       });
+      setIsLoading(false);
 
       // Handle the API call responses as needed
     } catch (error) {
       console.error(error);
       // Handle any errors that occur during the API calls
+      setIsLoading(false);
     }
   };
 
@@ -93,6 +106,10 @@ const SeeMenu = ({ userid }) => {
   const handleRating = (rating) => {
     setCurrentRating(rating);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="menu-container">

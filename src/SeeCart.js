@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SeeCart.css';
+import Loading from "./loading.js";
+
 
 const SeeCart = ({ userid }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchCartItems();
@@ -11,6 +14,7 @@ const SeeCart = ({ userid }) => {
 
   const fetchCartItems = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get(`/addtocart/${userid}`);
       const data = response.data.map(item => ({
         _id: item._id,
@@ -21,13 +25,16 @@ const SeeCart = ({ userid }) => {
         existingQuantity: item.item?.exist_quantity
       })).filter(item => item.name !== null);
       setCartItems(data);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
   const handleDeleteItem = async (itemId) => {
     try {
+      setIsLoading(true);
       const response = await axios.get(`/addtocart/${userid}`);
       const data = response.data.map(item => ({
         _id: item._id,
@@ -46,8 +53,10 @@ const SeeCart = ({ userid }) => {
   
       // Update the cartItems state by filtering out the deleted item
       setCartItems(cartItems.filter(item => item._id !== itemId));
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
   
@@ -55,6 +64,7 @@ const SeeCart = ({ userid }) => {
   const handleDeleteAllItems = async () => {
     try {
       // Retrieve the current items in the cart
+      setIsLoading(true);
       const response = await axios.get(`/addtocart/${userid}`);
       const data = response.data.map(item => ({
         _id: item._id,
@@ -62,6 +72,9 @@ const SeeCart = ({ userid }) => {
         quantity: item.quantity,
         existingQuantity: item.item?.exist_quantity,
       }));
+      setIsLoading(false);
+
+      setIsLoading(true);
   
       // Update the existing quantities of all items
       for (const item of data) {
@@ -73,11 +86,13 @@ const SeeCart = ({ userid }) => {
   
       // Delete all items from the cart
       await axios.delete('/addtocart');
+      setIsLoading(false);
   
       // Update the cartItems state
       setCartItems([]);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
   
@@ -88,14 +103,21 @@ const SeeCart = ({ userid }) => {
       itemId: _id,
       quantity,
     }));
+    setIsLoading(true);
     axios.post("/api/orders", { userId, cart })
       .then(() => {
         console.log("Order placed successfully");
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error placing order:", error);
+        setIsLoading(false);
       });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="cart-container">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AddItem.css';
+import Loading from "./loading.js";
 
 const AddItem = () => {
   const [itemid, setFoodId] = useState('');
@@ -12,6 +13,8 @@ const AddItem = () => {
   const [quantity, setQuantity] = useState(0);
   const [itemstatus, setItemStatus] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setItemStatus('');
@@ -31,13 +34,16 @@ const AddItem = () => {
     };
 
     try {
+      setIsLoading(true);
       const response = await axios.post('/canteen', newItem);
       setItemStatus(response.data.message);
       setErrorMessage('');
+      setIsLoading(false);
     } catch (error) {
       console.error('Error adding item:', error);
       setErrorMessage('Error adding item. Please try again.');
       setItemStatus('');
+      setIsLoading(false);
     }
 
     // Reset the form inputs
@@ -49,6 +55,10 @@ const AddItem = () => {
     setCategory('');
     setQuantity(0);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="add-item-container" style={{ height: '100vh' }}>
