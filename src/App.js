@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import Loginform from "./LoginForm";
+import LoginForm from "./LoginForm";
 import Navigation from "./Navigation";
 import SeeMenu from "./SeeMenu";
 import SeeMenuAdmin from "./SeeMenuAdmin";
@@ -12,7 +12,6 @@ import AccountSettings from "./AccountSettings";
 import LoginHomepage from "./LoginNext";
 
 import "./App.css";
-import LoginForm from "./LoginForm";
 
 function App() {
   const [userType, setUserType] = useState("");
@@ -20,13 +19,18 @@ function App() {
   const [showLoginPage, setShowLoginPage] = useState(false);
   const [activeComponent, setActiveComponent] = useState("Home");
   const [userid, setUserId] = useState("nil");
+  const [showNavigation, setShowNavigation] = useState(true);
 
   const toggleLoginPage = () => {
     setShowLoginPage(!showLoginPage);
     setIsLoggedIn(false);
     setUserType("");
   };
-  
+
+  const toggleNavigation = () => {
+    setShowNavigation(!showNavigation);
+  };
+
   const handleLoginSuccess = (type, id) => {
     setUserType(type);
     setIsLoggedIn(true);
@@ -34,42 +38,60 @@ function App() {
     setUserId(id);
   };
 
+  const navigationContainerStyle = {
+    width: showNavigation ? "18%" : "0",
+  };
+
+  const seeMenuContainerStyle = {
+    marginLeft: showNavigation ? "18%" : "0",
+  };
+
+  const ToggleNavigationButtonStyle = {
+    marginLeft: showNavigation ? "18%" : "0",
+  }
+
   return (
     <div className="app-container">
       <Header isLoggedIn={isLoggedIn} />
       <main>
         {!isLoggedIn ? (
           showLoginPage ? (
-            <Loginform handleLoginSuccess={handleLoginSuccess}/>
+            <LoginForm handleLoginSuccess={handleLoginSuccess} />
           ) : (
             <HomePage toggleLoginPage={toggleLoginPage} />
           )
         ) : (
-          <div className="content-container">
-            <div className="navigation-container">
-            <Navigation
-              userType={userType}
-              handleLogout={() => setIsLoggedIn(false)}
-              setActiveComponent={setActiveComponent}
-            />
+          <div className="content-container"> 
+
+            <div className="navigation-container" style={navigationContainerStyle}>
+            <div className="toggle-navigation-button" style={ToggleNavigationButtonStyle} onClick={toggleNavigation}>
+                  <button>&#9776;</button>
             </div>
-            <div className="see-menu-container">
-            {   activeComponent === "Home" ? (
-              <LoginHomepage username={userid} userType={userType} />
-            ) : activeComponent === "SeeMenu" ? (
-              <SeeMenu userid={userid} />
-            ) : activeComponent === "addItem" ? (
-              <AddItem />
-            ) : activeComponent === "SeeCart" ? (
-              <SeeCart userid={userid} />
-            ) : activeComponent === "SeeMenuAdmin" ? (
-                <SeeMenuAdmin/>
-            ) : activeComponent === "AccountSettings" ? (
-              <AccountSettings userid={userid} SetIsLoggedIn={setIsLoggedIn} />
-            ) : !isLoggedIn ? (
-              <LoginForm toggleLoginPage={toggleLoginPage} />
-            ) : null}
-          </div>
+              {showNavigation && (
+                <Navigation
+                  userType={userType}
+                  handleLogout={() => setIsLoggedIn(false)}
+                  setActiveComponent={setActiveComponent}
+                />
+              )}
+            </div>
+            <div className="see-menu-container" style={seeMenuContainerStyle}>
+              {activeComponent === "Home" ? (
+                <LoginHomepage username={userid} userType={userType} />
+              ) : activeComponent === "SeeMenu" ? (
+                <SeeMenu userid={userid} />
+              ) : activeComponent === "addItem" ? (
+                <AddItem />
+              ) : activeComponent === "SeeCart" ? (
+                <SeeCart userid={userid} />
+              ) : activeComponent === "SeeMenuAdmin" ? (
+                <SeeMenuAdmin />
+              ) : activeComponent === "AccountSettings" ? (
+                <AccountSettings userid={userid} SetIsLoggedIn={setIsLoggedIn} />
+              ) : !isLoggedIn ? (
+                <LoginForm toggleLoginPage={toggleLoginPage} />
+              ) : null}
+            </div>
           </div>
         )}
       </main>

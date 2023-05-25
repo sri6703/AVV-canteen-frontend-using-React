@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SeeMenuAdmin.css';
+import Loading from "./loading.js";
+import chefImage2 from './img/chef.gif';
 
 const SeeMenuAdmin = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -10,6 +12,9 @@ const SeeMenuAdmin = () => {
   const [editingItemId, setEditingItemId] = useState(null);
   const [editedPrice, setEditedPrice] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
+  const [editedimage, setEditedimage] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchMenuItems = async () => {
     try {
@@ -20,6 +25,7 @@ const SeeMenuAdmin = () => {
       if (currentCanteen !== 'All') {
         url += `/${currentCanteen}/`;
       }
+      setIsLoading(true);
       console.log(url);
       const response = await axios.get(url);
       const formattedData = response.data.map((item) => ({
@@ -30,11 +36,14 @@ const SeeMenuAdmin = () => {
         category: item.category,
         canteenname: item.canteenname,
         quantity: item.exist_quantity,
+        image : item.image
       }));
       setMenuItems(formattedData);
       console.log(formattedData);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -55,6 +64,7 @@ const SeeMenuAdmin = () => {
     setEditingItemId(itemToEdit.foodid);
     setEditedPrice(itemToEdit.price);
     setEditedDescription(itemToEdit.description);
+    setEditedimage(itemToEdit.description);
     setIsEditing(true);
   };
 
@@ -63,11 +73,14 @@ const SeeMenuAdmin = () => {
     event.preventDefault(); // Prevent default form submission behavior
   
     try {
+      setIsLoading(true);
       const url = `canteen/${editingItemId}`;
       const response = await axios.patch(url, {
         price: editedPrice,
         description: editedDescription,
+        image : editedimage
       });
+      setIsLoading(false);
       console.log('Updated Item:', response.data);
       const updatedItem = response.data;
   
@@ -80,6 +93,7 @@ const SeeMenuAdmin = () => {
       setEditingItemId(null);
       setEditedPrice('');
       setEditedDescription('');
+      setEditedimage('');
       setIsEditing(false);
 
       await fetchMenuItems();
@@ -89,40 +103,50 @@ const SeeMenuAdmin = () => {
         foodid: editingItemId,
         price: editedPrice,
         description: editedDescription,
+        image: editedimage,
       });
     }
   };
-  
-  
-
-
-
 
   const handleCancelEdit = () => {
     setEditingItemId(null);
     setEditedPrice('');
     setEditedDescription('');
+    setEditedimage('');
     setIsEditing(false);
+    
   };
 
   const handleDelete = async (canteenname, category, foodid) => {
     try {
+      setIsLoading(true);
       const response = await axios.delete(
         `canteen/${canteenname}/${category}/${foodid}`
       );
+      setIsLoading(false);
       if (response.status === 200) {
         const newMenuItems = menuItems.filter((item) => item.foodid !== foodid);
         setMenuItems(newMenuItems);
       } else {
         console.log('Menu deletion failed:', response.data.message);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error('Error deleting menu:', error);
+      setIsLoading(false);
     }
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="menu-container">
+      <div className='greet-menu2'>
+        <h2>Edit Menu</h2>
+        <img src={chefImage2} alt="user icon" />
+      </div>
       {!isEditing ? (
         <div className="filters">
           <div className="category-switch">
@@ -160,6 +184,7 @@ const SeeMenuAdmin = () => {
               <th>Category</th>
               <th>Canteen</th>
               <th>Quantity</th>
+              <th>Image</th>
               <th>Edit</th>
               <th>Delete</th>
             </tr>
@@ -173,6 +198,9 @@ const SeeMenuAdmin = () => {
                 <td>{item.category}</td>
                 <td>{item.canteenname}</td>
                 <td>{item.quantity}</td>
+                <td>
+  <img src={item.image} alt="Item Image" style={{ width: '50px', height: '50px' }} />
+</td>
                 <td>
                   <button className="edit-button" onClick={() => handleEdit(item.foodid)}>
                     Edit
@@ -206,6 +234,14 @@ const SeeMenuAdmin = () => {
               type="text"
               value={editedDescription}
               onChange={(e) => setEditedDescription(e.target.value)}
+            />
+          </label>
+          <label>
+            Image:
+            <input
+              type="text"
+              value={editedimage}
+              onChange={(e) => setEditedimage(e.target.value)}
             />
           </label>
           <div>

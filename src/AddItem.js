@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AddItem.css';
+import Loading from "./loading.js";
+import chair from './img/canteen.gif';
+
 
 const AddItem = () => {
   const [itemid, setFoodId] = useState('');
@@ -10,8 +13,11 @@ const AddItem = () => {
   const [canteen, setCanteen] = useState('');
   const [category, setCategory] = useState('');
   const [quantity, setQuantity] = useState(0);
+  const [image, setimage] = useState('');
   const [itemstatus, setItemStatus] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setItemStatus('');
@@ -27,17 +33,21 @@ const AddItem = () => {
       description: description,
       category: category,
       canteenname: canteen,
-      exist_quantity: quantity
+      exist_quantity: quantity,
+      image:image
     };
-
+   
     try {
+      setIsLoading(true);
       const response = await axios.post('/canteen', newItem);
       setItemStatus(response.data.message);
       setErrorMessage('');
+      setIsLoading(false);
     } catch (error) {
       console.error('Error adding item:', error);
       setErrorMessage('Error adding item. Please try again.');
       setItemStatus('');
+      setIsLoading(false);
     }
 
     // Reset the form inputs
@@ -48,11 +58,20 @@ const AddItem = () => {
     setCanteen('');
     setCategory('');
     setQuantity(0);
+    setimage('');
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="add-item-container" style={{ height: '100vh' }}>
+      <div className='additem-greet'>
       <h1>Add Item to Canteen</h1>
+      <img src={chair} alt="chair" />
+      </div>
+
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'flex' }}>
           <div style={{ margin: '10px 10px 10px 10px' }}>
@@ -126,6 +145,15 @@ const AddItem = () => {
             onChange={(event) => setQuantity(Number(event.target.value))}
           />
         </div>
+        <div>
+  <label htmlFor="image">Image:</label>
+  <input
+    type="text"
+    id="image"
+    value={image}
+    onChange={(event) => setimage(event.target.value)}
+  />
+</div>
         <br />
         <div>
           <button type="submit">Add Item</button>

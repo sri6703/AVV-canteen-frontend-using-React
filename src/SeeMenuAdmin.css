@@ -4,14 +4,35 @@
   justify-content: center;
   margin-bottom: 1rem;
   min-height: 80vh;
+
+  display: flex;
+  align-self: center;
+  padding-left: 10px;
+  margin-left: 2%;
 }
 
 .filters {
   display: flex;
   margin-bottom: 1rem;
-  width: 80%;
   margin-top: 10px;
-  margin-left: 25%;
+  justify-self: center;
+  align-self: center;
+}
+
+.greet-menu2{
+  display: flex;
+}
+.greet-menu2 img{
+  height: 100px;
+  width: 170px;
+  align-self: center;
+}
+.greet-menu2 h2{
+  align-self: center;
+  align-content: center;
+  margin-right: 10px;
+  color: #fff;
+  font-size: 40px;
 }
  
 .canteen-switch,

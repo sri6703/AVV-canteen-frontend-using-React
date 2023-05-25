@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import chefImage from './img/chefclipart.jpg';
+import namaste from './img/namaste.gif';
 import './LoginNext.css';
 import axios from 'axios';
 
@@ -26,8 +26,8 @@ const LoginHomepage = ({ username, userType }) => {
   return (
     <div className="login-homepage-container">
       <div className="greeting-container">
-        <img src={chefImage} className="icon" alt="user icon" />
-        <h1>Hi {user},</h1>
+        <img src={namaste} className="icon" alt="user icon" />
+        <h1>Namaste {user},</h1>
         <h2>Welcome to Amrita Canteen!</h2>
       </div>
     </div>

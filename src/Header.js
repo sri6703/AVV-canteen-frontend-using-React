@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import "./Header.css";
 
 function Header({ isLoggedIn }) { 
-  const backgroundColor = isLoggedIn ? '#A4123F' : 'white';
-  const color = isLoggedIn ? 'white' : '#A4123F';
-  
+  const backgroundColor = isLoggedIn ? 'white' : 'white';
+  const color = isLoggedIn ? '#A4123F' : '#A4123F';
   return (
     <header style={{ backgroundColor, color }}>
       <nav>
