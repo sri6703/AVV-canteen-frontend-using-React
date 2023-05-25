@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaUser, FaLock, FaEnvelope, FaIdCard, FaUserShield, FaVoicemail } from 'react-icons/fa';
 import axios from 'axios';
 import './LoginForm.css';
+import Loading from "./loading.js";
 
 function LoginForm(props) {
   const { handleLoginSuccess } = props;
@@ -15,19 +16,17 @@ function LoginForm(props) {
   const [loginStatus, setLoginStatus] = useState('');
   const [userType, setUserType] = useState('user');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     setLoginStatus('');
   }, [formType]);
-
-  const handleLoginTypeChange = (e) => {
-    setUserType(e.target.value);
-  };
-  
  
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const URL = userType === 'user' ? 'login-page/' : 'admin-login-page/';
     try {
+      setIsLoading(true);
       const response = await axios.get(URL);
       const data = response.data;
       console.log(data);
@@ -36,6 +35,7 @@ function LoginForm(props) {
         : data.some((i) => i.email === loginId);
       if (isLoginValid) {
         const isPasswordCorrect = data.some((i) => i.pwd === loginPassword);
+        setIsLoading(false);
         if (isPasswordCorrect) {
           setLoginStatus('Logged in Successfully!!');
           setUserType(userType);
@@ -49,6 +49,7 @@ function LoginForm(props) {
     } catch (error) {
       console.error(error);
       // Handle error
+      setIsLoading(false);
     }
 
   };
@@ -82,17 +83,22 @@ function LoginForm(props) {
       pwd: pwd,
     };
     const URL = 'login-page/';
+    setIsLoading(true);
     const response = await axios.post(URL, data);
     setLoginStatus(response.data.message);
+    setIsLoading(false);
   };
 
   const handleForgotPassword = async (email) => {
     try {
+      setIsLoading(true);
       const response = await axios.post(`login-page/${email}`);
       const link = response.data;
       console.log(link); // Log the link received from the server
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -101,6 +107,10 @@ function LoginForm(props) {
       prevFormType === 'login' ? 'signup' : 'login'
     );
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="login-form-container">

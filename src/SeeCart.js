@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SeeCart.css';
+import Loading from "./loading.js";
+
 
 const SeeCart = ({ userid }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchCartItems();
@@ -11,6 +14,7 @@ const SeeCart = ({ userid }) => {
 
 const fetchCartItems = async () => {
   try {
+    setIsLoading(true);
     const response = await axios.get(`/addtocart/${userid}`);
     const data = response.data.map(item => ({
       _id: item._id,
@@ -20,7 +24,7 @@ const fetchCartItems = async () => {
       quantity: item.quantity,
       existingQuantity: item.item?.exist_quantity
     })).filter(item => item.name !== null);
-
+    setIsLoading(false);
     // Calculate the total quantity for each item
     const groupedItems = data.reduce((acc, item) => {
       const existingItem = acc.find(i => i._id === item._id);
@@ -35,12 +39,14 @@ const fetchCartItems = async () => {
     setCartItems(groupedItems);
   } catch (error) {
     console.error(error);
+    setIsLoading(false);
   }
 };
 
 
   const handleDeleteItem = async (itemId) => {
     try {
+      setIsLoading(true);
       const response = await axios.get(`/addtocart/${userid}`);
       const data = response.data.map(item => ({
         _id: item._id,
@@ -60,8 +66,10 @@ const fetchCartItems = async () => {
   
       // Update the cartItems state by filtering out the deleted item
       setCartItems(cartItems.filter(item => item._id !== itemId));
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
   
@@ -69,6 +77,7 @@ const fetchCartItems = async () => {
   const handleDeleteAllItems = async () => {
     try {
       // Retrieve the current items in the cart
+      setIsLoading(true);
       const response = await axios.get(`/addtocart/${userid}`);
       const data = response.data.map(item => ({
         _id: item._id,
@@ -76,6 +85,9 @@ const fetchCartItems = async () => {
         quantity: item.quantity,
         existingQuantity: item.item?.exist_quantity,
       }));
+      setIsLoading(false);
+
+      setIsLoading(true);
   
       // Update the existing quantities of all items
       for (const item of data) {
@@ -88,11 +100,13 @@ const fetchCartItems = async () => {
   
       // Delete all items from the cart
       await axios.delete('/addtocart');
+      setIsLoading(false);
   
       // Update the cartItems state
       setCartItems([]);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
   
@@ -103,14 +117,21 @@ const fetchCartItems = async () => {
       itemId: _id,
       quantity,
     }));
+    setIsLoading(true);
     axios.post("/api/orders", { userId, cart })
       .then(() => {
         console.log("Order placed successfully");
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error placing order:", error);
+        setIsLoading(false);
       });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="cart-container">

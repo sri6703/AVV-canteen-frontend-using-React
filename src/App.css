@@ -1,38 +1,45 @@
 body {
   padding: 1px;
   scroll-behavior: smooth;
-  min-height: 80vh;
-  background-color: #A4123F; /* Amrita Pantone */
-
+  min-height: 100vh;
+  background-color: #a4123f; /* Amrita Pantone */
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
+  position: relative; /* Add position relative to the app container */
+  z-index: 1; /* Add z-index to make sure the app container stays below the header */
 }
 
 main {
   flex: 1;
+  min-height: 85vh;
 }
 
 .app-container .content-container {
   display: flex;
   flex-direction: row;
+  margin-top: 50px;
+  margin-bottom: 20px;
 }
 
 .app-container .navigation-container {
   width: 18%;
   transition: width 0.3s ease;
+  margin-top: 45px;
+  margin-bottom: 0px;
 }
 
 .app-container .see-menu-container {
-  margin-left: 18%;
-  width: 82%;
+  width: 100%;
   transition: width 0.3s ease;
+  margin-left: 0;
+  padding-left: 0; /* Remove the left padding */
 }
 
 .app-container .navigation-container.collapsed {
-  width: 0;
+  width: 0%;
 }
 
 .app-container .see-menu-container.collapsed {
@@ -41,16 +48,52 @@ main {
 }
 
 .toggle-navigation-button {
-  position: absolute;
+  position: fixed;
+  margin-top: 50px;
   top: 0;
-  right: 0;
+  left: 0;
   z-index: 999;
-  background-color: transparent;
   border: none;
-  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  outline: none;
+  transition: margin 0.3s ease;
+}
+
+.toggle-navigation-button.collapsed {
+  position: fixed;
+  margin-top: 50px;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  border: none;
   font-size: 24px;
   cursor: pointer;
   outline: none;
 }
 
-/* Add your additional styles as needed */
+.navigation-container {
+  position: fixed;
+}
+
+.toggle-navigation-button button {
+  position: fixed;
+  top: 50px;
+  background-color: #ddd;
+  border: none;
+  color: #a4123f;
+  font-size: 28px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s ease;
+}
+
+/* Add z-index and position to the header element */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2; /* Make sure the header stays on top */
+}
