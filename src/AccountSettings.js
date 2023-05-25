@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './AccountSettings.css';
 import { useEffect } from 'react';
+import Loading from "./loading.js";
 
 const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [name, setName] = useState('');
@@ -17,10 +18,13 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [delPassword, setDelPassword] = useState('');
   const [ editStatus, seteditStatus] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   
     const fetchUserData = async () => {
       try {
         // Make an API call or fetch data from a source
+	
         const userData = await getUserData(userid);
 
         // Update the state variables with the retrieved data
@@ -68,7 +72,11 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
 
       // Call API to change user password using state values
       const URL = `login-page/${userid}/${currentPassword}`;
+
+      setIsLoading(true);
       const response = await axios.patch(URL, datapwd);
+      setIsLoading(false);
+
       console.log(response);
       alert(response.data.message);
       setIsChangePassword(false); // Reset the state after successful password change
@@ -77,6 +85,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
       console.error('Error changing password:', error);
       console.log(datapwd);
       alert(error.response.data.message);
+      setIsLoading(false);
     }
   };
 
@@ -85,7 +94,11 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
     try {
       // Call API to update user profile using state values
       const URL = `login-page/${userid}`;
+
+      setIsLoading(true);
       const response = await axios.patch(URL, data);
+      setIsLoading(false);
+
       console.log(response.data);
       alert('Profile updated successfully!');
       seteditStatus('Profile updated successfully!');
@@ -94,6 +107,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
     } catch (error) {
       console.error('Error updating profile:', error);
       console.log('Response data:', error.response.data);
+      setIsLoading(false);
     }
   };
 
@@ -106,7 +120,10 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
         // Replace getRollno() with your logic
         // Call API to delete user account using the rollno value
         const URL = `login-page/${userid}`;
+
+        setIsLoading(true);
         const response = await axios.delete(URL,deldata);
+        setIsLoading(false);
         alert(response.data.message);
         // TODO: Logout user
         SetIsLoggedIn(false);
@@ -116,11 +133,16 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
         console.log(delPassword);
         console.log();
         alert(error.response.data.message);
+        setIsLoading(false);
       }
     } else {
       alert('Please confirm delete by typing DELETE in the confirmation box.');
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="account-settings-container">
