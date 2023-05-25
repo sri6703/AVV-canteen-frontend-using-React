@@ -151,7 +151,7 @@ const SeeMenu = ({ userid }) => {
             Category:
             <select value={currentCategory} onChange={handleCategorySwitch}>
               <option value="All">All</option>
-              <option value="breakfast">breakfast</option>
+              <option value="breakfast">breakfast</option> 
               <option value="lunch">lunch</option>
               <option value="dinner">dinner</option>
             </select>
