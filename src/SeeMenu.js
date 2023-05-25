@@ -11,6 +11,8 @@ const SeeMenu = ({ userid }) => {
   const [currentRating, setCurrentRating] = useState(0);
   const [cartItems, setCartItems] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const fetchMenuItems = useCallback(async () => {
     try {
       let url = 'canteen/';
@@ -20,6 +22,7 @@ const SeeMenu = ({ userid }) => {
       if (currentCanteen !== 'All') {
         url += `/${currentCanteen}/`;
       }
+      setIsLoading(true);
       const response = await axios.get(url);
       const formattedData = response.data.map((item) => ({
         _id: item._id,
@@ -34,8 +37,10 @@ const SeeMenu = ({ userid }) => {
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2-aDfNoRp2H9pztkTOo_h5rwxCe6guDO4i9_iBi1Pmw&s',
       }));
       setMenuItems(formattedData);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   }, [currentCanteen, currentCategory]);
 
@@ -46,11 +51,14 @@ const SeeMenu = ({ userid }) => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get(`addtocart/${userid}`);
         const fetchedCartItems = response.data;
         setCartItems(fetchedCartItems);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
 
@@ -76,7 +84,9 @@ const SeeMenu = ({ userid }) => {
 
       try {
         let qn = 0;
+        setIsLoading(true);
         const response = await axios.get(`addtocart/${userid}/${itemId}`);
+        setIsLoading(false);
 if (response.data.quantity === null) {
   qn = 0;
 } else {
@@ -85,14 +95,16 @@ if (response.data.quantity === null) {
 }
 
         const ex = selectedItem.exist_quantity ;
+        setIsLoading(true);
         if (currentCategory === 'All' && currentCanteen === 'All') {
           await axios.patch(`canteen/${itemId}/${ex}`);
         } else {
           await axios.patch(`canteen/${currentCanteen}/${currentCategory}/${itemId}/${ex}`);
         }
+        setIsLoading(false);
 
         const existingCartItem = cartItems.find((item) => item.itemId === itemId);
-
+        setIsLoading(true);
         if (existingCartItem) {
           // If the item already exists in the cart, update the quantity using PATCH
           await axios.patch(`addtocart/${existingCartItem._id}`, {
@@ -106,6 +118,7 @@ if (response.data.quantity === null) {
             quantity: qn,
           });
         }
+        setIsLoading(false);
         // Handle the API call responses as needed
       } catch (error) {
         console.error(error);
@@ -126,6 +139,10 @@ if (response.data.quantity === null) {
   const handleRating = (rating) => {
     setCurrentRating(rating);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="menu-container1">
