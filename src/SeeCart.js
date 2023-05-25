@@ -6,7 +6,7 @@ const SeeCart = ({ userid }) => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    fetchCartItems(); 
+    fetchCartItems();
   }, []);
 
 const fetchCartItems = async () => {

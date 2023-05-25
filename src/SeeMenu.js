@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './SeeMenu.css';
-import Loading from "./loading.js";
+
 const SeeMenu = ({ userid }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [currentCanteen, setCurrentCanteen] = useState('All');
   const [currentCategory, setCurrentCategory] = useState('All');
   const [currentRating, setCurrentRating] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const fetchMenuItems = useCallback(async () => {
     try {
@@ -19,8 +18,6 @@ const SeeMenu = ({ userid }) => {
       if (currentCanteen !== 'All') {
         url += `/${currentCanteen}/`;
       }
-      setIsLoading(true);
-
       const response = await axios.get(url);
       const formattedData = response.data.map((item) => ({
         _id: item._id,
@@ -35,10 +32,8 @@ const SeeMenu = ({ userid }) => {
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2-aDfNoRp2H9pztkTOo_h5rwxCe6guDO4i9_iBi1Pmw&s',
       }));
       setMenuItems(formattedData);
-      setIsLoading(false);
     } catch (error) {
       console.error(error);
-      setIsLoading(false);
     }
   }, [currentCanteen, currentCategory]);
 
@@ -71,7 +66,6 @@ const SeeMenu = ({ userid }) => {
         }
         return item;
       });
-      setIsLoading(false);
 
       setMenuItems(updatedMenuItems);
 
@@ -79,7 +73,6 @@ const SeeMenu = ({ userid }) => {
       setCartItems((prevCartItems) => [...prevCartItems, selectedItem]);
 
       try {
-        setIsLoading(true);
         let qn = 0;
         const response = await axios.get(`addtocart/${userid}/${itemId}`);
 if (response.data.quantity === null) {
@@ -88,18 +81,16 @@ if (response.data.quantity === null) {
   const existingQuantity = response.data.quantity;
   qn = existingQuantity + 1;
 }
-        setIsLoading(false);
 
-        const ex = selectedItem.exist_quantity - 1;
-        setIsLoading(true);
+        const ex = selectedItem.exist_quantity ;
         if (currentCategory === 'All' && currentCanteen === 'All') {
           await axios.patch(`canteen/${itemId}/${ex}`);
         } else {
           await axios.patch(`canteen/${currentCanteen}/${currentCategory}/${itemId}/${ex}`);
         }
-        setIsLoading(false);
+
         const existingCartItem = cartItems.find((item) => item.itemId === itemId);
-        setIsLoading(true);
+
         if (existingCartItem) {
           // If the item already exists in the cart, update the quantity using PATCH
           await axios.patch(`addtocart/${existingCartItem._id}`, {
@@ -113,7 +104,6 @@ if (response.data.quantity === null) {
             quantity: qn,
           });
         }
-        setIsLoading(false);
         // Handle the API call responses as needed
       } catch (error) {
         console.error(error);
@@ -134,10 +124,6 @@ if (response.data.quantity === null) {
   const handleRating = (rating) => {
     setCurrentRating(rating);
   };
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <div className="menu-container">
