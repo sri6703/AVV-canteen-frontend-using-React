@@ -82,8 +82,7 @@ if (response.data.quantity === null) {
   qn = existingQuantity + 1;
 }
 
-        console.log(qn)
-        const ex = selectedItem.exist_quantity - 1;
+        const ex = selectedItem.exist_quantity ;
         if (currentCategory === 'All' && currentCanteen === 'All') {
           await axios.patch(`canteen/${itemId}/${ex}`);
         } else {

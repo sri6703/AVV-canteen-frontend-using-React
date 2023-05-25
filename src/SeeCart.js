@@ -49,9 +49,10 @@ const fetchCartItems = async () => {
         existingQuantity: item.item?.exist_quantity,
       }));
       const item = data.find(item => item._id === itemId);
-      console.log(item)
       const { _id,id, existingQuantity, quantity } = item;
-  
+      console.log(quantity)
+      console.log(existingQuantity)
+      console.log(existingQuantity+quantity)
       // Make a PATCH request to update the existing quantity
       await axios.patch(`canteen/${id}/${existingQuantity + quantity}`);
       // Delete the item from the cart
