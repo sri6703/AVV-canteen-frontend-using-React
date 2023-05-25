@@ -160,13 +160,14 @@ if (response.data.quantity === null) {
               <img src={item.imageUrl} alt={item.name} />
             </div>
             <div className="menu-card-content">
-              <div className="menu-card-info">
                 <h3>{item.name}</h3>
-                <p>Price: {item.price}</p>
-                <p>Category: {item.category}</p>
+                Rs.{item.price}.00/-<br />
+                {item.category}             
+             </div> 
+              <div className="menu-card-info">
                 <p>Canteen: {item.canteenname}</p>
                 <p>Description: {item.description}</p>
-                <p>Exist Quantity: {item.exist_quantity}</p>
+                <p>In stock: {item.exist_quantity}</p>
               </div>
               <div className="menu-card-actions">
                 <div className="menu-card-rating">
@@ -187,11 +188,11 @@ if (response.data.quantity === null) {
                     {currentRating >= 5 ? '★' : '☆'}
                   </span>
                 </div>
+                <hr />
                 <button onClick={() => handleAddToCart(item._id)} disabled={item.exist_quantity === 0}>
                   Add to Cart
                 </button>
               </div>
-            </div>
           </div>
         </div>
       ))}

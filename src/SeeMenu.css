@@ -2,11 +2,19 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  margin-top: 60px;
+  margin-bottom: 80px;
+  width: 95%;
+  align-self: center;
+  padding-left: 10px;
+  margin-left: 2%;
 }
 
 .filters {
   display: flex;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
+  justify-items: center;
 }
 
 .category-switch,
@@ -33,19 +41,24 @@
 }
 
 .menu-cards {
-  width: 50%;
+  width: 80%;
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 20px;
+  justify-items: center;
+  background-color: #bbb;
+  margin-bottom: 25px;
 }
 
 .menu-card {
-  background-color: #bbb;
+  border: 2px dashed #888;
   color: #000;
   margin: 10px;
   padding: 10px;
   display: flex;
   align-items: flex-start;
+  justify-content: center;
+  border-radius: 10px;
 }
 
 .menu-card-image {
@@ -55,50 +68,65 @@
 }
 
 .menu-card-content {
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
   flex-grow: 1;
+  justify-content: center;
 
 }
+.menu-card-info{
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  justify-content: center;
+}
 
-.menu-card-info h3 {
-  margin-top: 0;
+.menu-card-content h3 {
+  margin-top: 5px;
+  font-size: large;
+}
+
+.menu-card-content p {
+  margin-bottom: 0;
 }
 
 .menu-card-info p {
   margin-bottom: 5px;
 }
-.menu-card-right-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
-  flex-grow: 1;
+
+.menu-card-rating {
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
-.menu-card-ratings {
-  margin-bottom: 10px;
-}
 .menu-card-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  justify-content: center;
+  margin-top: 5px;
 }
 
 .menu-card-actions button {
   background-color: #f2f2f2;
   color: #A4123F;
   border: none;
-  padding: 5px;
+  padding: 10px;
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
-  height: 30px;
-  width: 100px;
+  height: 40px;
+  width: 120px;
   margin-top: 12px;
   font-size: medium;
-  font-weight: bold;
+  text-align: center;
 }
+
+.menu-card-actions button:hover{
+font-weight: bold;
+background-color: #f6c5d4;
+font-weight: bold;
+}
+
 
 button:disabled {
   background-color: #ccc;

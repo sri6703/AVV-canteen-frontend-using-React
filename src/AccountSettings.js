@@ -4,9 +4,9 @@ import './AccountSettings.css';
 
 const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const [name, setName] = useState('John Doe');
-  const [phoneno, setphoneno] = useState('123456789');
-  const [gender, setgender] = useState('Male');
-  const [address, setaddress] = useState('123, Ettimadai, Coimbatore');
+  const [phoneno, setphoneno] = useState('John Doe');
+  const [gender, setgender] = useState('John Doe');
+  const [address, setaddress] = useState('John Doe');
   const [password, setPassword] = useState('');
   const [Email, setEmail] = useState('sample@gmail.com');
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
@@ -106,11 +106,11 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
           </div>
         ) : (
           <form onSubmit={handleEditProfileSubmit}>
-            <div>
+            <div id="float-label" className="form-group">
               <label htmlFor="userid">User ID: </label>
               <input type="text" id="userid" value={userid} readOnly disabled />
             </div>
-            <div>
+            <div id="float-label" className="form-group">
               <label htmlFor="name">Name: </label>
               <input
                 type="text"
@@ -119,7 +119,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 onChange={(event) => setName(event.target.value)}
               />
             </div>
-            <div>
+            <div id="float-label" className="form-group">
               <label htmlFor="email">Email: </label>
               <input
                 type="mail"
@@ -127,8 +127,8 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 value={Email}
                 onChange={(event) => setEmail(event.target.value)}
               />
-            </div>
-            <div>
+              </div>
+              <div id="float-label" className="form-group">
               <label htmlFor="phoneno">Phoneno: </label>
               <input
                 type="text"
@@ -136,8 +136,8 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 value={phoneno}
                 onChange={(event) => setphoneno(event.target.value)}
               />
-            </div>
-            <div>
+              </div>
+              <div id="float-label" className="form-group">
               <label htmlFor="gender">Gender: </label>
               <input
                 type="text"
@@ -146,7 +146,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 onChange={(event) => setgender(event.target.value)}
               />
               </div>
-              <div>
+              <div id="float-label" className="form-group">
               <label htmlFor="address">address: </label>
               <input
                 type="text"
@@ -166,7 +166,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
 
       {isChangePassword && (
         <form className="container-in" onSubmit={handleChangePasswordSubmit}>
-          <div>
+          <div id="float-label">
             <label htmlFor="current-password">Current Password: </label>
             <input
               type="password"
@@ -175,7 +175,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
               onChange={(event) => setCurrentPassword(event.target.value)}
             />
           </div>
-          <div>
+          <div id="float-label" className="form-group">
             <label htmlFor="new-password">New Password: </label>
             <input
               type="password"
@@ -184,7 +184,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
               onChange={(event) => setNewPassword(event.target.value)}
             />
           </div>
-          <div>
+          <div id="float-label" className="form-group">
             <label htmlFor="confirm-new-password">Confirm New Password: </label>
             <input
               type="password"
@@ -203,7 +203,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
 
       {isDeleteAccount && (
         <form className="container-in" onSubmit={handleDeleteAccountSubmit}>
-          <div>
+          <div id="float-label" className="form-group">
             <label htmlFor="password">Password: </label>
             <input
               type="password"
@@ -212,7 +212,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
-          <div>
+          <div id="float-label" className="form-group">
             <label htmlFor="delete-confirmation">Type DELETE to confirm deletion: </label>
             <input
               type="text"

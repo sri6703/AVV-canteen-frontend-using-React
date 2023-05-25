@@ -11,10 +11,8 @@
   margin-bottom: 20px;
 }
 
-
-/* Edit Profile*/
-.container-in
-{
+/* Edit Profile */
+.container-in {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -43,7 +41,7 @@
   border-radius: 5px;
 }
 
-.account-settings-container form{
+.account-settings-container form {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -53,12 +51,34 @@
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  
+}
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #000;
+  font-weight: bold;
+}
+
+.form-group .input-field {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+  width: 100%;
+}
+
+.form-group .input-field:focus {
+  outline: none;
+  border-bottom-color: #000;
 }
 
 .container-in label {
   font-weight: bold;
 }
-
 
 .container-in .button-container {
   margin-top: 10px;
@@ -78,13 +98,13 @@
   font-size: 16px;
   border-radius: 4px;
   border: none;
-  background-color: #A4123F;
+  background-color: #a4123f;
   color: #fff;
   cursor: pointer;
   align-items: center;
 }
 
-.container-in button:hover{
+.container-in button:hover {
   background-color: #d35c80;
 }
 
@@ -111,17 +131,50 @@
 }
 
 .container-in button[type="submit"]:hover {
-background-color: #4e88a7;
+  background-color: #4e88a7;
 }
 
 .container-in .Cancel:hover {
   background-color: #b4d3f7;
-  }
+}
 
-.container-in   button:focus {
+.container-in button:focus {
   outline: none;
 }
 
 .container-in button + button {
   margin-top: 1rem;
+}
+#float-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 350px;
+  position: relative;
+}
+
+#float-label input {
+  width: 100%;
+  height: 56px;
+  padding: 14px 16px 0 10px;
+  outline: 0;
+  border: 3px solid #200505;
+  border-radius: 5px;
+  background: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+#float-label label {
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 0 12px;
+  color: #0f0000;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(0,26px) scale(1);
+  transform-origin: top left;
+  transition: all 0.2s ease-out;
+}
+#float-label:focus-within label {
+  transform: translate(0, 12px) scale(0.75);
 }
