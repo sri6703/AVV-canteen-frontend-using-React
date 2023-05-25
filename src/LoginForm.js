@@ -91,11 +91,11 @@ function LoginForm(props) {
 
   const handleForgotPassword = async (email) => {
     try {
-      setIsLoading(true);
+      //setIsLoading(true);
       const response = await axios.post(`login-page/${email}`);
       const link = response.data;
-      console.log(link); // Log the link received from the server
       setIsLoading(false);
+      console.log(link); // Log the link received from the server
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -180,7 +180,7 @@ function LoginForm(props) {
 
             <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden' }}>{loginStatus}</p>
             <br />
-            <button type="submit">Create Account</button>
+            <button class="reactive-button" type="submit">Create Account</button>
           </>
         )}
         {formType === 'login' && (
@@ -266,7 +266,7 @@ function LoginForm(props) {
                 onChange={(e) => setLoginId(e.target.value)}
               />
             </div>
-            <button type="button" style={{ marginTop: '10px' }} onClick={() => handleForgotPassword(loginId)}>
+            <button class="reactive-button" type="button" style={{ marginTop: '10px' }} onClick={() => handleForgotPassword(loginId)}>
               Send Mail
             </button>
             <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden', marginTop: '10px' }}>{loginStatus}</p>

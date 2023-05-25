@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AddItem.css';
 import Loading from "./loading.js";
+import chair from './img/canteen.gif';
+
 
 const AddItem = () => {
   const [itemid, setFoodId] = useState('');
@@ -62,7 +64,11 @@ const AddItem = () => {
 
   return (
     <div className="add-item-container" style={{ height: '100vh' }}>
+      <div className='additem-greet'>
       <h1>Add Item to Canteen</h1>
+      <img src={chair} alt="chair" />
+      </div>
+
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'flex' }}>
           <div style={{ margin: '10px 10px 10px 10px' }}>

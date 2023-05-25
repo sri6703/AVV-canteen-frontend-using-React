@@ -27,7 +27,7 @@ main {
 .app-container .navigation-container {
   width: 18%;
   transition: width 0.3s ease;
-  margin-top: 45px;
+  margin-top: 50px;
   margin-bottom: 0px;
 }
 

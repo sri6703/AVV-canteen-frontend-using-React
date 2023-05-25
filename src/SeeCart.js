@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SeeCart.css';
 import Loading from "./loading.js";
-
+import cartgif from './img/cart.gif';
 
 const SeeCart = ({ userid }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -42,7 +42,6 @@ const fetchCartItems = async () => {
     setIsLoading(false);
   }
 };
-
 
   const handleDeleteItem = async (itemId) => {
     try {
@@ -134,7 +133,11 @@ const fetchCartItems = async () => {
 
   return (
     <div className="cart-container">
-      <h1>My Cart</h1>
+      <div className='cart-header'>
+          <h1>My Cart</h1>
+          <img src={cartgif} alt="Cart" />    
+      </div>
+
       <table className="cart-table">
         <thead>
           <tr>
@@ -153,7 +156,7 @@ const fetchCartItems = async () => {
               <td>{item.price}</td>
               <td>{item.quantity}</td>
               <td>
-                <button onClick={() => handleDeleteItem(item._id)}>X</button>
+                <button className='delete-btn' onClick={() => handleDeleteItem(item._id)}>X</button>
               </td>
             </tr>
           ))}

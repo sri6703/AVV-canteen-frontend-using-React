@@ -19,7 +19,7 @@ function App() {
   const [showLoginPage, setShowLoginPage] = useState(false);
   const [activeComponent, setActiveComponent] = useState("Home");
   const [userid, setUserId] = useState("nil");
-  const [showNavigation, setShowNavigation] = useState(false);
+  const [showNavigation, setShowNavigation] = useState(true);
 
   const toggleLoginPage = () => {
     setShowLoginPage(!showLoginPage);

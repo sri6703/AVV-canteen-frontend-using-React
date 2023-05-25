@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SeeMenuAdmin.css';
 import Loading from "./loading.js";
+import chefImage2 from './img/chef.gif';
 
 const SeeMenuAdmin = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -134,6 +135,10 @@ const SeeMenuAdmin = () => {
 
   return (
     <div className="menu-container">
+      <div className='greet-menu2'>
+        <h2>Edit Menu</h2>
+        <img src={chefImage2} alt="user icon" />
+      </div>
       {!isEditing ? (
         <div className="filters">
           <div className="category-switch">

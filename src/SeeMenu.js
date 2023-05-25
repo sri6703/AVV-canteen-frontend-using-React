@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './SeeMenu.css';
 import Loading from "./loading.js";
+import chefImage from './img/chef.gif';
 
 const SeeMenu = ({ userid }) => {
   const [menuItems, setMenuItems] = useState([]);
@@ -142,8 +143,12 @@ const SeeMenu = ({ userid }) => {
   }
 
   return (
-    <div className="menu-container">
-      <div className="filters">
+    <div className="menu-container1">
+      <div className='greet-menu'>
+        <h2>Todays Special</h2>
+        <img src={chefImage} className="icon" alt="user icon" />
+      </div>
+      <div className="filters1">
         <div className="category-switch">
           <label>
             Category:
