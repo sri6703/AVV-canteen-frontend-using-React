@@ -12,25 +12,37 @@ const SeeCart = ({ userid }) => {
     fetchCartItems();
   }, []);
 
-  const fetchCartItems = async () => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get(`/addtocart/${userid}`);
-      const data = response.data.map(item => ({
-        _id: item._id,
-        name: item.item?.name,
-        description: item.item?.description,
-        price: item.item?.price,
-        quantity: item.quantity,
-        existingQuantity: item.item?.exist_quantity
-      })).filter(item => item.name !== null);
-      setCartItems(data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
+const fetchCartItems = async () => {
+  try {
+    setIsLoading(true);
+    const response = await axios.get(`/addtocart/${userid}`);
+    const data = response.data.map(item => ({
+      _id: item._id,
+      name: item.item?.name,
+      description: item.item?.description,
+      price: item.item?.price,
+      quantity: item.quantity,
+      existingQuantity: item.item?.exist_quantity
+    })).filter(item => item.name !== null);
+    setIsLoading(false);
+    // Calculate the total quantity for each item
+    const groupedItems = data.reduce((acc, item) => {
+      const existingItem = acc.find(i => i._id === item._id);
+      if (existingItem) {
+        existingItem.quantity += item.quantity;
+      } else {
+        acc.push(item);
+      }
+      return acc;
+    }, []);
+
+    setCartItems(groupedItems);
+  } catch (error) {
+    console.error(error);
+    setIsLoading(false);
+  }
+};
+
 
   const handleDeleteItem = async (itemId) => {
     try {
@@ -82,6 +94,7 @@ const SeeCart = ({ userid }) => {
   
         // Make a PATCH request to update the existing quantity
         await axios.patch(`canteen/${id}/${existingQuantity + quantity}`);
+
       }
   
       // Delete all items from the cart
