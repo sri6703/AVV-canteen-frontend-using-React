@@ -57,7 +57,7 @@ function LoginForm(props) {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+~`-]).{8,}$/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+~`\-=.,]).{8,}$/;
     // Validate new password against regex
     if (!passwordRegex.test(signupPassword)) {
       setLoginStatus('Password must have minimum 8 characters, with atleast 1 uppercase, 1 lowercase, 1 number, & 1 symbol');
