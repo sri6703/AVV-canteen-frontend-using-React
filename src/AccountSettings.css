@@ -18,6 +18,19 @@
   border-radius: 10px;
   align-items: center;
   margin-bottom: 20px;
+  background-image: url('https://img.freepik.com/premium-photo/food-cooking-background-stone-texture-with-sea-salt-pepper-garlic-parsley-light-grey-abstract-food-background-empty-space-text-can-be-used-food-posters-design-menu-top-view_253362-16400.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.container-in-edit-profile {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+  background-image: url('./img/sb2.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .display-profile {
@@ -30,6 +43,8 @@
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .container-in h2 {
@@ -47,12 +62,13 @@
   gap: 10px;
   margin-top: 20px;
   align-items: center;
-  background-color: white;
+  
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
   
 }
+
 .form-group {
   margin-bottom: 20px;
 }

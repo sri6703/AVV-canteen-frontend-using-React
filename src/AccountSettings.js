@@ -162,7 +162,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
             )}
           </div>
         ) : (
-          <form onSubmit={handleEditProfileSubmit}>
+          <form className="container-in-edit-profile" onSubmit={handleEditProfileSubmit}>
             <div id="float-label" className="form-group">
               <label htmlFor="userid">User ID: </label>
               <input type="text" id="userid" value={userid} readOnly disabled />
