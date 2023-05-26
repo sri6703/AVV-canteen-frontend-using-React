@@ -1,12 +1,10 @@
 .add-item-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     height: auto;
-    min-height: 80vh;
-    margin-top: 80px;
-    margin-bottom: 100px;
+    min-height: 120vh;
+    margin-bottom: 180px;
   }
 
 .additem-greet {
