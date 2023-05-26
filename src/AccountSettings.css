@@ -28,7 +28,7 @@
   border-radius: 10px;
   align-items: center;
   margin-bottom: 20px;
-  background-image: url('https://png.pngtree.com/thumb_back/fh260/back_our/20190620/ourmid/pngtree-restaurant-menu-background-material-image_172144.jpg');
+  background-image: url('./img/sb2.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -43,6 +43,8 @@
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .container-in h2 {
