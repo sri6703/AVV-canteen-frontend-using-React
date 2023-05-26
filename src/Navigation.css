@@ -6,8 +6,8 @@
   width: 17%;
   color: #a4123f;
   background-color: #bbb;
-  background-image: url("img/sb1.jpeg");
   background-size: cover;
+  background-position: right;
 }
 
 ul {

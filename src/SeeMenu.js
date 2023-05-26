@@ -33,8 +33,7 @@ const SeeMenu = ({ userid }) => {
         category: item.category,
         canteenname: item.canteenname,
         exist_quantity: item.exist_quantity,
-        imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2-aDfNoRp2H9pztkTOo_h5rwxCe6guDO4i9_iBi1Pmw&s',
+        imageUrl:item.image
       }));
       setMenuItems(formattedData);
       setIsLoading(false);
@@ -152,7 +151,7 @@ const SeeMenu = ({ userid }) => {
             Category:
             <select value={currentCategory} onChange={handleCategorySwitch}>
               <option value="All">All</option>
-              <option value="breakfast">breakfast</option>
+              <option value="breakfast">breakfast</option> 
               <option value="lunch">lunch</option>
               <option value="dinner">dinner</option>
             </select>
@@ -175,7 +174,7 @@ const SeeMenu = ({ userid }) => {
         <div className="menu-cards" key={item._id}>
           <div className="menu-card">
             <div className="menu-card-image">
-              <img src={item.imageUrl} alt={item.name} />
+              <img src={item.imageUrl} alt={item.name} style={{ width: '200px', height: '200px' }} />
             </div>
             <div className="menu-card-content">
                 <h3>{item.name}</h3>

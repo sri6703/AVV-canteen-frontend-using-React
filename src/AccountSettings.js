@@ -1,57 +1,90 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AccountSettings.css';
+import { useEffect } from 'react';
 import Loading from "./loading.js";
 
 const AccountSettings = ({ SetIsLoggedIn, userid }) => {
-  const [name, setName] = useState('John Doe');
-  const [phoneno, setphoneno] = useState('John Doe');
-  const [gender, setgender] = useState('John Doe');
-  const [address, setaddress] = useState('John Doe');
-  const [password, setPassword] = useState('');
-  const [Email, setEmail] = useState('sample@gmail.com');
+  const [name, setName] = useState('');
+  const [regno, setRegNo] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneno, setPhoneNo] = useState('');
+  const [gender, setGender] = useState('');
+  const [address, setAddress] = useState('');
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [delPassword, setDelPassword] = useState('');
+  const [ editStatus, seteditStatus] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  
+    const fetchUserData = async () => {
+      try {
+        // Make an API call or fetch data from a source
+	
+        const userData = await getUserData(userid);
+
+        // Update the state variables with the retrieved data
+        setName(userData.name);
+        setRegNo(userData.regno);
+        setEmail(userData.email);
+        setPhoneNo(userData.phoneno);
+        setGender(userData.gender);
+        setAddress(userData.address);
+      } catch (error) {
+        
+      }
+    };
+
+  useEffect(() => {
+    fetchUserData();
+  }, [userid]);
+
+  const getUserData = async (userid) => {
+    const response = await axios.get(`login-page/${userid}`);
+    return response.data;
+  };
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [isChangePassword, setIsChangePassword] = useState(false);
   const [isDeleteAccount, setIsDeleteAccount] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const data = {
+    name: name,
+    regno: regno,
+    email: email,
+    pwd: currentPassword,
+    phoneno:phoneno,
+    gender:gender,
+    address:address
+  };
 
+  const datapwd = { regno: regno, newpwd: newPassword, confpwd: confirmNewPassword };
   const handleChangePasswordSubmit = async (event) => {
     event.preventDefault();
-
-    if (newPassword !== confirmNewPassword) {
-      setErrorMessage("Passwords don't match");
-      return;
-    }
-
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+~`-]).{8,}$/;
-    // Validate new password against regex
-    if (!passwordRegex.test(newPassword)) {
-      setErrorMessage(
-        'Password must have a minimum of 8 characters, with at least 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
-      );
-      return;
-    }
-
     setErrorMessage('');
+    
     try {
+
       // Call API to change user password using state values
+      const URL = `login-page/${userid}/${currentPassword}`;
+
       setIsLoading(true);
-      const response = await axios.put(
-        `login-page/${userid}/${currentPassword}/${newPassword}`
-      );
+      const response = await axios.patch(URL, datapwd);
       setIsLoading(false);
+
+      console.log(response);
       alert(response.data.message);
       setIsChangePassword(false); // Reset the state after successful password change
+      await fetchUserData();
     } catch (error) {
       console.error('Error changing password:', error);
-      alert('Failed to change password. Please try again.');
+      console.log(datapwd);
+      alert(error.response.data.message);
       setIsLoading(false);
     }
   };
@@ -59,36 +92,47 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   const handleEditProfileSubmit = async (event) => {
     event.preventDefault();
     try {
-      setIsLoading(true);
       // Call API to update user profile using state values
-      const response = await axios.patch(`login-page/${userid}`, { name,phoneno,address,gender });
-      alert(response.data.message);
-      setIsEditProfile(false); // Hide the edit form after successful update
+      const URL = `login-page/${userid}`;
+
+      setIsLoading(true);
+      const response = await axios.patch(URL, data);
       setIsLoading(false);
+
+      console.log(response.data);
+      alert('Profile updated successfully!');
+      seteditStatus('Profile updated successfully!');
+      setIsEditProfile(false); // Hide the edit form after successful update
+      await fetchUserData();
     } catch (error) {
       console.error('Error updating profile:', error);
-      alert('Failed to update profile. Please try again.');
+      console.log('Response data:', error.response.data);
       setIsLoading(false);
     }
   };
 
+  const deldata= {delpwd: delPassword};
   const handleDeleteAccountSubmit = async (event) => {
     event.preventDefault();
     if (deleteConfirmation === 'DELETE') {
       try {
         // Get the rollno value from your application logic or user input
         // Replace getRollno() with your logic
-        setIsLoading(true);
         // Call API to delete user account using the rollno value
-        const response = await axios.delete(`login-page/${userid}`);
+        const URL = `login-page/${userid}`;
+
+        setIsLoading(true);
+        const response = await axios.delete(URL,deldata);
+        setIsLoading(false);
         alert(response.data.message);
         // TODO: Logout user
         SetIsLoggedIn(false);
         userid = '';
-        setIsLoading(false);
       } catch (error) {
         console.error('Error deleting account:', error);
-        alert('Failed to delete account. Please try again.');
+        console.log(delPassword);
+        console.log();
+        alert(error.response.data.message);
         setIsLoading(false);
       }
     } else {
@@ -109,7 +153,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
           <div className="display-profile">
             <div>User ID: {userid}</div>
             <div>Name: {name}</div>
-            <div>Email: {Email}</div>
+            <div>Email: {email}</div>
             <br />
             {!isChangePassword && !isDeleteAccount && (
               <div>
@@ -139,7 +183,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
               <input
                 type="mail"
                 id="email"
-                value={Email}
+                value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
               </div>
@@ -149,7 +193,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 type="text"
                 id="phoneno"
                 value={phoneno}
-                onChange={(event) => setphoneno(event.target.value)}
+                onChange={(event) => setPhoneNo(event.target.value)}
               />
               </div>
               <div id="float-label" className="form-group">
@@ -158,7 +202,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 type="text"
                 id="gender"
                 value={gender}
-                onChange={(event) => setgender(event.target.value)}
+                onChange={(event) => setGender(event.target.value)}
               />
               </div>
               <div id="float-label" className="form-group">
@@ -167,7 +211,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 type="text"
                 id="address"
                 value={address}
-                onChange={(event) => setaddress(event.target.value)}
+                onChange={(event) => setAddress(event.target.value)}
               />
             </div>
             <br />
@@ -223,8 +267,8 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
             <input
               type="password"
               id="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              value={delPassword}
+              onChange={(event) => setDelPassword(event.target.value)}
             />
           </div>
           <div id="float-label" className="form-group">

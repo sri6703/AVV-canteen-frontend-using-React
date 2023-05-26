@@ -13,6 +13,7 @@ const AddItem = () => {
   const [canteen, setCanteen] = useState('');
   const [category, setCategory] = useState('');
   const [quantity, setQuantity] = useState(0);
+  const [image, setimage] = useState('');
   const [itemstatus, setItemStatus] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -32,9 +33,10 @@ const AddItem = () => {
       description: description,
       category: category,
       canteenname: canteen,
-      exist_quantity: quantity
+      exist_quantity: quantity,
+      image:image
     };
-
+   
     try {
       setIsLoading(true);
       const response = await axios.post('/canteen', newItem);
@@ -56,6 +58,7 @@ const AddItem = () => {
     setCanteen('');
     setCategory('');
     setQuantity(0);
+    setimage('');
   };
 
   if (isLoading) {
@@ -142,6 +145,15 @@ const AddItem = () => {
             onChange={(event) => setQuantity(Number(event.target.value))}
           />
         </div>
+        <div>
+  <label htmlFor="image">Image:</label>
+  <input
+    type="text"
+    id="image"
+    value={image}
+    onChange={(event) => setimage(event.target.value)}
+  />
+</div>
         <br />
         <div>
           <button type="submit">Add Item</button>

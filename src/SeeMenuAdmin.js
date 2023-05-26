@@ -12,6 +12,7 @@ const SeeMenuAdmin = () => {
   const [editingItemId, setEditingItemId] = useState(null);
   const [editedPrice, setEditedPrice] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
+  const [editedimage, setEditedimage] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,6 +36,7 @@ const SeeMenuAdmin = () => {
         category: item.category,
         canteenname: item.canteenname,
         quantity: item.exist_quantity,
+        image : item.image
       }));
       setMenuItems(formattedData);
       console.log(formattedData);
@@ -62,6 +64,7 @@ const SeeMenuAdmin = () => {
     setEditingItemId(itemToEdit.foodid);
     setEditedPrice(itemToEdit.price);
     setEditedDescription(itemToEdit.description);
+    setEditedimage(itemToEdit.description);
     setIsEditing(true);
   };
 
@@ -75,6 +78,7 @@ const SeeMenuAdmin = () => {
       const response = await axios.patch(url, {
         price: editedPrice,
         description: editedDescription,
+        image : editedimage
       });
       setIsLoading(false);
       console.log('Updated Item:', response.data);
@@ -89,6 +93,7 @@ const SeeMenuAdmin = () => {
       setEditingItemId(null);
       setEditedPrice('');
       setEditedDescription('');
+      setEditedimage('');
       setIsEditing(false);
 
       await fetchMenuItems();
@@ -98,6 +103,7 @@ const SeeMenuAdmin = () => {
         foodid: editingItemId,
         price: editedPrice,
         description: editedDescription,
+        image: editedimage,
       });
     }
   };
@@ -106,7 +112,9 @@ const SeeMenuAdmin = () => {
     setEditingItemId(null);
     setEditedPrice('');
     setEditedDescription('');
+    setEditedimage('');
     setIsEditing(false);
+    
   };
 
   const handleDelete = async (canteenname, category, foodid) => {
@@ -176,6 +184,7 @@ const SeeMenuAdmin = () => {
               <th>Category</th>
               <th>Canteen</th>
               <th>Quantity</th>
+              <th>Image</th>
               <th>Edit</th>
               <th>Delete</th>
             </tr>
@@ -189,6 +198,9 @@ const SeeMenuAdmin = () => {
                 <td>{item.category}</td>
                 <td>{item.canteenname}</td>
                 <td>{item.quantity}</td>
+                <td>
+  <img src={item.image} alt="Item Image" style={{ width: '50px', height: '50px' }} />
+</td>
                 <td>
                   <button className="edit-button" onClick={() => handleEdit(item.foodid)}>
                     Edit
@@ -222,6 +234,14 @@ const SeeMenuAdmin = () => {
               type="text"
               value={editedDescription}
               onChange={(e) => setEditedDescription(e.target.value)}
+            />
+          </label>
+          <label>
+            Image:
+            <input
+              type="text"
+              value={editedimage}
+              onChange={(e) => setEditedimage(e.target.value)}
             />
           </label>
           <div>
