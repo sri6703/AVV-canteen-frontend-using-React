@@ -111,7 +111,6 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
     }
   };
 
-  const deldata= {delpwd: delPassword};
   const handleDeleteAccountSubmit = async (event) => {
     event.preventDefault();
     if (deleteConfirmation === 'DELETE') {
@@ -122,7 +121,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
         const URL = `login-page/${userid}`;
 
         setIsLoading(true);
-        const response = await axios.delete(URL,deldata);
+        const response = await axios.delete(URL, { data: { delpwd: delPassword } });
         setIsLoading(false);
         alert(response.data.message);
         // TODO: Logout user
@@ -131,7 +130,6 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
       } catch (error) {
         console.error('Error deleting account:', error);
         console.log(delPassword);
-        console.log();
         alert(error.response.data.message);
         setIsLoading(false);
       }

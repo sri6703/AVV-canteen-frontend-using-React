@@ -27,7 +27,7 @@ const LoginHomepage = ({ username, userType }) => {
     <div className="login-homepage-container">
       <div className="greeting-container">
         <img src={namaste} className="icon" alt="user icon" />
-        <h1>Namaste {user},</h1>
+        <h1>Welcome {user},</h1>
         <h2>Welcome to Amrita Canteen!</h2>
       </div>
     </div>
