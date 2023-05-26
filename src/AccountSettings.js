@@ -44,7 +44,9 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
   }, [userid]);
 
   const getUserData = async (userid) => {
+    setIsLoading(true);
     const response = await axios.get(`login-page/${userid}`);
+    setIsLoading(false);
     return response.data;
   };
 
