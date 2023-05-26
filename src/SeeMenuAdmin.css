@@ -12,7 +12,6 @@
 .filters {
   display: flex;
   margin-bottom: 1rem;
-  margin-top: 10px;
   justify-self: center;
   align-self: center;
 }
@@ -20,11 +19,13 @@
 .greet-menu2{
   display: flex;
 }
+
 .greet-menu2 img{
   height: 100px;
   width: 170px;
   align-self: center;
 }
+
 .greet-menu2 h2{
   align-self: center;
   align-content: center;
