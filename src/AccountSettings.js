@@ -98,7 +98,6 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
       setIsLoading(true);
       const response = await axios.patch(URL, data);
       setIsLoading(false);
-
       console.log(response.data);
       alert('Profile updated successfully!');
       seteditStatus('Profile updated successfully!');
