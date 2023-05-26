@@ -12,7 +12,7 @@ function HomePage({ toggleLoginPage }) {
         The health aspect, not the taste, should be the prime criteria in choosing the food.
         We cannot relish the blossoming of the heart without foregoing the taste of the tongue.
         <br />
-          - Mata Amritanandamayi
+          - Mata Amritanandamayi, Chancellor
         </div>
 
       <img src="https://i0.wp.com/amritavidyalayam.org/wp-content/uploads/amma.png" alt="amritanandamayi"/>
