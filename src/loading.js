@@ -8,12 +8,13 @@ const Loading = () => {
     <div className="loading-container">
       <Lottie
         options={{
-          animationData: loadingAnimation, 
+          animationData: loadingAnimation,
           loop: true,
         }}
         width={200} // Adjust the width of the animation as needed
         height={200} // Adjust the height of the animation as needed
       />
+      <p className="loading-text">Please wait, cooking...</p>
     </div>
   );
 };

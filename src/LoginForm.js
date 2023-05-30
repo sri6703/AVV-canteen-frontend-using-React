@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaUser, FaLock, FaEnvelope, FaIdCard, FaUserShield, FaVoicemail } from 'react-icons/fa';
+import { FaUser, FaLock, FaEnvelope, FaIdCard, FaUserShield } from 'react-icons/fa';
 import axios from 'axios';
 import './LoginForm.css';
 import Loading from "./loading.js";
@@ -90,13 +90,15 @@ function LoginForm(props) {
     setIsLoading(false);
   };
 
-  const handleForgotPassword = async (email) => {
+  const handleForgotPassword = async () => {
+    const email = loginId;
     try {
       //setIsLoading(true);
       const response = await axios.post(`login-page/${email}`);
       const link = response.data;
       setIsLoading(false);
-      console.log(link); // Log the link received from the server
+      console.log(link);
+      alert("Email Sent !") // Log the link received from the server
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -132,8 +134,8 @@ function LoginForm(props) {
             : formType === 'signup'
             ? handleSignupSubmit
             : formType === 'forgot'
-            ? handleForgotPassword(loginId)
-            : () => handleForgotPassword // dummy else block
+            ? handleForgotPassword
+            : console.log("oops!")// dummy else block
         }
       >
         {formType === 'signup' && (
@@ -267,9 +269,10 @@ function LoginForm(props) {
                 onChange={(e) => setLoginId(e.target.value)}
               />
             </div>
-            <button class="reactive-button" type="button" style={{ marginTop: '10px' }} onClick={() => handleForgotPassword(loginId)}>
-              Send Mail
-            </button>
+            <button class="reactive-button" type="submit" style={{ marginTop: '10px' }}>
+  Send Mail
+</button>
+
             <p className='status-msg' style={{ visibility: loginStatus.length !== 0 ? 'visible' : 'hidden', marginTop: '10px' }}>{loginStatus}</p>
             <br />
         </>
