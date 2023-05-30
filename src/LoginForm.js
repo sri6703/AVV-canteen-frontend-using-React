@@ -45,7 +45,7 @@ function LoginForm(props) {
           setLoginStatus('Password incorrect!'); 
         }
       } else { 
-        setLoginStatus('User ID incorrect!');
+        setLoginStatus('User not found!');
       }
     } catch (error) {
       console.error(error);
