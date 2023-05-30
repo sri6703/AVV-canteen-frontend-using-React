@@ -64,7 +64,7 @@ const SeeMenuAdmin = () => {
     setEditingItemId(itemToEdit.foodid);
     setEditedPrice(itemToEdit.price);
     setEditedDescription(itemToEdit.description);
-    setEditedimage(itemToEdit.description);
+    setEditedimage(itemToEdit.image);
     setIsEditing(true);
   };
 
