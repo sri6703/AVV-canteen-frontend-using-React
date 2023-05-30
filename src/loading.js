@@ -3,9 +3,10 @@ import './Loading.css';
 import Lottie from 'lottie-react-web';
 import loadingAnimation from './img/animations/loading_image.json';
 
-const Loading = () => {
+const Loading = ({a}) => {
+  const containerStyle = a !== 1 ? { position: 'relative' } : { position: 'fixed' };
   return (
-    <div className="loading-container">
+    <div className="loading-container" style={containerStyle}>
       <Lottie
         options={{
           animationData: loadingAnimation,

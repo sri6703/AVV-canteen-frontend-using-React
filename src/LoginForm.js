@@ -111,7 +111,7 @@ function LoginForm(props) {
   };
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading a={1}/>;
   }
 
   return (
