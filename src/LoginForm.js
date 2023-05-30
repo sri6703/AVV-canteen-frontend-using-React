@@ -30,12 +30,12 @@ function LoginForm(props) {
       const response = await axios.get(URL);
       const data = response.data;
       console.log(data);
+      setIsLoading(false);
       const isLoginValid = userType === 'user'
         ? data.some((i) => i.regno === loginId)
         : data.some((i) => i.email === loginId);
       if (isLoginValid) {
         const isPasswordCorrect = data.some((i) => i.pwd === loginPassword);
-        setIsLoading(false);
         if (isPasswordCorrect) {
           setLoginStatus('Logged in Successfully!!');
           setUserType(userType);
