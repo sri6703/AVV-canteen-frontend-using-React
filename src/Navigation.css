@@ -8,6 +8,10 @@
   background-color: #bbb;
   background-size: cover; 
   background-position: right;
+  background: url('./img/sb1.jpeg') ;
+  
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 ul {
