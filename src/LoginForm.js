@@ -28,6 +28,7 @@ function LoginForm(props) {
     try {
       setIsLoading(true);
       const response = await axios.get(URL);
+      setIsLoading(false);
       const data = response.data;
       console.log(data);
       setIsLoading(false);
@@ -36,6 +37,7 @@ function LoginForm(props) {
         : data.some((i) => i.email === loginId);
       if (isLoginValid) {
         const isPasswordCorrect = data.some((i) => i.pwd === loginPassword);
+        setIsLoading(false);
         if (isPasswordCorrect) {
           setLoginStatus('Logged in Successfully!!');
           setUserType(userType);
@@ -44,7 +46,7 @@ function LoginForm(props) {
           setLoginStatus('Password incorrect!'); 
         }
       } else { 
-        setLoginStatus('User ID incorrect!');
+        setLoginStatus('User not found!');
       }
     } catch (error) {
       console.error(error);
