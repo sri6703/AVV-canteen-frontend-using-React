@@ -183,7 +183,7 @@ const AccountSettings = ({ SetIsLoggedIn, userid }) => {
                 type="mail"
                 id="email"
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                readOnly disabled
               />
               </div>
               <div id="float-label" className="form-group">
