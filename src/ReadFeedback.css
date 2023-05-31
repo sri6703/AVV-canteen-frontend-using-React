@@ -1,0 +1,35 @@
+.read-feedbacks {
+    margin: 20px;
+  }
+
+ .read-feedbacks h1{
+    font-size: 40px;
+    color: #fff;
+  }
+  
+  .feedback-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .user-id {
+    font-weight: bold;
+  }
+  
+  .feedback-msg {
+    margin-bottom: 5px;
+  }
+  
+  button {
+    background-color: #a4123f;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #8a0f38;
+  }
+  

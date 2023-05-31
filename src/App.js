@@ -10,6 +10,8 @@ import AddItem from "./AddItem";
 import SeeCart from "./SeeCart";
 import AccountSettings from "./AccountSettings";
 import LoginHomepage from "./LoginNext";
+import SendFeedback from "./SendFeedback";
+import ReadFeedbacks from "./ReadFeedback"
 
 import "./App.css";
 
@@ -84,10 +86,14 @@ function App() {
                 <AddItem />
               ) : activeComponent === "SeeCart" ? (
                 <SeeCart userid={userid} />
+              ) : activeComponent === "SendFeedback" ? (
+                <SendFeedback userid={userid} />
               ) : activeComponent === "SeeMenuAdmin" ? (
                 <SeeMenuAdmin />
               ) : activeComponent === "AccountSettings" ? (
                 <AccountSettings userid={userid} SetIsLoggedIn={setIsLoggedIn} />
+              ): activeComponent === "ReadFeedback" ? (
+                <ReadFeedbacks />
               ) : !isLoggedIn ? (
                 <LoginForm toggleLoginPage={toggleLoginPage} />
               ) : null}
