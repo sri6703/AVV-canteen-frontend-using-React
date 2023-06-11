@@ -1,0 +1,75 @@
+.order-history {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    min-height: 80vh;
+    align-self: center;
+    padding-left: 10px;
+  }
+  
+.orderhistory-header{
+display: flex;
+align-items: center;
+margin-left: 30px;
+    } 
+    
+.orderhistory-header img{
+    align-self: center;
+    height: 100px;
+    width: 170px;
+    margin-left: 30px;
+
+} 
+
+.orderhistory-header h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+    color: white;
+  }
+  
+  .item-details {
+    width: 80%;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .item-details h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  table {
+    width: 80%;
+    border-collapse: collapse;
+  }
+  
+  table th,
+  table td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  table th {
+    background-color: #f2f2f2;
+  }
+  
+  table td {
+    border-bottom: 1px solid #ddd;
+    color: white;
+  }
+  
+  .view-item-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #a4123f;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+  }
+  
+  .view-item-button:hover {
+    transform: scale(1.2);
+  }
+  

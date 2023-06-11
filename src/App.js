@@ -11,7 +11,8 @@ import SeeCart from "./SeeCart";
 import AccountSettings from "./AccountSettings";
 import LoginHomepage from "./LoginNext";
 import SendFeedback from "./SendFeedback";
-import ReadFeedbacks from "./ReadFeedback"
+import ReadFeedbacks from "./ReadFeedback";
+import OrderHistory from "./OrderHistory";
 
 import "./App.css";
 
@@ -92,6 +93,8 @@ function App() {
                 <SeeMenuAdmin />
               ) : activeComponent === "AccountSettings" ? (
                 <AccountSettings userid={userid} SetIsLoggedIn={setIsLoggedIn} />
+              ) : activeComponent === "MyOrders" ? (
+                <OrderHistory userid={userid} />
               ): activeComponent === "ReadFeedback" ? (
                 <ReadFeedbacks />
               ) : !isLoggedIn ? (
