@@ -8,22 +8,15 @@ const SeeMenu = ({ userid }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [currentCanteen, setCurrentCanteen] = useState('All');
   const [currentCategory, setCurrentCategory] = useState('All');
+  const [currentPrice, setCurrentPrice] = useState('All');
   const [currentRating, setCurrentRating] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchMenuItems = useCallback(async () => {
     try {
-      let url = 'canteen/';
-      if (currentCategory !== 'All') {
-        url += `${currentCategory}`;
-      }
-      if (currentCanteen !== 'All') {
-        url += `/${currentCanteen}/`;
-      }
       setIsLoading(true);
-      const response = await axios.get(url);
+      const response = await axios.get('canteen/');
       const formattedData = response.data.map((item) => ({
         _id: item._id,
         foodid: item.foodid,
@@ -33,19 +26,37 @@ const SeeMenu = ({ userid }) => {
         category: item.category,
         canteenname: item.canteenname,
         exist_quantity: item.exist_quantity,
-        imageUrl:item.image
+        imageUrl: item.image,
       }));
-      setMenuItems(formattedData);
+
+      // Apply filters based on currentCategory, currentCanteen, and currentPrice
+      let filteredItems = formattedData;
+
+      if (currentCategory !== 'All') {
+        filteredItems = filteredItems.filter((item) => item.category === currentCategory);
+      }
+
+      if (currentCanteen !== 'All') {
+        filteredItems = filteredItems.filter((item) => item.canteenname === currentCanteen);
+      }
+
+      if (currentPrice !== 'All') {
+        const priceLimit = parseInt(currentPrice, 10);
+        filteredItems = filteredItems.filter((item) => item.price <= priceLimit);
+      }
+
+      setMenuItems(filteredItems);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
     }
-  }, [currentCanteen, currentCategory]);
+  }, [currentCategory, currentCanteen, currentPrice]);
 
-  useEffect(() => {
-    fetchMenuItems();
-  }, [fetchMenuItems]);
+    useEffect(() => {
+      fetchMenuItems();
+    }, [fetchMenuItems]);
+
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -131,6 +142,10 @@ const SeeMenu = ({ userid }) => {
     setCurrentCategory(event.target.value);
   };
 
+  const handlePriceSwitch = (event) => {
+    setCurrentPrice(event.target.value);
+  };
+  
   const handleRating = (rating) => {
     setCurrentRating(rating);
   };
@@ -146,7 +161,7 @@ const SeeMenu = ({ userid }) => {
         <img src={chefImage} className="icon" alt="user icon" />
       </div>
       <div className="filters1">
-        <div className="category-switch">
+        <div className="switch-filter">
           <label>
             Category:
             <select value={currentCategory} onChange={handleCategorySwitch}>
@@ -157,7 +172,7 @@ const SeeMenu = ({ userid }) => {
             </select>
           </label>
         </div>
-        <div className="canteen-switch">
+        <div className="switch-filter">
           <label>
             Canteen:
             <select value={currentCanteen} onChange={handleCanteenSwitch}>
@@ -165,6 +180,17 @@ const SeeMenu = ({ userid }) => {
               <option value="business">business</option>
               <option value="it">it</option>
               <option value="main">main</option>
+            </select>
+          </label>
+        </div>
+        <div className="switch-filter">
+          <label>
+            Price:
+            <select value={currentPrice} onChange={handlePriceSwitch}>
+              <option value="All">All</option>
+              <option value="50">Less than Rs50</option>
+              <option value="100">Less than Rs100</option>
+              <option value="150">Less than Rs150</option>
             </select>
           </label>
         </div>

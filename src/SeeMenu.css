@@ -29,27 +29,24 @@
   display: flex;
 }
 
-.category-switch,
-.canteen-switch {
-  display: flex;
+.switch-filter {
   align-items: center;
   color: #fff;
   margin-right: 1rem;
+
 }
 
-.category-switch select,
-.canteen-switch select {
-  margin-left: 10px;
+.switch-filter select{
+  margin-left: 8px;
   font-size: 16px;
   padding: 8px;
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 8px;
   width: auto;
 }
 
-.category-switch label,
-.canteen-switch label {
-  margin-left: 10px;
+.switch-filter label {
+  margin-left: 8px;
 }
 
 .menu-cards {

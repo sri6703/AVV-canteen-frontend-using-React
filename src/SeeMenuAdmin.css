@@ -34,16 +34,14 @@
   font-size: 40px;
 }
  
-.canteen-switch,
-.category-switch {
+.switch-filter2 {
   display: flex;
   align-items: center;
   color: #fff;
   margin-right: 1rem;
 }  
 
-.category-switch select,
-.canteen-switch select {
+.switch-filter2 select {
   margin-left: 10px;
   font-size: 16px;
   padding: 8px;
@@ -52,8 +50,7 @@
   width: auto;
 }
 
-.category-switch label,
-.canteen-switch label {
+.switch-filter2 label {
   margin-right: 10px;
 }
 
