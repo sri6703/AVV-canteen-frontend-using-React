@@ -27,14 +27,14 @@
     background-color: #f5f5f5;
   }
   
-  .delete-button {
+  .delete-button2 {
     background: none;
     border: none;
     color: #ff0000;
     cursor: pointer;
   }
   
-  .delete-button:hover {
+  .delete-button2:hover {
     color: #cc0000;
   }
   

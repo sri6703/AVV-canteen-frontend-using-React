@@ -3,76 +3,72 @@ import axios from 'axios';
 import './SeeCart.css';
 import Loading from "./loading.js";
 import cartgif from "./img/cart.gif";
+import PaymentForm from "./PaymentForm";
 
 const SeeCart = ({ userid }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     fetchCartItems();
   }, []);
 
-const fetchCartItems = async () => {
-  try {
-    setIsLoading(true);
-    const response = await axios.get(`/addtocart/${userid}`);
-    const data = response.data.map(item => ({
-      _id: item._id,
-      name: item.item?.name,
-      description: item.item?.description,
-      price: item.item?.price,
-      quantity: item.quantity,
-      existingQuantity: item.item?.exist_quantity
-    })).filter(item => item.name !== null);
-    setIsLoading(false);
-    // Calculate the total quantity for each item
-    const groupedItems = data.reduce((acc, item) => {
-      const existingItem = acc.find(i => i._id === item._id);
-      if (existingItem) {
-        existingItem.quantity += item.quantity;
-      } else {
-        acc.push(item);
-      }
-      return acc;
-    }, []);
-
-    setCartItems(groupedItems);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-  const handleDeleteItem = async (itemId) => {
+  const fetchCartItems = async () => {
     try {
       setIsLoading(true);
       const response = await axios.get(`/addtocart/${userid}`);
       const data = response.data.map(item => ({
         _id: item._id,
-        id: item.item?._id,
+        name: item.item?.name,
+        description: item.item?.description,
+        price: item.item?.price,
         quantity: item.quantity,
-        existingQuantity: item.item?.exist_quantity,
-      }));
+        existingQuantity: item.item?.exist_quantity
+      })).filter(item => item.name !== null);
       setIsLoading(false);
-      const item = data.find(item => item._id === itemId);
-      const { _id,id, existingQuantity, quantity } = item;
-      console.log(quantity)
-      console.log(existingQuantity)
-      console.log(existingQuantity+quantity)
+      // Calculate the total quantity for each item
+      //sample commits
+    const groupedItems = data.reduce((acc, item) => {
+        const existingItem = acc.find(i => i._id === item._id);
+        if (existingItem) {
+          existingItem.quantity += item.quantity;
+        } else {
+          acc.push(item);
+        }
+        return acc;
+      }, []);
+
+      setCartItems(groupedItems);
+
+      // Calculate total price
+      const totalPrice = groupedItems.reduce((acc, item) => {
+        return acc + item.price * item.quantity;
+      }, 0);
+      setTotalPrice(totalPrice);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeleteItem = async (itemId) => {
+    try {
       setIsLoading(true);
-      // Make a PATCH request to update the existing quantity
-      await axios.patch(`canteen/${id}/${existingQuantity + quantity}`);
       // Delete the item from the cart
-      await axios.delete(`/addtocart/${_id}`);
+      await axios.delete(`/addtocart/${itemId}`);
       setIsLoading(false);
-  
+
       // Update the cartItems state by filtering out the deleted item
       setCartItems(cartItems.filter(item => item._id !== itemId));
+
+      // Call fetchCartItems again to recalculate the total price
+      fetchCartItems();
     } catch (error) {
       console.error(error);
       setIsLoading(false);
     }
   };
-  
 
   const handleDeleteAllItems = async () => {
     try {
@@ -86,57 +82,82 @@ const fetchCartItems = async () => {
         existingQuantity: item.item?.exist_quantity,
       }));
       setIsLoading(false);
-          setIsLoading(true);
+      setIsLoading(true);
 
       // Update the existing quantities of all items
       for (const item of data) {
         const { id, existingQuantity, quantity } = item;
         // Make a PATCH request to update the existing quantity
         await axios.patch(`canteen/${id}/${existingQuantity + quantity}`);
-
       }
       setIsLoading(false);
       // Delete all items from the cart
       setIsLoading(true);
       await axios.delete('/addtocart');
       setIsLoading(false);
-      // Update the cartItems state
+      // Update the cartItems state and total price
       setCartItems([]);
+      setTotalPrice(0);
+
     } catch (error) {
       console.error(error);
     }
   };
   
+    const placeOrder = () => {
+      setIsPaymentOpen(true);
+    };
+  
 
-  const placeOrder = async () => {
-    try {
-      setIsLoading(true);
-  
-      const response = await axios.post(`addtocart/place-order`, { userid });
-  
-      console.log("Order placed successfully");
-  
-      // Clear the cart items after successful order placement
-      setCartItems([]);
-  
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error placing order:", error);
-      setIsLoading(false);
-    }
+  const handlePaymentSubmit = (event) => {
+    event.preventDefault();
+    const userId = userid;
+    const cart = cartItems.map(({ _id, quantity }) => ({
+      itemId: _id,
+      quantity,
+    }));
+    setIsLoading(true);
+    axios.post("/api/orders", { userId, cart })
+      .then(() => {
+        console.log("Order placed successfully");
+        setIsPaymentOpen(false);
+        fetchCartItems();
+      })
+      .catch((error) => {
+        console.error("Error placing order:", error);
+        setIsLoading(false);
+      });
   };
+
+
   
-  
+  const handlePaymentCancel = () => {
+    setIsPaymentOpen(false);
+  };
+
+
 
   if (isLoading) {
     return <Loading />;
   }
 
+  if (isPaymentOpen) {
+    return (
+      <div className="payment-page">
+        <PaymentForm
+          onSubmit={handlePaymentSubmit}
+          onCancel={handlePaymentCancel}
+          totalPrice={totalPrice}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="cart-container">
       <div className='cart-header'>
-          <h1>My Cart</h1>
-          <img src={cartgif} alt="Cart" />    
+        <h1>My Cart</h1>
+        <img src={cartgif} alt="Cart" />
       </div>
 
       <table className="cart-table">
