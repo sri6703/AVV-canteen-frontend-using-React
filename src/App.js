@@ -13,6 +13,7 @@ import LoginHomepage from "./LoginNext";
 import SendFeedback from "./SendFeedback";
 import ReadFeedbacks from "./ReadFeedback";
 import OrderHistory from "./OrderHistory";
+import TableBooking from "./TableBooking";
 
 import "./App.css";
 
@@ -91,6 +92,8 @@ function App() {
                 <SendFeedback userid={userid} />
               ) : activeComponent === "SeeMenuAdmin" ? (
                 <SeeMenuAdmin />
+              ): activeComponent === "TableBooking" ? (
+                <TableBooking userid={userid}/>
               ) : activeComponent === "AccountSettings" ? (
                 <AccountSettings userid={userid} SetIsLoggedIn={setIsLoggedIn} />
               ) : activeComponent === "MyOrders" ? (
