@@ -64,7 +64,7 @@ function SeeTableBookings() {
               <td>{booking.tableNo}</td>
               <td>
                 <button
-                  className="delete-button"
+                  className="delete-button2"
                   onClick={() => deleteBooking(booking.id)}
                 >
                   <FaTrash />
