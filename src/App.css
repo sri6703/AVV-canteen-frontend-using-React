@@ -81,7 +81,7 @@ main {
   top: 50px;
   background-color: #ddd;
   border: none;
-  color: #a4123f;
+  color: #a4123f; 
   font-size: 28px;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
@@ -97,4 +97,4 @@ header {
   width: 100%;
   z-index: 2; /* Make sure the header stays on top */
 }
-/*made changes*/
+/*made new changes*/
