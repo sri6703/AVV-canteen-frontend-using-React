@@ -11,7 +11,7 @@ const OrderHistory = ({ userid }) => {
   useEffect(() => {
     // Fetch order history from the API using Axios
     axios
-      .get(`your-order-history-api-endpoint?userid=${userid}`)
+      .get(`/addtocart/orders`, { userid })
       .then((response) => {
         // Update the orders state with the fetched data
         setOrders(response.data);
@@ -20,6 +20,7 @@ const OrderHistory = ({ userid }) => {
         console.error("Error fetching order history:", error);
       });
   }, [userid]);
+  
 
   const handleViewItem = (itemId) => {
     // Find the selected item from the orders state
@@ -38,53 +39,43 @@ const OrderHistory = ({ userid }) => {
           <img src={ordergif} alt="Cart" />    
       </div>
       {selectedItem ? (
-        <div className="item-details">
-          <h2>Item Details</h2>
-          <p>Item ID: {selectedItem.itemId}</p>
-          <p>Item Name: {selectedItem.itemName}</p>
-          <p>Canteen: {selectedItem.canteen}</p>
-          <p>Date: {selectedItem.date}</p>
-          <p>Price: {selectedItem.price}</p>
-          <p>Quantity: {selectedItem.quantity}</p>
-          <button onClick={handleCancelView}>Cancel</button>
-        </div>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Item ID</th>
-              <th>Item Name</th>
-              <th>Canteen</th>
-              <th>Date</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order.orderId}>
-                <td>{order.orderId}</td>
-                <td>{order.itemId}</td>
-                <td>{order.itemName}</td>
-                <td>{order.canteen}</td>
-                <td>{order.date}</td>
-                <td>{order.price}</td>
-                <td>{order.quantity}</td>
-                <td>
-                  <button
-                    className="view-item-button"
-                    onClick={() => handleViewItem(order.itemId)}
-                  >
-                    <FaEye />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+  <div className="item-details">
+    <h2>Item Details</h2>
+    <p>Item ID: {selectedItem.item.foodid}</p>
+    <p>Item Name: {selectedItem.item.name}</p>
+    <p>Canteen: {selectedItem.item.canteenname}</p>
+    <p>Date: {selectedItem.date}</p>
+    <p>Price: {selectedItem.item.price}</p>
+    <p>Quantity: {selectedItem.quantity}</p>
+    <button onClick={handleCancelView}>Cancel</button>
+  </div>
+) : (
+  <table>
+    <thead>
+      <tr>
+        <th>Item ID</th>
+        <th>Item Name</th>
+        <th>Canteen</th>
+        <th>Date</th>
+        <th>Price</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {orders.map((order) => (
+        <tr >
+          <td>{order.item.foodid}</td>
+          <td>{order.item.name}</td>
+          <td>{order.item.canteenname}</td>
+          <td>{order.date}</td>
+          <td>{order.item.price}</td>
+          <td>{order.quantity}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
     </div>
   );
 };
