@@ -26,6 +26,7 @@ const fetchCartItems = async () => {
     })).filter(item => item.name !== null);
     setIsLoading(false);
     // Calculate the total quantity for each item
+    //sample commits
     const groupedItems = data.reduce((acc, item) => {
       const existingItem = acc.find(i => i._id === item._id);
       if (existingItem) {
