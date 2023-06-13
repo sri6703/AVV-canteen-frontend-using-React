@@ -93,6 +93,7 @@ const SeeMenu = ({ userid }) => {
       setCartItems((prevCartItems) => [...prevCartItems, selectedItem]);
 
       try {
+        const date = new Date();
         let qn = 0;
         setIsLoading(true);
         const response = await axios.get(`addtocart/${userid}/${itemId}`);
@@ -114,6 +115,7 @@ const SeeMenu = ({ userid }) => {
           // If the item already exists in the cart, update the quantity using PATCH
           await axios.patch(`addtocart/${existingCartItem._id}`, {
             existing_quantity: qn,
+            date: date,
           });
         } else {
           // If the item doesn't exist in the cart, create a new cart item using POST
@@ -121,6 +123,7 @@ const SeeMenu = ({ userid }) => {
             userid: userid,
             itemId: selectedItem._id,
             quantity: qn,
+            date: date,
           });
         }
         setIsLoading(false);

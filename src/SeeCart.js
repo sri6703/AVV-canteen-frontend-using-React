@@ -108,23 +108,25 @@ const fetchCartItems = async () => {
   };
   
 
-  const placeOrder = () => {
-    const userId = userid;
-    const cart = cartItems.map(({ _id, quantity }) => ({
-      itemId: _id,
-      quantity,
-    }));
-    setIsLoading(true);
-    axios.post("/api/orders", { userId, cart })
-      .then(() => {
-        console.log("Order placed successfully");
-      })
-      .catch((error) => {
-        console.error("Error placing order:", error);
-      });
+  const placeOrder = async () => {
+    try {
       setIsLoading(true);
-
+  
+      const response = await axios.post(`addtocart/place-order`, { userid });
+  
+      console.log("Order placed successfully");
+  
+      // Clear the cart items after successful order placement
+      setCartItems([]);
+  
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error placing order:", error);
+      setIsLoading(false);
+    }
   };
+  
+  
 
   if (isLoading) {
     return <Loading />;
