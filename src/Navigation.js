@@ -1,6 +1,6 @@
 import React from "react";
 import "./Navigation.css";
-import { FaHome, FaCog, FaUtensils, FaShoppingCart, FaReceipt, FaPlus, FaListUl, FaRegComment, FaChartLine, FaSignOutAlt, FaComment } from 'react-icons/fa';
+import { FaHome, FaCog, FaUtensils, FaShoppingCart, FaReceipt, FaPlus, FaListUl, FaRegComment, FaChartLine, FaChair, FaSignOutAlt, FaComment } from 'react-icons/fa';
 
 
 function Navigation({ userType, handleLogout, setActiveComponent }) {
@@ -18,9 +18,11 @@ function Navigation({ userType, handleLogout, setActiveComponent }) {
         {userType === "user" && ( <li onClick={() => setActiveComponent("SeeCart")}><FaShoppingCart />My Cart</li>)}
         {userType === "user" && ( <li onClick={() => setActiveComponent("MyOrders")}><FaReceipt />My Orders</li>)}
         {userType === "user" && ( <li onClick={() => setActiveComponent("SendFeedback")}><FaRegComment />Feedback</li>)}
+        {userType === "user" && ( <li onClick={() => setActiveComponent("TableBooking")}><FaChair />Book Table</li>)}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("addItem")}><FaPlus />Add Item</li> )}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("SeeMenuAdmin")}><FaListUl />Current Menu</li> )}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("Dashboard")}><FaChartLine />Dashboard</li>)}
+        {userType === "admin" && ( <li onClick={() => setActiveComponent("SeeTableBookings")}><FaChair />Table Bookings</li>)}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("ReadFeedback")}><FaComment />See Feedback</li>)}
         <li onClick={handleLogoutClick}><FaSignOutAlt />Log Out</li>
       </ul>

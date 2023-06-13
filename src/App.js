@@ -10,9 +10,11 @@ import AddItem from "./AddItem";
 import SeeCart from "./SeeCart";
 import AccountSettings from "./AccountSettings";
 import LoginHomepage from "./LoginNext";
+import OrderHistory from "./OrderHistory";
+import TableBooking from "./TableBooking";
+import SeeTableBookings from "./SeeTableBookings";
 import SendFeedback from "./SendFeedback";
 import ReadFeedbacks from "./ReadFeedback";
-import OrderHistory from "./OrderHistory";
 
 import "./App.css";
 
@@ -91,12 +93,16 @@ function App() {
                 <SendFeedback userid={userid} />
               ) : activeComponent === "SeeMenuAdmin" ? (
                 <SeeMenuAdmin />
+              ): activeComponent === "TableBooking" ? (
+                <TableBooking userid={userid}/>
               ) : activeComponent === "AccountSettings" ? (
                 <AccountSettings userid={userid} SetIsLoggedIn={setIsLoggedIn} />
               ) : activeComponent === "MyOrders" ? (
                 <OrderHistory userid={userid} />
               ): activeComponent === "ReadFeedback" ? (
                 <ReadFeedbacks />
+              ) : activeComponent === "SeeTableBookings" ? (
+                <SeeTableBookings />
               ) : !isLoggedIn ? (
                 <LoginForm toggleLoginPage={toggleLoginPage} />
               ) : null}

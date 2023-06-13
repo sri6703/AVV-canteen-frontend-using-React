@@ -8,10 +8,9 @@
     font-size: 40px;
     margin-bottom: 20px;
     color: #fff;
-    align-items: center;
   }
 
-  .send-feedback-form {
+.send-feedback-form {
     width: 60%;
     margin: 0 auto;
     padding: 20px;
