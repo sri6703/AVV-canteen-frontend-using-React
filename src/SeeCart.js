@@ -29,7 +29,8 @@ const SeeCart = ({ userid }) => {
       })).filter(item => item.name !== null);
       setIsLoading(false);
       // Calculate the total quantity for each item
-      const groupedItems = data.reduce((acc, item) => {
+      //sample commits
+    const groupedItems = data.reduce((acc, item) => {
         const existingItem = acc.find(i => i._id === item._id);
         if (existingItem) {
           existingItem.quantity += item.quantity;
@@ -102,13 +103,9 @@ const SeeCart = ({ userid }) => {
       console.error(error);
     }
   };
+  
 
   const placeOrder = () => {
-    setIsPaymentOpen(true);
-  };
-
-  const handlePaymentSubmit = (event) => {
-    event.preventDefault();
     const userId = userid;
     const cart = cartItems.map(({ _id, quantity }) => ({
       itemId: _id,
@@ -118,18 +115,15 @@ const SeeCart = ({ userid }) => {
     axios.post("/api/orders", { userId, cart })
       .then(() => {
         console.log("Order placed successfully");
-        setIsPaymentOpen(false); // Close the payment window
-        fetchCartItems(); // Fetch updated cart items
       })
       .catch((error) => {
         console.error("Error placing order:", error);
-        setIsLoading(false);
       });
-  };
+      setIsLoading(true);
 
-  const handlePaymentCancel = () => {
-    setIsPaymentOpen(false);
   };
+  
+  
 
   if (isLoading) {
     return <Loading />;
