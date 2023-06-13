@@ -22,6 +22,7 @@ function Navigation({ userType, handleLogout, setActiveComponent }) {
         {userType === "admin" && ( <li onClick={() => setActiveComponent("addItem")}><FaPlus />Add Item</li> )}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("SeeMenuAdmin")}><FaListUl />Current Menu</li> )}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("Dashboard")}><FaChartLine />Dashboard</li>)}
+        {userType === "admin" && ( <li onClick={() => setActiveComponent("SeeTableBookings")}><FaChair />Table Bookings</li>)}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("ReadFeedback")}><FaComment />See Feedback</li>)}
         <li onClick={handleLogoutClick}><FaSignOutAlt />Log Out</li>
       </ul>
