@@ -104,8 +104,13 @@ const SeeCart = ({ userid }) => {
     }
   };
   
+    const placeOrder = () => {
+      setIsPaymentOpen(true);
+    };
+  
 
-  const placeOrder = () => {
+  const handlePaymentSubmit = (event) => {
+    event.preventDefault();
     const userId = userid;
     const cart = cartItems.map(({ _id, quantity }) => ({
       itemId: _id,
@@ -115,15 +120,22 @@ const SeeCart = ({ userid }) => {
     axios.post("/api/orders", { userId, cart })
       .then(() => {
         console.log("Order placed successfully");
+        setIsPaymentOpen(false);
+        fetchCartItems();
       })
       .catch((error) => {
         console.error("Error placing order:", error);
+        setIsLoading(false);
       });
-      setIsLoading(true);
-
   };
+
+
   
-  
+  const handlePaymentCancel = () => {
+    setIsPaymentOpen(false);
+  };
+
+
 
   if (isLoading) {
     return <Loading />;
