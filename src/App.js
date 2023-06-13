@@ -15,6 +15,7 @@ import TableBooking from "./TableBooking";
 import SeeTableBookings from "./SeeTableBookings";
 import SendFeedback from "./SendFeedback";
 import ReadFeedbacks from "./ReadFeedback";
+import Dashboard from "./Dashboard";
 
 import "./App.css";
 
@@ -103,6 +104,8 @@ function App() {
                 <ReadFeedbacks />
               ) : activeComponent === "SeeTableBookings" ? (
                 <SeeTableBookings />
+              ) : activeComponent === "Dashboard" ? (
+                  <Dashboard />
               ) : !isLoggedIn ? (
                 <LoginForm toggleLoginPage={toggleLoginPage} />
               ) : null}

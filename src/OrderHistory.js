@@ -11,7 +11,7 @@ const OrderHistory = ({ userid }) => {
   useEffect(() => {
     // Fetch order history from the API using Axios
     axios
-      .get(`addtocart/${userid}`)
+      .get(`/addtocart/orders`, { userid })
       .then((response) => {
         // Update the orders state with the fetched data
         setOrders(response.data);
@@ -20,6 +20,7 @@ const OrderHistory = ({ userid }) => {
         console.error("Error fetching order history:", error);
       });
   }, [userid]);
+  
 
   const handleViewItem = (itemId) => {
     // Find the selected item from the orders state
