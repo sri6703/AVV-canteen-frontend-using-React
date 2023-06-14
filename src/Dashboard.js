@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import React, { useEffect, useState } from "react";
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
 import { Line } from "react-chartjs-2";
@@ -69,4 +67,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
->>>>>>> a89cfebe0aa2bf0daaffaaee84f15ec4ff512af0
