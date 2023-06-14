@@ -11,7 +11,7 @@ const OrderHistory = ({ userid }) => {
   useEffect(() => {
     // Fetch order history from the API using Axios
     axios
-      .get(`/addtocart/orders`, { userid })
+      .get(`/addtocart/${ userid }`)
       .then((response) => {
         // Update the orders state with the fetched data
         setOrders(response.data);

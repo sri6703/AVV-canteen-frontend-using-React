@@ -1,56 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Bar } from 'react-chartjs-2';
+import React, { useEffect, useState } from "react";
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
+import { Line } from "react-chartjs-2";
 
-const MostOrderedItemsChart = () => {
-  const [chartData, setChartData] = useState({});
-
+const Dashboard = () => {
   useEffect(() => {
-    fetchMostOrderedItems();
+    Chart.register(CategoryScale, LinearScale, PointElement, LineElement);
+    Chart.register({
+      id: 'category',
+      isScale: true,
+      type: 'category',
+      parse: () => {},
+      release: () => {}
+    });
   }, []);
 
-  const fetchMostOrderedItems = async () => {
-    try {
-      const response = await axios.get(`canteen/cart/most-ordered`); // Replace with your API endpoint
-      const data = response.data;
+  const [cartCount, setCartCount] = useState(0);
 
-      if (Array.isArray(data)) { // Check if data is an array
-        const itemNames = data.map(item => item.item.name);
-        const itemCounts = data.map(item => item.count);
-
-        setChartData({
-          labels: itemNames,
-          datasets: [
-            {
-              label: 'Most Ordered Items',
-              data: itemCounts,
-              backgroundColor: 'rgba(75, 192, 192, 0.6)'
-            }
-          ]
-        });
+  useEffect(() => {
+    // Simulating an API call to fetch the cart count
+    // Replace this with your actual API call to get the count of items in the cart
+    const fetchCartCount = async () => {
+      try {
+        const response = await fetch("/ordered");
+        const data = await response.json();
+        setCartCount(data.count);
+      } catch (error) {
+        console.error("Error fetching cart count:", error);
       }
-    } catch (error) {
-      console.error(error);
-    }
+    };
+
+    fetchCartCount();
+  }, []);
+
+  const chartData = {
+    labels: ["Cart"],
+    datasets: [
+      {
+        label: "Link Graph",
+        data: [cartCount],
+        fill: false,
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        type: "category",
+      },
+    },
   };
 
   return (
     <div>
-      <h2>Most Ordered Items</h2>
-      <Bar
-        data={chartData}
-        options={{
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-              precision: 0
-            }
-          }
-        }}
-      />
+      <h1>Dashboard</h1>
+      <div style={{ width: "400px", height: "300px" }}>
+        <Line data={chartData} options={chartOptions} />
+      </div>
+      {/* ... other dashboard components ... */}
     </div>
   );
 };
 
-export default MostOrderedItemsChart;
+export default Dashboard;
