@@ -24,15 +24,18 @@ const ReadFeedbacks = () => {
 
   const handleDeleteFeedback = (regno) => {
     // Send delete request to the API for the specified feedback ID
+    setIsLoading(true);
     axios.delete(`/feedback/${regno}`)
       .then(response => {
         // Filter out the deleted feedback from the feedbacks state
         setFeedbacks(prevFeedbacks =>
           prevFeedbacks.filter(feedback => feedback.regno !== regno)
         );
+        setIsLoading(false);
       })
       .catch(error => {
         console.error("Error deleting feedback:", error);
+        setIsLoading(false);
       });
   };
 

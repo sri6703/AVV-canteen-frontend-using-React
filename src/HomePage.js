@@ -5,7 +5,7 @@ function HomePage({ toggleLoginPage }) {
   return (
     <>
     <div className="home-container">
-      <h2>Welcome to Amrita Vishwa Vidyapeetham Canteen Management System Demo</h2>
+      <h2>Welcome to Amrita Vishwa Vidyapeetham Canteen Management System</h2>
       <div className="container-inner">
         <div className="quote">
         Children, we cannot control our mind without controlling our desire for taste.

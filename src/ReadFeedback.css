@@ -19,17 +19,19 @@
   
   .feedback-msg {
     margin-bottom: 5px;
+    color: #fff;
   }
   
   button {
-    background-color: #a4123f;
-    color: #fff;
+    background-color: #fff;
+    color: #a4123f;
     border: none;
-    padding: 5px 10px;
+    padding: 7px 10px;
     cursor: pointer;
+    border-radius: 2px;
   }
   
   button:hover {
-    background-color: #8a0f38;
+    background-color: #ecbac9;
   }
   

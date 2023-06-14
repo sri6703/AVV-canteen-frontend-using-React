@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
 import { Line } from "react-chartjs-2";
+import './Dashboard.css';
+
+Chart.register(CategoryScale);
 
 const Dashboard = () => {
   useEffect(() => {
@@ -60,9 +63,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div className="Dashboard">
       <h1>Dashboard</h1>
-      <div style={{ width: "400px", height: "300px" }}>
+      <div className="chart" style={{ width: "400px", height: "300px" }}>
         <Line data={chartData} options={chartOptions} />
       </div>
       {/* ... other dashboard components ... */}

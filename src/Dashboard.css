@@ -1,0 +1,13 @@
+.Dashboard {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.Dashboard h1 {
+    color: white;
+}
+
+.Dashboard .chart {
+background-color: white;
+}
