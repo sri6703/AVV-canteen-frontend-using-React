@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import './TableBooking.css';
+import Loading from "./loading.js";
+
 
 const TableBooking = ({ userid }) => {
   const [date, setDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [selectedTables, setSelectedTables] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTableClick = (table) => {
     const isTableSelected = selectedTables.some((selectedTable) => selectedTable.id === table.id);
@@ -33,6 +36,11 @@ const TableBooking = ({ userid }) => {
     console.log('Booking confirmed!');
     setSelectedTables([]);
   };
+
+  
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="table-booking">

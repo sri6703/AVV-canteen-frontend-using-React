@@ -3,12 +3,17 @@ import axios from "axios";
 import { FaEye } from "react-icons/fa";
 import "./OrderHistory.css";
 import ordergif from "./img/orderhistory.gif";
+import Loading from "./loading.js";
+
 
 const OrderHistory = ({ regno }) => {
   const [orders, setOrders] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     // Fetch order history from the API using Axios
     axios
       .get(`/addtocart/orders/${ regno }`)
@@ -20,6 +25,7 @@ const OrderHistory = ({ regno }) => {
         console.error("Error fetching order history:", error);
       });
   }, [regno]);
+  setIsLoading(false);
   
 
   const handleViewItem = (itemId) => {
@@ -31,6 +37,11 @@ const OrderHistory = ({ regno }) => {
   const handleCancelView = () => {
     setSelectedItem(null);
   };
+
+  
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="order-history">
