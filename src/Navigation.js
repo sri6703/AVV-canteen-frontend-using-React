@@ -16,7 +16,6 @@ function Navigation({ userType, handleLogout, setActiveComponent }) {
         {userType === "user" && ( <li onClick={() => setActiveComponent("AccountSettings")}><FaCog />Account Settings</li>)}
         {userType === "user" && ( <li onClick={() => setActiveComponent("SeeMenu")}><FaUtensils />View Menu</li>)}
         {userType === "user" && ( <li onClick={() => setActiveComponent("SeeCart")}><FaShoppingCart />My Cart</li>)}
-        {userType === "user" && ( <li onClick={() => setActiveComponent("MyOrders")}><FaReceipt />My Orders</li>)}
         {userType === "user" && ( <li onClick={() => setActiveComponent("SendFeedback")}><FaRegComment />Feedback</li>)}
         {userType === "user" && ( <li onClick={() => setActiveComponent("TableBooking")}><FaChair />Book Table</li>)}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("addItem")}><FaPlus />Add Item</li> )}
