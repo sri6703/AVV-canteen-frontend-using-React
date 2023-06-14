@@ -10,7 +10,7 @@ const Dashboard = () => {
   useEffect(() => {
     Chart.register(CategoryScale, LinearScale, PointElement, LineElement);
     Chart.register({
-      id: 'category',
+      id: 'cat',
       isScale: true,
       type: 'category',
       parse: () => {},
@@ -65,7 +65,7 @@ const Dashboard = () => {
   return (
     <div className="Dashboard">
       <h1>Dashboard</h1>
-      <div className="chart" style={{ width: "400px", height: "300px" }}>
+      <div className="chart" style={{ width: "500px", height: "400px" }}>
         <Line data={chartData} options={chartOptions} />
       </div>
       {/* ... other dashboard components ... */}
