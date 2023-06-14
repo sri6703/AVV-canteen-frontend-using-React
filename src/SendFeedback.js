@@ -10,7 +10,6 @@ const SendFeedback = ({ userid }) => {
   const [feedbackText, setFeedbackText] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFeedbackTypeChange = (event) => {
@@ -30,38 +29,37 @@ const SendFeedback = ({ userid }) => {
   };
 
   const handleSubmit = () => {
-    if (!feedbackType || !feedbackSubtype || feedbackText.length < 50) {
-        setErrorMessage("Please fill in all required fields and provide at least 50 characters of feedback.");
-        return;
-      }
-  
+    if (!feedbackType || !feedbackSubtype || feedbackText.length < 1) {
+      setErrorMessage("Please fill in all required fields and provide at least 50 characters of feedback.");
+      return;
+    }
+
     const feedbackData = {
-      userid: anonymous ? null : userid,
-      feedbackType,
-      feedbackSubtype,
-      feedbackText,
+      regno: anonymous ? null : userid,
+      type: feedbackType,
+      subtype: feedbackSubtype,
+      content: feedbackText,
     };
+    
 
-    // Perform your Axios POST request here
     setIsLoading(true);
-    axios.post("/api/feedback", feedbackData)
-    .then((response) => {
-     console.log(response.data);
-    // Reset form fields
-    setFeedbackType("");
-    setFeedbackSubtype("");
-    setFeedbackText("");
-    setAnonymous(false);
-    setErrorMessage("");
 
-    setIsLoading(false);
-    })
-    .catch((error) => {
-    console.error(error);
-    });
+    axios.post("/feedback", feedbackData)
+      .then((response) => {
+        console.log(response.data);
+        // Reset form fields
+        setFeedbackType("");
+        setFeedbackSubtype("");
+        setFeedbackText("");
+        setAnonymous(false);
+        setErrorMessage("");
 
-    // For the sake of this example, simply logging the feedback data
-    console.log(feedbackData);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
+      });
 
     // Reset form fields
     setFeedbackType("");
@@ -79,69 +77,69 @@ const SendFeedback = ({ userid }) => {
       <h1>Feedback</h1>
       <div className="send-feedback-form">
         <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={anonymous}
-            onChange={handleAnonymousChange}
-          />
-          Send Anonymously
-        </label>
-      </div>
-      <div>
-        <label>
-          Feedback Type:
-          <select value={feedbackType} onChange={handleFeedbackTypeChange}>
-            <option value="">Select a type</option>
-            <option value="app">App</option>
-            <option value="food">Food</option>
-          </select>
-        </label>
-      </div>
-      {feedbackType === "food" && (
+          <label>
+            <input
+              type="checkbox"
+              checked={anonymous}
+              onChange={handleAnonymousChange}
+            />
+            Send Anonymously
+          </label>
+        </div>
         <div>
           <label>
-            Feedback Subtype:
-            <select
-              value={feedbackSubtype}
-              onChange={handleFeedbackSubtypeChange}
-            >
-              <option value="">Select a subtype</option>
-              <option value="canteen1">Canteen 1</option>
-              <option value="canteen2">Canteen 2</option>
-              <option value="canteen3">Canteen 3</option>
+            Feedback Type:
+            <select value={feedbackType} onChange={handleFeedbackTypeChange}>
+              <option value="">Select a type</option>
+              <option value="app">App</option>
+              <option value="food">Food</option>
             </select>
           </label>
         </div>
-      )}
-      {feedbackType === "app" && (
+        {feedbackType === "food" && (
+          <div>
+            <label>
+              Feedback Subtype:
+              <select
+                value={feedbackSubtype}
+                onChange={handleFeedbackSubtypeChange}
+              >
+                <option value="">Select a subtype</option>
+                <option value="canteen1">Canteen 1</option>
+                <option value="canteen2">Canteen 2</option>
+                <option value="canteen3">Canteen 3</option>
+              </select>
+            </label>
+          </div>
+        )}
+        {feedbackType === "app" && (
+          <div>
+            <label>
+              Feedback Subtype:
+              <select
+                value={feedbackSubtype}
+                onChange={handleFeedbackSubtypeChange}
+              >
+                <option value="">Select a subtype</option>
+                <option value="bugs">Bugs</option>
+                <option value="suggestions">Suggestions</option>
+              </select>
+            </label>
+          </div>
+        )}
         <div>
           <label>
-            Feedback Subtype:
-            <select
-              value={feedbackSubtype}
-              onChange={handleFeedbackSubtypeChange}
-            >
-              <option value="">Select a subtype</option>
-              <option value="bugs">Bugs</option>
-              <option value="suggestions">Suggestions</option>
-            </select>
+            Feedback:
+            <textarea
+              value={feedbackText}
+              onChange={handleFeedbackTextChange}
+            ></textarea>
           </label>
         </div>
-      )}
-      <div>
-        <label>
-          Feedback:
-          <textarea
-            value={feedbackText}
-            onChange={handleFeedbackTextChange}
-          ></textarea>
-        </label>
-      </div>
-      <div>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button onClick={handleSubmit}>Submit</button>
-      </div>
+        <div>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <button onClick={handleSubmit}>Submit</button>
+        </div>
       </div>
     </div>
   );
