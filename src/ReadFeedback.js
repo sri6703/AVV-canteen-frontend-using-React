@@ -10,11 +10,11 @@ const ReadFeedbacks = () => {
   useEffect(() => {
     setIsLoading(true);
     // Fetch feedbacks from the API using Axios
-    axios.get("your-feedbacks-api-endpoint")
+    axios.get("/feedback")
       .then(response => {
         // Update the feedbacks state with the fetched data
         setFeedbacks(response.data);
-        setIsLoading(true);
+        setIsLoading(false);
       })
       .catch(error => {
         console.error("Error fetching feedbacks:", error);
@@ -22,13 +22,13 @@ const ReadFeedbacks = () => {
       });
   }, []);
 
-  const handleDeleteFeedback = (feedbackId) => {
+  const handleDeleteFeedback = (regno) => {
     // Send delete request to the API for the specified feedback ID
-    axios.delete(`your-feedbacks-api-endpoint/${feedbackId}`)
+    axios.delete(`/feedback/${regno}`)
       .then(response => {
         // Filter out the deleted feedback from the feedbacks state
         setFeedbacks(prevFeedbacks =>
-          prevFeedbacks.filter(feedback => feedback.id !== feedbackId)
+          prevFeedbacks.filter(feedback => feedback.regno !== regno)
         );
       })
       .catch(error => {
@@ -46,9 +46,9 @@ const ReadFeedbacks = () => {
       <div className="feedbacks-list">
         {feedbacks.map(feedback => (
           <div key={feedback.id} className="feedback-item">
-            <p className="user-id">{feedback.userid || "Anonymous"}</p>
-            <p className="feedback-msg">{feedback.message}</p>
-            <button onClick={() => handleDeleteFeedback(feedback.id)}>
+            <p className="user-id">{feedback.regno || "Anonymous"}</p>
+            <p className="feedback-msg">{feedback.content}</p>
+            <button onClick={() => handleDeleteFeedback(feedback.regno)}>
               Delete
             </button>
           </div>
