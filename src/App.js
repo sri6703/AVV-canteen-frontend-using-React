@@ -12,7 +12,6 @@ import AccountSettings from "./AccountSettings";
 import LoginHomepage from "./LoginNext";
 import OrderHistory from "./OrderHistory";
 import TableBooking from "./TableBooking";
-import SeeTableBookings from "./SeeTableBookings";
 import SendFeedback from "./SendFeedback";
 import ReadFeedbacks from "./ReadFeedback";
 import Dashboard from "./Dashboard";
@@ -103,8 +102,6 @@ function App() {
                 <OrderHistory userid={userid} />
               ): activeComponent === "ReadFeedback" ? (
                 <ReadFeedbacks />
-              ) : activeComponent === "SeeTableBookings" ? (
-                <SeeTableBookings />
               ) : activeComponent === "Dashboard" ? (
                 
                   <Dashboard />

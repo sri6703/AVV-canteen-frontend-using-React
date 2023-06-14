@@ -4,14 +4,14 @@ import { FaEye } from "react-icons/fa";
 import "./OrderHistory.css";
 import ordergif from "./img/orderhistory.gif";
 
-const OrderHistory = ({ userid }) => {
+const OrderHistory = ({ regno }) => {
   const [orders, setOrders] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     // Fetch order history from the API using Axios
     axios
-      .get(`/addtocart/${ userid }`)
+      .get(`/addtocart/orders/${ regno }`)
       .then((response) => {
         // Update the orders state with the fetched data
         setOrders(response.data);
@@ -19,7 +19,7 @@ const OrderHistory = ({ userid }) => {
       .catch((error) => {
         console.error("Error fetching order history:", error);
       });
-  }, [userid]);
+  }, [regno]);
   
 
   const handleViewItem = (itemId) => {

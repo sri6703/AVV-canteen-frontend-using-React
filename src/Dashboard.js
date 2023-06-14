@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
 import { Line } from "react-chartjs-2";
 
@@ -14,30 +15,29 @@ const Dashboard = () => {
     });
   }, []);
 
-  const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    // Simulating an API call to fetch the cart count
-    // Replace this with your actual API call to get the count of items in the cart
-    const fetchCartCount = async () => {
+    // Simulating an API call to fetch the cart items
+    // Replace this with your actual API call to get the items stored in the cart
+    const fetchCartItems = async () => {
       try {
-        const response = await fetch("/ordered");
-        const data = await response.json();
-        setCartCount(data.count);
+        const response = await axios.get(`/canteen/ordered`);
+        setCartItems(response.data);
       } catch (error) {
-        console.error("Error fetching cart count:", error);
+        console.error("Error fetching cart items:", error);
       }
     };
 
-    fetchCartCount();
+    fetchCartItems();
   }, []);
 
   const chartData = {
-    labels: ["Cart"],
+    labels: cartItems.map(item => item.name),
     datasets: [
       {
         label: "Link Graph",
-        data: [cartCount],
+        data: cartItems.map(item => item.count),
         fill: false,
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
@@ -50,7 +50,11 @@ const Dashboard = () => {
     maintainAspectRatio: false,
     scales: {
       x: {
-        type: "category",
+        type: 'category',
+        beginAtZero: true,
+      },
+      y: {
+        beginAtZero: true,
       },
     },
   };
