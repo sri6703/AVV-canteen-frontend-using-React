@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
@@ -73,4 +71,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
->>>>>>> a89cfebe0aa2bf0daaffaaee84f15ec4ff512af0
