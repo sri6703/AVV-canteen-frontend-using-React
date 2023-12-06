@@ -94,19 +94,23 @@ function App() {
                 <SendFeedback userid={userid} />
               ) : activeComponent === "SeeMenuAdmin" ? (
                 <SeeMenuAdmin />
-              ): activeComponent === "TableBooking" ? (
-                <TableBooking userid={userid}/>
-              ) : activeComponent === "AccountSettings" ? (
+              )
+              // : activeComponent === "TableBooking" ? (
+              //   <TableBooking userid={userid}/>
+              // ) 
+              : activeComponent === "AccountSettings" ? (
                 <AccountSettings userid={userid} SetIsLoggedIn={setIsLoggedIn} />
               ) : activeComponent === "MyOrders" ? (
                 <OrderHistory userid={userid} />
               ): activeComponent === "ReadFeedback" ? (
                 <ReadFeedbacks />
-              ) : activeComponent === "Dashboard" ? (
+              ) 
+              // : activeComponent === "Dashboard" ? (
                 
-                  <Dashboard />
+              //     <Dashboard />
                  
-              ) : !isLoggedIn ? (
+              // ) 
+              : !isLoggedIn ? (
                 <LoginForm toggleLoginPage={toggleLoginPage} />
               ) : null}
             </div>

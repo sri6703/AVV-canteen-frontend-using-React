@@ -4,6 +4,7 @@ import './SeeCart.css';
 import Loading from "./loading.js";
 import cartgif from "./img/cart.gif";
 import PaymentForm from "./PaymentForm";
+import Swal from 'sweetalert2';
 
 const SeeCart = ({ userid }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -116,17 +117,17 @@ const SeeCart = ({ userid }) => {
       itemId: _id,
       quantity,
     }));
-    setIsLoading(true);
-    axios.post("/api/orders", { userId, cart })
-      .then(() => {
-        console.log("Order placed successfully");
-        setIsPaymentOpen(false);
-        fetchCartItems();
-      })
-      .catch((error) => {
-        console.error("Error placing order:", error);
-        setIsLoading(false);
-      });
+    handleDeleteAllItems();
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Payment Successful!',
+      text: 'Thank you for your order.',
+      confirmButtonText: 'OK',
+    });
+    
+    handlePaymentCancel();
+    
   };
 
 

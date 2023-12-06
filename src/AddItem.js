@@ -36,7 +36,16 @@ const AddItem = () => {
       exist_quantity: quantity,
       image:image
     };
-   
+    try {
+      const response = await axios.post('https://willlwork.azurewebsites.net/api/HttpTrigger1?', {
+        url: image,
+      });
+
+      setItemStatus(response.data.message);
+      setErrorMessage('');
+    } catch (error) {
+      console.error('Error making POST request:', error);
+    }
     try {
       setIsLoading(true);
       const response = await axios.post('/canteen', newItem);

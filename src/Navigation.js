@@ -17,10 +17,10 @@ function Navigation({ userType, handleLogout, setActiveComponent }) {
         {userType === "user" && ( <li onClick={() => setActiveComponent("SeeMenu")}><FaUtensils />View Menu</li>)}
         {userType === "user" && ( <li onClick={() => setActiveComponent("SeeCart")}><FaShoppingCart />My Cart</li>)}
         {userType === "user" && ( <li onClick={() => setActiveComponent("SendFeedback")}><FaRegComment />Feedback</li>)}
-        {userType === "user" && ( <li onClick={() => setActiveComponent("TableBooking")}><FaChair />Book Table</li>)}
+        {/* {userType === "user" && ( <li onClick={() => setActiveComponent("TableBooking")}><FaChair />Book Table</li>)} */}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("addItem")}><FaPlus />Add Item</li> )}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("SeeMenuAdmin")}><FaListUl />Current Menu</li> )}
-        {userType === "admin" && ( <li onClick={() => setActiveComponent("Dashboard")}><FaChartLine />Dashboard</li>)}
+        {/* {userType === "admin" && ( <li onClick={() => setActiveComponent("Dashboard")}><FaChartLine />Dashboard</li>)} */}
         {userType === "admin" && ( <li onClick={() => setActiveComponent("ReadFeedback")}><FaComment />See Feedback</li>)}
         <li onClick={handleLogoutClick}><FaSignOutAlt />Log Out</li>
       </ul>
